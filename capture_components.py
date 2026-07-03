@@ -21,6 +21,9 @@ EXTRA_SETTLE_MS = 250
 # True  = camera.captureRaw()
 USE_CAPTURE_RAW = False
 
+# Crop passive component images
+CROP_IMAGES = True
+
 # Base directory for the output images.
 OUT_ROOT = System.getProperty("user.home") + "/.openpnp/vision/log/components"
 
@@ -120,11 +123,12 @@ def process_board_placements(
 
         part_name = placement.getPart().getId()
 
-        # Skip parts whose IDs start with MP, TP or FD
+        # Skip parts by ID
         if (
             placement_id.startswith("MP")
             or placement_id.startswith("TP")
             or placement_id.startswith("FD")
+            or placement_id.startswith("REF**")
         ):
             print("Skipping %s (%s)" % (placement_id, part_name))
             continue
@@ -148,8 +152,9 @@ def process_board_placements(
         else:
             image = camera.settleAndCapture()
 
-        rotation = machine_location.getRotation()
-        image = crop_small_passives(image, safe_part_name, rotation)
+        if CROP_IMAGES:
+            rotation = machine_location.getRotation()
+            image = crop_small_passives(image, safe_part_name, rotation)
 
         file_name = "b%s_%s_%s_%s.png" % (
             pad(board_index, 2),
