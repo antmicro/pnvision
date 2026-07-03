@@ -1,0 +1,234 @@
+from __future__ import absolute_import, division
+
+import re
+
+from java.io import File, PrintWriter
+from java.lang import System, Thread
+from java.text import SimpleDateFormat
+from java.util import Date
+from javax.imageio import ImageIO
+
+from org.openpnp.model import LengthUnit, Location
+from org.openpnp.util import Utils2D, MovableUtils
+from org.openpnp.util.UiUtils import submitUiMachineTask
+
+# ---------------- USER SETTINGS ----------------
+
+# Delay initialized after motion before image capture is executed.
+EXTRA_SETTLE_MS = 250
+
+# False = camera.settleAndCapture()
+# True  = camera.captureRaw()
+USE_CAPTURE_RAW = False
+
+# Base directory for the output images.
+OUT_ROOT = System.getProperty("user.home") + "/.openpnp/vision/log/components"
+
+# ------------------------------------------------
+
+
+def main():
+    submitUiMachineTask(scan_components)
+
+
+def scan_components():
+    manifest = None
+
+    try:
+        camera = machine.getDefaultHead().getDefaultCamera()
+        job_obj = get_current_job()
+
+        scan_dir = make_scan_directory()
+
+        manifest = PrintWriter(File(scan_dir, "manifest.csv"))
+        manifest.println(
+            "file,board_index,board_name,placement_id,part_name,local_x_mm,local_y_mm,"
+            "machine_x_mm,machine_y_mm,machine_z_mm,rotation_deg"
+        )
+
+        print("Output directory generated: %s" % scan_dir.getAbsolutePath())
+
+        board_locations = job_obj.getBoardLocations()
+
+        for board_index in range(board_locations.size()):
+            board_location = board_locations.get(board_index)
+
+            if not is_board_location_enabled(board_location):
+                print("Skipping disabled board location %d" % board_index)
+                continue
+
+            process_board_placements(
+                camera,
+                board_location,
+                board_index,
+                scan_dir,
+                manifest,
+            )
+
+        print("Component image capture sequence complete.")
+
+    finally:
+        if manifest is not None:
+            manifest.close()
+
+
+def get_current_job():
+    try:
+        if job is not None:
+            return job
+    except NameError:
+        pass
+
+    try:
+        if gui is not None:
+            tab = gui.getJobTab()
+            if tab is not None:
+                return tab.getJob()
+    except NameError:
+        pass
+
+    raise Exception("Active OpenPnP job not detected. Load a job prior to execution.")
+
+
+def process_board_placements(
+    camera,
+    board_location,
+    board_index,
+    scan_dir,
+    manifest,
+):
+    board = board_location.getBoard()
+    board_name = board.getName()
+    safe_board_name = sanitize(board_name)
+
+    placements = board.getPlacements()
+    total_placements = placements.size()
+
+    print(
+        "Scanning board %d (%s) - Placements detected: %d"
+        % (board_index, board_name, total_placements)
+    )
+
+    for placement_index in range(total_placements):
+        placement = placements.get(placement_index)
+
+        # Omit placements that do not have a defined type or are disabled
+        if placement.getType() == placement.Type.Fiducial:
+            continue
+
+        placement_id = placement.getId()
+
+        if placement.getPart() is None:
+            print("Skipping %s: no part assigned." % placement_id)
+            continue
+        
+        part_name = placement.getPart().getId()
+
+        # Skip parts whose IDs start with MP, TP or FD
+        if (
+            part_name.startswith("MP")
+            or part_name.startswith("TP")
+            or part_name.startswith("FD")
+        ):
+            print("Skipping %s (%s)" % (placement_id, part_name))
+            continue
+
+        safe_part_name = sanitize(part_name)
+        safe_placement_id = sanitize(placement_id)
+
+        board_local_location = placement.getLocation()
+
+        machine_location = Utils2D.calculateBoardPlacementLocation(
+            board_location, board_local_location
+        ).convertToUnits(LengthUnit.Millimeters)
+
+        MovableUtils.moveToLocationAtSafeZ(camera, machine_location)
+
+        if EXTRA_SETTLE_MS > 0:
+            Thread.sleep(EXTRA_SETTLE_MS)
+
+        if USE_CAPTURE_RAW:
+            image = camera.captureRaw()
+        else:
+            image = camera.settleAndCapture()
+
+        file_name = "b%s_%s_%s_%s.png" % (
+            pad(board_index, 2),
+            safe_board_name,
+            safe_part_name,
+            safe_placement_id,
+        )
+
+        file_obj = File(scan_dir, file_name)
+        ImageIO.write(image, "PNG", file_obj)
+
+        manifest.println(
+            ",".join(
+                [
+                    csv(file_name),
+                    str(board_index),
+                    csv(board_name),
+                    csv(placement_id),
+                    csv(part_name),
+                    fmt(board_local_location.getX()),
+                    fmt(board_local_location.getY()),
+                    fmt(machine_location.getX()),
+                    fmt(machine_location.getY()),
+                    fmt(machine_location.getZ()),
+                    fmt(machine_location.getRotation()),
+                ]
+            )
+        )
+
+        print(
+            "Captured %s (%d/%d)"
+            % (placement_id, placement_index + 1, total_placements)
+        )
+
+
+def is_board_location_enabled(board_location):
+    try:
+        return board_location.isEnabled()
+    except:
+        return True
+
+
+def make_scan_directory():
+    time_str = SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(Date())
+
+    root = File(OUT_ROOT)
+    if not root.exists():
+        root.mkdirs()
+
+    scan_dir = File(root, "components_" + time_str)
+    if not scan_dir.exists():
+        scan_dir.mkdirs()
+
+    return scan_dir
+
+
+def sanitize(value):
+    return re.sub(r'[\\/:*?"<>|\s]+', "_", str(value))
+
+
+def pad(value, width):
+    s = str(value)
+    while len(s) < width:
+        s = "0" + s
+    return s
+
+
+def fmt(value):
+    return "%.3f" % float(value)
+
+
+def csv(value):
+    s = str(value)
+
+    if "," in s or '"' in s or "\n" in s:
+        return '"' + s.replace('"', '""') + '"'
+
+    return s
+
+
+main()
