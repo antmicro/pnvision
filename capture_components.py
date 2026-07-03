@@ -112,10 +112,6 @@ def process_board_placements(
     for placement_index in range(total_placements):
         placement = placements.get(placement_index)
 
-        # Omit placements that do not have a defined type or are disabled
-        if placement.getType() == placement.Type.Fiducial:
-            continue
-
         placement_id = placement.getId()
 
         if placement.getPart() is None:
@@ -126,9 +122,9 @@ def process_board_placements(
 
         # Skip parts whose IDs start with MP, TP or FD
         if (
-            part_name.startswith("MP")
-            or part_name.startswith("TP")
-            or part_name.startswith("FD")
+            placement_id.startswith("MP")
+            or placement_id.startswith("TP")
+            or placement_id.startswith("FD")
         ):
             print("Skipping %s (%s)" % (placement_id, part_name))
             continue
@@ -155,8 +151,8 @@ def process_board_placements(
         file_name = "b%s_%s_%s_%s.png" % (
             pad(board_index, 2),
             safe_board_name,
-            safe_part_name,
             safe_placement_id,
+            safe_part_name,
         )
 
         file_obj = File(scan_dir, file_name)
