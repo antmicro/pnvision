@@ -117,7 +117,7 @@ def process_board_placements(
         if placement.getPart() is None:
             print("Skipping %s: no part assigned." % placement_id)
             continue
-        
+
         part_name = placement.getPart().getId()
 
         # Skip parts whose IDs start with MP, TP or FD
@@ -148,7 +148,8 @@ def process_board_placements(
         else:
             image = camera.settleAndCapture()
 
-        image = crop_small_passives(image, safe_part_name)
+        rotation = machine_location.getRotation()
+        image = crop_small_passives(image, safe_part_name, rotation)
 
         file_name = "b%s_%s_%s_%s.png" % (
             pad(board_index, 2),
@@ -183,24 +184,44 @@ def process_board_placements(
             % (placement_id, placement_index + 1, total_placements)
         )
 
-def crop_small_passives(image, safe_part_name):
-    # crop "0201", "0402", "0603", "0805" components
-    if not any(size in safe_part_name for size in ("0201", "0402")):
+
+def crop_small_passives(image, safe_part_name, rotation_deg):
+    if "0201" in safe_part_name:
+        scale = 0.11
+    elif "0402" in safe_part_name:
+        scale = 0.11
+    elif "0603" in safe_part_name:
+        scale = 0.16
+    elif "0805" in safe_part_name:
+        scale = 0.22
+    else:
         return image
 
     w = image.getWidth()
     h = image.getHeight()
 
-    crop_w = max(1, int(w * 0.11))
-    crop_h = max(1, int(h * 0.11))
+    r = abs(rotation_deg) % 360
+    rotated = (45 < r < 135) or (225 < r < 315)
 
-    if crop_w >= w or crop_h >= h:
+    if rotated:
+        # portrait (9:16)
+        target_w = int(h * scale)
+        target_h = int(target_w * (16.0 / 9.0))
+    else:
+        # landscape (16:9)
+        target_h = int(h * scale)
+        target_w = int(target_h * (16.0 / 9.0))
+
+    target_w = max(1, min(target_w, w))
+    target_h = max(1, min(target_h, h))
+
+    if target_w >= w or target_h >= h:
         return image
 
-    x = (w - crop_w) // 2
-    y = (h - crop_h) // 2
+    x = (w - target_w) // 2
+    y = (h - target_h) // 2
 
-    return image.getSubimage(x, y, crop_w, crop_h)
+    return image.getSubimage(x, y, target_w, target_h)
 
 
 def is_board_location_enabled(board_location):
