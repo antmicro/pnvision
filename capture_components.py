@@ -148,6 +148,8 @@ def process_board_placements(
         else:
             image = camera.settleAndCapture()
 
+        image = crop_small_passives(image, safe_part_name)
+
         file_name = "b%s_%s_%s_%s.png" % (
             pad(board_index, 2),
             safe_board_name,
@@ -180,6 +182,25 @@ def process_board_placements(
             "Captured %s (%d/%d)"
             % (placement_id, placement_index + 1, total_placements)
         )
+
+def crop_small_passives(image, safe_part_name):
+    # crop "0201", "0402", "0603", "0805" components
+    if not any(size in safe_part_name for size in ("0201", "0402")):
+        return image
+
+    w = image.getWidth()
+    h = image.getHeight()
+
+    crop_w = max(1, int(w * 0.11))
+    crop_h = max(1, int(h * 0.11))
+
+    if crop_w >= w or crop_h >= h:
+        return image
+
+    x = (w - crop_w) // 2
+    y = (h - crop_h) // 2
+
+    return image.getSubimage(x, y, crop_w, crop_h)
 
 
 def is_board_location_enabled(board_location):
