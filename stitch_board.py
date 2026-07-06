@@ -13,6 +13,7 @@ OUTPUT_FILENAME = "output.png"
 
 # ------------------------------------------------
 
+
 def create_feather_mask(shape):
     # 2D Bartlett window mask for weighted spatial blending
     h, w = shape[:2]

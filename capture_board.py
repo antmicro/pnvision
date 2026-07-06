@@ -27,7 +27,7 @@ EDGE_MARGIN_X_MM = 0.0
 EDGE_MARGIN_Y_MM = 0.0
 
 # Extra delay after motion before capture.
-EXTRA_SETTLE_MS = 250
+EXTRA_SETTLE_MS = 300
 
 # False = camera.settleAndCapture()
 # True  = camera.captureRaw()
@@ -35,8 +35,8 @@ USE_CAPTURE_RAW = False
 
 OUT_ROOT = System.getProperty("user.home") + "/.openpnp/vision/log/board-tiles"
 
-# Reduces long travel: row 0 left->right, row 1 right->left, etc.
-SERPENTINE = True
+# Reduces long travel
+SERPENTINE = False
 
 # ------------------------------------------------
 

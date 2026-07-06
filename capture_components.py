@@ -15,7 +15,7 @@ from org.openpnp.util.UiUtils import submitUiMachineTask
 # ---------------- USER SETTINGS ----------------
 
 # Delay initialized after motion before image capture is executed.
-EXTRA_SETTLE_MS = 250
+EXTRA_SETTLE_MS = 300
 
 # False = camera.settleAndCapture()
 # True  = camera.captureRaw()
