@@ -5,11 +5,13 @@ import os
 import glob
 import argparse
 
-OVERLAP = 0.7
+# ---------------- USER SETTINGS ----------------
 
-PIXELS_PER_UNIT_X = 80
-PIXELS_PER_UNIT_Y = 80
+PIXELS_PER_UNIT_X = 77
+PIXELS_PER_UNIT_Y = 76
+OUTPUT_FILENAME = "output.png"
 
+# ------------------------------------------------
 
 def create_feather_mask(shape):
     # 2D Bartlett window mask for weighted spatial blending
@@ -92,9 +94,8 @@ def stitch_macro_grid(image_directory, pixels_per_unit_x, pixels_per_unit_y):
     )
     final_stitched = np.clip(final_stitched, 0, 255).astype(np.uint8)
 
-    output_filename = "stitched_macro_output.png"
-    cv2.imwrite(output_filename, final_stitched)
-    print(f"Algorithm terminated. Data written to: {output_filename}")
+    cv2.imwrite(OUTPUT_FILENAME, final_stitched)
+    print(f"Algorithm terminated. Data written to: {OUTPUT_FILENAME}")
 
 
 def main():
