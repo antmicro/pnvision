@@ -16,8 +16,8 @@ from org.openpnp.util.UiUtils import submitUiMachineTask
 # ---------------- USER SETTINGS ----------------
 
 # Calibrate before use
-CAMERA_FOV_X_MM = 16.5
-CAMERA_FOV_Y_MM = 10.0
+CAMERA_FOV_X_MM = 16
+CAMERA_FOV_Y_MM = 9.0
 
 # Overlap between neighboring images.
 OVERLAP = 0.7
@@ -161,6 +161,8 @@ def scan_board_location(
             machine_location = Utils2D.calculateBoardPlacementLocation(
                 board_location, board_local_location
             ).convertToUnits(LengthUnit.Millimeters)
+
+            MovableUtils.moveToLocationAtSafeZ(camera, machine_location)
 
             if EXTRA_SETTLE_MS > 0:
                 Thread.sleep(EXTRA_SETTLE_MS)
