@@ -15,6 +15,8 @@ This tool was designed to capture images of individual PCB components and comple
 
 ## Installation
 
+### PnVision scripts:
+
 Requirements:
 
 * Python ≥ 3.9
@@ -43,6 +45,12 @@ Verify installation:
 ```bash
 pnvision --help
 ```
+
+### OpenPnP scripts:
+
+1. In OpenPnP open scripts directory and add add scripts from `openpnp-scripts`.
+
+![How to open scripts directory](img/scripts_directory.png)
 
 ## Usage
 
