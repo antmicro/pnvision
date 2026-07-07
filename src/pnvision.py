@@ -1,42 +1,61 @@
 """OpenPnP automation scripts"""
 
 import argparse
-import subprocess
+import os
 import sys
-from pathlib import Path
+from typing import Callable, List
 
-ROOT = Path(__file__).resolve().parent
-COMMANDS = ROOT / "commands"
+import commands
 
 
-def run_script(script_name: str) -> None:
-    """Run a command script."""
-    script = COMMANDS / script_name
+######## ARGUMENT PARSING ########
 
-    if not script.exists():
-        print(f"Error: {script} not found.", file=sys.stderr)
-        sys.exit(1)
+def get_help_formatter() -> Callable:
+    """Returns help formatter."""
+    return lambda prog: argparse.HelpFormatter(prog, max_help_position=35)
 
-    result = subprocess.run([sys.executable, str(script)])
-    sys.exit(result.returncode)
+
+def get_parser() -> argparse.ArgumentParser:
+    formatter = get_help_formatter()
+
+    parser = argparse.ArgumentParser(
+        prog="PnVision",
+        formatter_class=formatter,
+        description="OpenPnP visual inspection utilities.",
+    )
+
+    subparsers = parser.add_subparsers(
+        title="Subcommands",
+        dest="subcommand",
+        required=True,
+        help='Use "pnvision SUBCOMMAND -h" for command help.',
+    )
+
+    command_files = {
+        f[:-3]
+        for f in os.listdir(os.path.join(os.path.dirname(__file__), "commands"))
+        if f.endswith(".py")
+    }
+
+    for module_name in dir(commands):
+        if module_name.startswith("__"):
+            continue
+        if module_name in command_files:
+            getattr(commands, module_name).add_subparser(subparsers)
+
+    return parser
+
+
+def parse_arguments(args: List[str]) -> argparse.Namespace:
+    return get_parser().parse_args(args)
 
 
 ######## MAIN ########
 
 def main() -> None:
-    parser = argparse.ArgumentParser(
-        prog="PnVision",
-        description="OpenPnP visual inspection utilities.",
-    )
+    args = parse_arguments(sys.argv[1:])
 
-    subparsers = parser.add_subparsers(dest="command", required=True)
-
-    subparsers.add_parser("stitch", help="Run board stitching")
-
-    args = parser.parse_args()
-
-    if args.command == "stitch":
-        run_script("stitch_board.py")
+    args.func(args)
 
 
 if __name__ == "__main__":
