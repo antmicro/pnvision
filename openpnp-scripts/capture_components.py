@@ -107,10 +107,7 @@ def process_board_placements(
     placements = board.getPlacements()
     total_placements = placements.size()
 
-    print(
-        "Scanning board %d (%s) - Placements detected: %d"
-        % (board_index, board_name, total_placements)
-    )
+    print("Scanning board %d (%s) - Placements detected: %d" % (board_index, board_name, total_placements))
 
     for placement_index in range(total_placements):
         placement = placements.get(placement_index)
@@ -138,9 +135,9 @@ def process_board_placements(
 
         board_local_location = placement.getLocation()
 
-        machine_location = Utils2D.calculateBoardPlacementLocation(
-            board_location, board_local_location
-        ).convertToUnits(LengthUnit.Millimeters)
+        machine_location = Utils2D.calculateBoardPlacementLocation(board_location, board_local_location).convertToUnits(
+            LengthUnit.Millimeters
+        )
 
         MovableUtils.moveToLocationAtSafeZ(camera, machine_location)
 
@@ -184,10 +181,7 @@ def process_board_placements(
             )
         )
 
-        print(
-            "Captured %s (%d/%d)"
-            % (placement_id, placement_index + 1, total_placements)
-        )
+        print("Captured %s (%d/%d)" % (placement_id, placement_index + 1, total_placements))
 
 
 def crop_small_passives(image, safe_part_name, rotation_deg):

@@ -7,7 +7,6 @@ from typing import Callable, List
 
 import commands
 
-
 ######## ARGUMENT PARSING ########
 
 
@@ -33,9 +32,7 @@ def get_parser() -> argparse.ArgumentParser:
     )
 
     command_files = {
-        f[:-3]
-        for f in os.listdir(os.path.join(os.path.dirname(__file__), "commands"))
-        if f.endswith(".py")
+        f[:-3] for f in os.listdir(os.path.join(os.path.dirname(__file__), "commands")) if f.endswith(".py")
     }
 
     for module_name in dir(commands):

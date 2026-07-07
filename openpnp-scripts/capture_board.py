@@ -12,7 +12,6 @@ from org.openpnp.model import LengthUnit, Location
 from org.openpnp.util import Utils2D, MovableUtils
 from org.openpnp.util.UiUtils import submitUiMachineTask
 
-
 # ---------------- USER SETTINGS ----------------
 
 # Calibrate before use
@@ -141,9 +140,7 @@ def scan_board_location(
     xs = make_axis_centers(width, fov_x, step_x, EDGE_MARGIN_X_MM)
     ys = make_axis_centers(height, fov_y, step_y, EDGE_MARGIN_Y_MM)
 
-    print(
-        "Grid: %d columns x %d rows = %d images" % (len(xs), len(ys), len(xs) * len(ys))
-    )
+    print("Grid: %d columns x %d rows = %d images" % (len(xs), len(ys), len(xs) * len(ys)))
 
     for row in range(len(ys)):
         y = ys[row]
@@ -219,10 +216,7 @@ def get_camera_fov_mm(camera):
             fov_y = abs(camera.getHeight() * upp.getY())
 
     if fov_x <= 0 or fov_y <= 0:
-        raise Exception(
-            "Camera FOV could not be determined. "
-            "Set CAMERA_FOV_X_MM and CAMERA_FOV_Y_MM manually."
-        )
+        raise Exception("Camera FOV could not be determined. " "Set CAMERA_FOV_X_MM and CAMERA_FOV_Y_MM manually.")
 
     return fov_x, fov_y
 

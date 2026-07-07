@@ -125,13 +125,9 @@ def stitch_macro_grid(
         x_pix = int(round((x_coord - min_x) * pixels_per_unit_x))
         y_pix = int(round((max_y - y_coord) * pixels_per_unit_y))
 
-        blended_canvas[y_pix : y_pix + img_shape[0], x_pix : x_pix + img_shape[1]] += (
-            img * feather_mask
-        )
+        blended_canvas[y_pix : y_pix + img_shape[0], x_pix : x_pix + img_shape[1]] += img * feather_mask
 
-        weight_canvas[
-            y_pix : y_pix + img_shape[0], x_pix : x_pix + img_shape[1]
-        ] += feather_mask
+        weight_canvas[y_pix : y_pix + img_shape[0], x_pix : x_pix + img_shape[1]] += feather_mask
 
     final = np.divide(
         blended_canvas,
