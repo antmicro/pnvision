@@ -48,7 +48,7 @@ pnvision --help
 
 ### OpenPnP scripts:
 
-1. In OpenPnP open scripts directory and add add scripts from `openpnp-scripts`.
+1. In OpenPnP open scripts directory and add scripts from `openpnp-scripts`.
 
 ![How to open scripts directory](img/scripts_directory.png)
 
