@@ -10,6 +10,7 @@ import commands
 
 ######## ARGUMENT PARSING ########
 
+
 def get_help_formatter() -> Callable:
     """Returns help formatter."""
     return lambda prog: argparse.HelpFormatter(prog, max_help_position=35)
@@ -51,6 +52,7 @@ def parse_arguments(args: List[str]) -> argparse.Namespace:
 
 
 ######## MAIN ########
+
 
 def main() -> None:
     args = parse_arguments(sys.argv[1:])

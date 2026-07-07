@@ -6,8 +6,8 @@ import re
 import cv2
 import numpy as np
 
-PIXELS_PER_UNIT_X = 77
-PIXELS_PER_UNIT_Y = 76
+DEFAULT_PIXELS_PER_UNIT_X = 77
+DEFAULT_PIXELS_PER_UNIT_Y = 76
 DEAFULT_OUTPUT_FILENAME = "output.png"
 
 
@@ -16,23 +16,37 @@ def add_subparser(subparsers):
         "stitch",
         help="Stitch OpenPnP images into a single board image.",
     )
-
     parser.add_argument(
         "image_directory",
         help="Directory containing PNG images.",
     )
-
     parser.add_argument(
         "-o",
         "--output",
         default=DEAFULT_OUTPUT_FILENAME,
         help=f"Output image filename (default: {DEAFULT_OUTPUT_FILENAME})",
     )
+    parser.add_argument(
+        "-ppx",
+        "--pixels-per-unit-x",
+        type=float,
+        default=DEFAULT_PIXELS_PER_UNIT_X,
+        help=f"Pixels per unit in X (default: {DEFAULT_PIXELS_PER_UNIT_X})",
+    )
+
+    parser.add_argument(
+        "-ppy",
+        "--pixels-per-unit-y",
+        type=float,
+        default=DEFAULT_PIXELS_PER_UNIT_Y,
+        help=f"Pixels per unit in Y (default: {DEFAULT_PIXELS_PER_UNIT_Y})",
+    )
 
     parser.set_defaults(func=run)
 
 
 def create_feather_mask(shape):
+    # 2D Bartlett window mask for weighted spatial blending
     h, w = shape[:2]
     y = np.linspace(0, 1, h)
     y = np.minimum(y, 1 - y)
@@ -59,8 +73,8 @@ def normalize_image(img):
 def stitch_macro_grid(
     image_directory,
     output_filename,
-    pixels_per_unit_x=PIXELS_PER_UNIT_X,
-    pixels_per_unit_y=PIXELS_PER_UNIT_Y,
+    pixels_per_unit_x=DEFAULT_PIXELS_PER_UNIT_X,
+    pixels_per_unit_y=DEFAULT_PIXELS_PER_UNIT_Y,
 ):
     pattern = re.compile(r"x(\d+\.\d+)_y(\d+\.\d+)\.png$")
 
@@ -111,14 +125,12 @@ def stitch_macro_grid(
         x_pix = int(round((x_coord - min_x) * pixels_per_unit_x))
         y_pix = int(round((max_y - y_coord) * pixels_per_unit_y))
 
-        blended_canvas[
-            y_pix : y_pix + img_shape[0],
-            x_pix : x_pix + img_shape[1],
-        ] += img * feather_mask
+        blended_canvas[y_pix : y_pix + img_shape[0], x_pix : x_pix + img_shape[1]] += (
+            img * feather_mask
+        )
 
         weight_canvas[
-            y_pix : y_pix + img_shape[0],
-            x_pix : x_pix + img_shape[1],
+            y_pix : y_pix + img_shape[0], x_pix : x_pix + img_shape[1]
         ] += feather_mask
 
     final = np.divide(
@@ -145,4 +157,6 @@ def run(args):
     stitch_macro_grid(
         image_directory=args.image_directory,
         output_filename=str(output),
+        pixels_per_unit_x=args.pixels_per_unit_x,
+        pixels_per_unit_y=args.pixels_per_unit_y,
     )
