@@ -2,4 +2,5 @@
 
 from . import (
     stitch_board,
+    code_reader,
 )

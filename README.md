@@ -23,6 +23,8 @@ Requirements:
 * pipx
 * OpenCV
 * NumPy
+* libzbar0
+* pyzbar
 
 Install pipx if needed:
 
