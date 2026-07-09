@@ -25,6 +25,7 @@ Requirements:
 * NumPy
 * libzbar0
 * pyzbar
+* Jinja2
 
 Install pipx if needed:
 
