@@ -2,7 +2,7 @@ from pathlib import Path
 
 import cv2
 import numpy as np
-from pyzbar.pyzbar import decode
+from pyzbar.pyzbar import decode, ZBarSymbol
 
 
 def add_subparser(subparsers):
@@ -38,10 +38,10 @@ def generate_variants(image):
     )
 
     variants.append(gray)
-    cv2.imwrite("test_gray.png", gray)
+
     # CLAHE
     variants.append(clahe.apply(gray))
-    cv2.imwrite("test_clahe.png", clahe.apply(gray))
+
     # Otsu
     _, otsu = cv2.threshold(
         gray,
@@ -50,7 +50,7 @@ def generate_variants(image):
         cv2.THRESH_BINARY + cv2.THRESH_OTSU,
     )
     variants.append(otsu)
-    cv2.imwrite("test_otsu.png", otsu)
+
     # Adaptive threshold
     adaptive = cv2.adaptiveThreshold(
         gray,
@@ -61,14 +61,13 @@ def generate_variants(image):
         3,
     )
     variants.append(adaptive)
-    cv2.imwrite("test_adaptive.png", adaptive)
+
     # Sharpen
     sharpen = cv2.filter2D(
         gray,
         -1,
         sharpen_kernel,
     )
-    cv2.imwrite("test_sharpen.png", sharpen)
     variants.append(sharpen)
 
     # Blackhat
@@ -82,7 +81,7 @@ def generate_variants(image):
         cv2.MORPH_BLACKHAT,
         kernel,
     )
-    cv2.imwrite("test_blackhat.png", blackhat)
+
     variants.append(blackhat)
 
     return variants
@@ -103,6 +102,7 @@ def detect_codes(image_path):
         raise RuntimeError(f"Unable to load image: {image_path}")
 
     qr_detector = cv2.QRCodeDetector()
+    barcode_detector = cv2.barcode.BarcodeDetector()
 
     seen = set()
 
@@ -118,23 +118,12 @@ def detect_codes(image_path):
                 print(f"QR Code : {value}")
                 return
 
-            # ---------- Barcode ----------
-            barcodes = decode(candidate)
+            # ---------- Code128 Barcode ----------
+            decoded_objects = decode(candidate)
 
-            for barcode in barcodes:
-
-                value = barcode.data.decode(
-                    "utf-8",
-                    errors="ignore",
-                )
-
-                if value in seen:
-                    continue
-
-                seen.add(value)
-
-                print(f"{barcode.type}: {value}")
-                return
+            for obj in decoded_objects:
+                barcode_data = obj.data.decode("utf-8")
+                print(f"Decoded String: {barcode_data}")
 
     print("No barcode or QR code found.")
 
