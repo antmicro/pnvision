@@ -20,7 +20,7 @@ CAMERA_FOV_X_MM = 16
 CAMERA_FOV_Y_MM = 9.0
 
 # Overlap between neighboring images.
-OVERLAP = 0.7
+OVERLAP = 0.0
 
 # Optional margin from board edges.
 EDGE_MARGIN_X_MM = 0.0
@@ -42,14 +42,7 @@ SERPENTINE = False
 
 
 def main():
-    submitUiMachineTask(scan_and_stitch)
-
-
-def scan_and_stitch():
-    scan_board_tiles()
-
-    proc = ProcessBuilder(["PnVision", "stitch", OUT_ROOT]).start()
-    proc.waitFor()
+    submitUiMachineTask(scan_board_tiles)
 
 
 def scan_board_tiles():
@@ -235,8 +228,8 @@ def make_axis_centers(size, fov, step, margin):
     if size <= 0:
         return pts
 
-    start = margin + fov / 2.0
-    end = size - margin - fov / 2.0
+    start = margin  # + fov / 2.0
+    end = size - margin  # - fov / 2.0
 
     # Board smaller than one camera frame.
     if end <= start:
