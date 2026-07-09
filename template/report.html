@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{{project_name}} Visual Inspection Report</title>
+    <link rel="icon" href="favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #000000;
+            color: hsla(210, 8%, 93%, 1);
+            padding: 0;
+            margin: 0;
+            font-family: Inter, sans-serif;
+        }
+
+        div.header {
+            background-color: hsla(210, 6%, 8%, 1);
+            border-bottom: 1px solid hsla(210, 6%, 16%, 1);
+            width: 100%;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            min-height: 65px;
+            padding: 8px 0;
+            box-sizing: border-box;
+        }
+
+        div.header_content {
+            padding: 10px;
+            padding-left: 1rem;
+            line-height: 1.25;
+            font-size: 0.875rem;
+        }
+
+        div.header_sep {
+            padding: 0 4px;
+            color: #94999e;
+            font-size: 0.875rem;
+        }
+
+        table, p {
+            width: 97%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .table-wrapper {
+            width: 97%;
+            margin-left: auto;
+            margin-right: auto;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        table {
+            border: 1px solid hsla(210, 6%, 16%, 1);
+            border-collapse: collapse;
+            width: 100%;
+            min-width: 600px;
+        }
+
+        thead th {
+            background-color: hsla(210, 6%, 8%, 1);
+            height: 36px;
+            text-align: left;
+            font-weight: 600;
+            color: #94999e;
+        }
+
+        th, td {
+            border: 1px solid hsla(210, 6%, 16%, 1);
+            padding: 12px 16px;
+            text-align: left;
+        }
+
+        td:nth-child(4), thead th:nth-child(4) {
+            text-align: center;
+        }
+
+        tbody tr th[scope="row"] {
+            background-color: transparent;
+            font-weight: 500;
+        }
+
+        .part-name-cell {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .part-preview {
+            width: 100px;
+            height: auto;
+            flex-shrink: 0;
+            filter: invert(1);
+        }
+
+        @media (max-width: 600px) {
+            .part-preview {
+                width: 50px;
+            }
+
+            div.header_content,
+            div.header_sep {
+                font-size: 0.9rem;
+            }
+
+            th, td {
+                padding: 8px 10px;
+            }
+        }
+
+        .metadata-label {
+            color: #94999e;
+            font-weight: 400;
+        }
+
+        .step-model {
+            font-family: 'Geist Mono', monospace;
+            font-size: 0.85rem;
+        }
+        .board-image-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin: 24px 0;
+        }
+
+        .board-image {
+            width: 80vw;
+            height: auto;
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <div class="header_content"><img src="logo.svg" style="padding-top: 7px; height: 32px;"></div>
+        
+        <div class="header_sep">/</div>
+        <div class="header_content">Visual Inspection Report</div>
+        <div class="header_sep">/</div>
+        <div class="header_content">{{project_name}}</div>
+    </div>
+
+    <div class="board-image-container">
+        <img class="board-image" src="full_board.png" alt="{{project_name}} board">
+    </div>
+
+    <p class="metadata">
+        <span class="metadata-label">Time stamp:</span> {{ metadata.time_stamp }}<br>
+        <span class="metadata-label">Git commit SHA:</span> {{ metadata.commit_sha }}<br>
+        <span class="metadata-label">Git commit message:</span> {{ metadata.commit_msg }}
+    </p>
+    <div class="table-wrapper">
+    <table>
+        <thead>
+            <tr>
+                <th scope="col">Ref</th>
+                <th scope="col">Part</th>
+                <th scope="col">Captured image</th>
+                <th scope="col">DNP</th>
+                <th scope="col">DNP test status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for idx, part in parts.iterrows() %}
+            <tr>
+                <th scope="row">
+                    {{ part["part_name"] }}
+                </th>
+                <td>{{ part["part_number"] }}</td>
+                <td>{{ part["description"] }}</td>
+                <td>-</td>
+                <td>-</td> <!--<span class="step-model">{{ part["step"] }}</span>-->
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+</body>
+</html>

@@ -8,7 +8,7 @@ import numpy as np
 
 DEFAULT_PIXELS_PER_UNIT_X = 77
 DEFAULT_PIXELS_PER_UNIT_Y = 76
-DEAFULT_OUTPUT_FILENAME = "output.png"
+DEAFULT_OUTPUT_FILENAME = "full_board.png"
 
 
 def add_subparser(subparsers):
