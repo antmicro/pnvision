@@ -6,6 +6,7 @@ from java.io import File, PrintWriter
 from java.lang import System, Thread
 from java.text import SimpleDateFormat
 from java.util import Date
+from java.lang import ProcessBuilder
 from javax.imageio import ImageIO
 
 from org.openpnp.model import LengthUnit, Location
@@ -41,7 +42,14 @@ SERPENTINE = False
 
 
 def main():
-    submitUiMachineTask(scan_board_tiles)
+    submitUiMachineTask(scan_and_stitch)
+
+
+def scan_and_stitch():
+    scan_board_tiles()
+
+    proc = ProcessBuilder(["PnVision", "stitch", OUT_ROOT]).start()
+    proc.waitFor()
 
 
 def scan_board_tiles():

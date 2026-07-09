@@ -1,6 +1,7 @@
 from pathlib import Path
 import json
 
+
 def add_subparser(subparsers):
     parser = subparsers.add_parser(
         "report",
