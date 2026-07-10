@@ -131,8 +131,10 @@
         }
 
         .board-image {
-            height: 90vh;
+            max-width: 90vw;
+            max-height: 90vh;
             width: auto;
+            height: auto;
             display: block;
         }
     </style>
@@ -169,7 +171,7 @@
             </tr>
         </thead>
         <tbody>
-            {% for idx, part in parts.iterrows() %}
+            {% for _, part in parts.iterrows() %}
             <tr>
                 <th scope="row">
                     {{ part["part_name"] }}

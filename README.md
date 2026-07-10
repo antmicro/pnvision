@@ -26,6 +26,7 @@ Requirements:
 * libzbar0
 * pyzbar
 * Jinja2
+* pandas
 
 Install pipx if needed:
 
