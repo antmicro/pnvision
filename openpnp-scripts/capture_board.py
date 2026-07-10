@@ -42,17 +42,19 @@ SERPENTINE = False
 
 
 def main():
-    submitUiMachineTask(scan_board_tiles)
+    scan_dir = make_scan_directory()
+
+    submitUiMachineTask(lambda: scan_board_tiles(scan_dir))
+
+    return scan_dir
 
 
-def scan_board_tiles():
+def scan_board_tiles(scan_dir):
     manifest = None
 
     try:
         camera = machine.getDefaultHead().getDefaultCamera()
         job_obj = get_current_job()
-
-        scan_dir = make_scan_directory()
 
         manifest = PrintWriter(File(scan_dir, "manifest.csv"))
         manifest.println(
