@@ -33,7 +33,6 @@ def add_subparser(subparsers):
         default=DEFAULT_PIXELS_PER_UNIT_X,
         help=f"Pixels per unit in X (default: {DEFAULT_PIXELS_PER_UNIT_X})",
     )
-
     parser.add_argument(
         "-ppy",
         "--pixels-per-unit-y",
@@ -143,10 +142,17 @@ def stitch_macro_grid(
 
 
 def run(args):
+    image_dir = Path(args.image_directory)
     output = Path(args.output)
 
-    if output.suffix == "":
-        output = output.with_suffix(".png")
+    if args.output == DEAFULT_OUTPUT_FILENAME:
+        output = image_dir / DEAFULT_OUTPUT_FILENAME
+    else:
+        if output.exists() and output.is_dir():
+            output = output / DEAFULT_OUTPUT_FILENAME
+
+        if output.suffix == "":
+            output = output.with_suffix(".png")
 
     print("Initiating coordinate-mapped stitching routine...")
 

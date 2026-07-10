@@ -40,13 +40,12 @@ def run(args):
     if scan_dir is None:
         raise FileNotFoundError(f"No scan* directory found in {input_dir}")
 
-    # bash(f"pnvision stitch {scan_dir}", "board_stitch")
+    bash(f"pnvision stitch {scan_dir}", "board_stitch")
 
     output_dir = input_dir / "report"
     output_dir.mkdir(exist_ok=True)
 
     template_dir = args.template_dir
-    print(template_dir)
 
     environment = Environment(loader=FileSystemLoader(template_dir))
 
@@ -56,7 +55,7 @@ def run(args):
         source = template_dir / asset
         shutil.copy2(source, output_dir / asset)
 
-    board_image = input_dir / "full_board.png"
+    board_image = scan_dir / "full_board.png"
     if board_image.exists():
         shutil.copyfile(board_image, output_dir / "full_board.png")
 
