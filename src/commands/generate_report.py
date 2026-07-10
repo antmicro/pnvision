@@ -6,6 +6,7 @@ import pandas as pd
 from jinja2 import Environment, FileSystemLoader
 
 from helpers.bash_wrapper import bash
+from helpers.paths import Paths
 
 
 def add_subparser(subparsers):
@@ -13,7 +14,6 @@ def add_subparser(subparsers):
         "report",
         help="Generate HTML report from log file.",
     )
-
     parser.add_argument(
         "log_file_location",
         help="Location of log file.",
@@ -21,7 +21,7 @@ def add_subparser(subparsers):
     parser.add_argument(
         "--template-dir",
         type=Path,
-        default=Path(__file__).resolve().parents[2] / "template",
+        default=Paths.TEMPLATE_DIR,
         help="Directory defualt containing template for report.html",
     )
 
@@ -39,26 +39,22 @@ def run(args):
     scan_dir = next((p for p in input_dir.glob("scan*") if p.is_dir()), None)
     if scan_dir is None:
         raise FileNotFoundError(f"No scan* directory found in {input_dir}")
-    print(scan_dir)
 
-    bash(f"pnvision stitch {scan_dir}", "board_stitch")
+    # bash(f"pnvision stitch {scan_dir}", "board_stitch")
 
     output_dir = input_dir / "report"
     output_dir.mkdir(exist_ok=True)
 
-    template_dir = Path(__file__).resolve().parents[2] / "template"
+    template_dir = args.template_dir
+    print(template_dir)
 
     environment = Environment(loader=FileSystemLoader(template_dir))
 
     template = environment.get_template("report.html")
 
-    for asset in (
-        "logo.svg",
-        "favicon.ico",
-    ):
+    for asset in ("logo.svg", "favicon.ico"):
         source = template_dir / asset
-        if source.exists():
-            shutil.copyfile(source, output_dir / asset)
+        shutil.copy2(source, output_dir / asset)
 
     board_image = input_dir / "full_board.png"
     if board_image.exists():
