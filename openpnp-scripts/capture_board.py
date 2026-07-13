@@ -42,21 +42,19 @@ SERPENTINE = False
 
 
 def main():
-    scan_dir = make_scan_directory()
-
-    submitUiMachineTask(lambda: scan_board_tiles(scan_dir))
-
-    return scan_dir
+    global capture_board_scan_dir
+    capture_board_scan_dir = make_scan_directory()
+    submitUiMachineTask(scan_board_tiles)
 
 
-def scan_board_tiles(scan_dir):
+def scan_board_tiles():
     manifest = None
 
     try:
         camera = machine.getDefaultHead().getDefaultCamera()
         job_obj = get_current_job()
 
-        manifest = PrintWriter(File(scan_dir, "manifest.csv"))
+        manifest = PrintWriter(File(capture_board_scan_dir, "manifest.csv"))
         manifest.println(
             "file,board_index,board_name,row,col,local_x_mm,local_y_mm,"
             "machine_x_mm,machine_y_mm,machine_z_mm,rotation_deg"
@@ -69,7 +67,7 @@ def scan_board_tiles(scan_dir):
 
         print("Camera FOV: %.3f x %.3f mm" % (fov_x, fov_y))
         print("Tile step: %.3f x %.3f mm" % (step_x, step_y))
-        print("Output: %s" % scan_dir.getAbsolutePath())
+        print("Output: %s" % capture_board_scan_dir.getAbsolutePath())
 
         board_locations = job_obj.getBoardLocations()
 
@@ -88,7 +86,7 @@ def scan_board_tiles(scan_dir):
                 fov_y,
                 step_x,
                 step_y,
-                scan_dir,
+                capture_board_scan_dir,
                 manifest,
             )
 
@@ -125,7 +123,7 @@ def scan_board_location(
     fov_y,
     step_x,
     step_y,
-    scan_dir,
+    capture_board_scan_dir,
     manifest,
 ):
 
@@ -181,7 +179,7 @@ def scan_board_location(
                 fmt(y),
             )
 
-            file_obj = File(scan_dir, file_name)
+            file_obj = File(capture_board_scan_dir, file_name)
             ImageIO.write(image, "PNG", file_obj)
 
             manifest.println(

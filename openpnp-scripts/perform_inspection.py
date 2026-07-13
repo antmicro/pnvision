@@ -1,8 +1,15 @@
 from datetime import datetime
+from time import sleep
+from org.openpnp.util.UiUtils import submitUiMachineTask
+import os
 
-import capture_board
-import capture_components
-import pnvision.stitch_board
+SCRIPTS_DIR = "/home/pnp/.openpnp2/scripts"
+
+
+def launch_secondary_script(filename):
+    target_path = os.path.join(SCRIPTS_DIR, filename)
+    execfile(target_path, globals(), globals())
+
 
 result = {
     "capture_board": {
@@ -21,12 +28,12 @@ result = {
 
 def capture_board_task():
     try:
-        scan_dir = capture_board.main()
+        launch_secondary_script("capture_board.py")
 
         result["capture_board"]["status"] = "SUCCESS"
         result["capture_board"]["timestamp"] = datetime.now().isoformat()
         result["capture_board"]["log"] = "Board capture completed"
-        result["capture_board"]["scan_dir"] = scan_dir
+        result["capture_board"]["scan_dir"] = capture_board_scan_dir
 
     except Exception as e:
         result["capture_board"]["status"] = "FAILED"
@@ -36,7 +43,7 @@ def capture_board_task():
 
 def capture_components_task():
     try:
-        capture_components.main()
+        launch_secondary_script("capture_components.py")
 
         result["capture_components"]["status"] = "SUCCESS"
         result["capture_components"]["timestamp"] = datetime.now().isoformat()
@@ -50,25 +57,26 @@ def capture_components_task():
 
 def main():
 
-    submitUiMachineTask(capture_board_task)
+    capture_board_task()
 
     while result["capture_board"]["status"] is None:
-        wait(100)
+        sleep(1)
 
     if result["capture_board"]["status"] != "SUCCESS":
-        raise Exception(result["capture_board"]["log"])
+        raise Exception("Board Capture Error: " + result["capture_board"]["log"])
 
-    pnvision.stitch_board.main(scan_dir.getAbsolutePath())
+    result_scan_dir = result["capture_board"]["scan_dir"]
 
-    submitUiMachineTask(capture_components_task)
+    # stitch_script = machine.getScripting().getScript("pnvision/stitch_board.py")
+    # stitch_script.execute(result_scan_dir.getAbsolutePath())
+
+    capture_components_task()
 
     while result["capture_components"]["status"] is None:
-        wait(100)
+        sleep(1)
 
     if result["capture_components"]["status"] != "SUCCESS":
-        raise Exception(result["capture_components"]["log"])
-
-    process_results.main()
+        raise Exception("Component Capture Error: " + result["capture_components"]["log"])
 
 
 main()
