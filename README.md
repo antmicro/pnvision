@@ -76,6 +76,12 @@ kmake aux-origin -s bl
 * kamke: `kmake pnp -tvo`
 * xmake: `xmake job t pdi -m machine-name`
 
+3. Set board dimensions in OpenPnP
+
+4. Calibrate board according to components placement
+
+5. Run perform_inspection.py
+
 ## Examples
 
 ```bash
