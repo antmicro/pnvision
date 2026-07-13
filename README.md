@@ -52,17 +52,29 @@ pnvision --help
 
 ### OpenPnP scripts:
 
-1. In OpenPnP open scripts directory and add scripts from `openpnp-scripts`.
+1. In OpenPnP open scripts directory and add scripts from `openpnp-scripts/`.
 
 ![How to open scripts directory](img/scripts_directory.png)
 
 ## Usage
-
+### PnVision scripts:
 To show available functionalities run:
 
 ```bash
 pnvision --help
 ```
+
+### OpenPnP scripts:
+1. Go to your board directory and use the commands below from kmake:
+```bash
+kmake loclib
+kmake gerber
+kmake aux-origin -s bl
+```
+
+2. According to preference use kmake or xmake:
+* kamke: `kmake pnp -tvo`
+* xmake: `xmake job t pdi -m machine-name`
 
 ## Examples
 
