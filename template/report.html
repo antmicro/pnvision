@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{{project_name}} Visual Inspection Report</title>
+    <title>{{metadata.project_reference}} Visual Inspection Report</title>
     <link rel="icon" href="favicon.ico">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -147,17 +147,18 @@
         <div class="header_sep">/</div>
         <div class="header_content">Visual Inspection Report</div>
         <div class="header_sep">/</div>
-        <div class="header_content">{{project_name}}</div>
+        <div class="header_content">{{metadata.project_reference}}</div>
     </div>
 
     <div class="board-image-container">
-        <img class="board-image" src="full_board.png" alt="{{project_name}} board">
+        <img class="board-image" src="full_board.png" alt="{{metadata.project_reference}} board">
     </div>
 
     <p class="metadata">
         <span class="metadata-label">Time stamp:</span> {{ metadata.time_stamp }}<br>
+        <span class="metadata-label">Unit:</span> {{ metadata.unit }}<br>
         <span class="metadata-label">Git commit SHA:</span> {{ metadata.commit_sha }}<br>
-        <span class="metadata-label">Git commit message:</span> {{ metadata.commit_msg }}
+        <span class="metadata-label">Machine used:</span> {{ metadata.machine_used }}
     </p>
     <div class="table-wrapper">
     <table>
@@ -177,7 +178,7 @@
                     {{ part["part_name"] }}
                 </th>
                 <td>{{ part["part_number"] }}</td>
-                <td>{{ part["description"] }}</td>
+                <td>{{ part["package"] }}</td>
                 <td>-</td>
                 <td>-</td> <!--<span class="step-model">{{ part["step"] }}</span>-->
             </tr>
