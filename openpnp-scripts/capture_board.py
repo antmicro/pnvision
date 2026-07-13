@@ -13,6 +13,8 @@ from org.openpnp.model import LengthUnit, Location
 from org.openpnp.util import Utils2D, MovableUtils
 from org.openpnp.util.UiUtils import submitUiMachineTask
 
+capture_board_scan_dir = None
+
 # ---------------- USER SETTINGS ----------------
 
 # Calibrate before use
@@ -20,7 +22,7 @@ CAMERA_FOV_X_MM = 16
 CAMERA_FOV_Y_MM = 9.0
 
 # Overlap between neighboring images.
-OVERLAP = 0.0
+OVERLAP = -2.0
 
 # Optional margin from board edges.
 EDGE_MARGIN_X_MM = 0.0
@@ -33,7 +35,8 @@ EXTRA_SETTLE_MS = 300
 # True  = camera.captureRaw()
 USE_CAPTURE_RAW = False
 
-OUT_ROOT = System.getProperty("user.home") + "/.openpnp/vision/log/board-tiles"
+if "OUT_FOLDER" not in globals():
+    OUT_FOLDER = System.getProperty("user.home") + "/.openpnp/vision/log/"
 
 # Reduces long travel
 SERPENTINE = False
@@ -42,8 +45,6 @@ SERPENTINE = False
 
 
 def main():
-    global capture_board_scan_dir
-    capture_board_scan_dir = make_scan_directory()
     submitUiMachineTask(scan_board_tiles)
 
 
@@ -54,20 +55,12 @@ def scan_board_tiles():
         camera = machine.getDefaultHead().getDefaultCamera()
         job_obj = get_current_job()
 
-        manifest = PrintWriter(File(capture_board_scan_dir, "manifest.csv"))
-        manifest.println(
-            "file,board_index,board_name,row,col,local_x_mm,local_y_mm,"
-            "machine_x_mm,machine_y_mm,machine_z_mm,rotation_deg"
-        )
-
         fov_x, fov_y = get_camera_fov_mm(camera)
-
         step_x = fov_x * (1.0 - OVERLAP)
         step_y = fov_y * (1.0 - OVERLAP)
 
         print("Camera FOV: %.3f x %.3f mm" % (fov_x, fov_y))
         print("Tile step: %.3f x %.3f mm" % (step_x, step_y))
-        print("Output: %s" % capture_board_scan_dir.getAbsolutePath())
 
         board_locations = job_obj.getBoardLocations()
 
@@ -77,6 +70,15 @@ def scan_board_tiles():
             if not is_board_location_enabled(board_location):
                 print("Skipping disabled board location %d" % board_index)
                 continue
+
+            capture_board_scan_dir = make_scan_directory(board_location)
+            print("Output: %s" % capture_board_scan_dir.getAbsolutePath())
+
+            manifest = PrintWriter(File(capture_board_scan_dir, "manifest.csv"))
+            manifest.println(
+                "file,board_index,board_name,placement_id,part_name,local_x_mm,local_y_mm,"
+                "machine_x_mm,machine_y_mm,machine_z_mm,rotation_deg"
+            )
 
             scan_board_location(
                 camera,
@@ -256,14 +258,30 @@ def is_board_location_enabled(board_location):
         return True
 
 
-def make_scan_directory():
-    time_str = SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(Date())
+def make_scan_directory(board_location):
+    board = board_location.getBoard()
+    board_name = board.getName()
+    safe_board_name = sanitize(board_name)
 
-    root = File(OUT_ROOT)
+    root = File(OUT_FOLDER, safe_board_name)
     if not root.exists():
         root.mkdirs()
 
-    scan_dir = File(root, "scan_" + time_str)
+    time_str = SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(Date())
+
+    parts = []
+
+    if "unit" in globals() and unit and unit != "N/A":
+        parts.append(unit)
+
+    parts.append(time_str)
+
+    if "location" in globals() and location and location != "N/A":
+        parts.append(location)
+
+    dir_name = "_".join(parts)
+
+    scan_dir = File(File(root, dir_name), "board")
     if not scan_dir.exists():
         scan_dir.mkdirs()
 

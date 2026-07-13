@@ -12,6 +12,10 @@ from org.openpnp.model import LengthUnit, Location
 from org.openpnp.util import Utils2D, MovableUtils
 from org.openpnp.util.UiUtils import submitUiMachineTask
 
+from javax.swing import JOptionPane
+
+capture_components_scan_dir = None
+
 # ---------------- USER SETTINGS ----------------
 
 # Delay initialized after motion before image capture is executed.
@@ -25,7 +29,8 @@ USE_CAPTURE_RAW = False
 CROP_IMAGES = True
 
 # Base directory for the output images.
-OUT_ROOT = System.getProperty("user.home") + "/.openpnp/vision/log/components"
+if "OUT_FOLDER" not in globals():
+    OUT_FOLDER = System.getProperty("user.home") + "/.openpnp/vision/log/"
 
 # ------------------------------------------------
 
@@ -41,16 +46,6 @@ def scan_components():
         camera = machine.getDefaultHead().getDefaultCamera()
         job_obj = get_current_job()
 
-        scan_dir = make_scan_directory()
-
-        manifest = PrintWriter(File(scan_dir, "manifest.csv"))
-        manifest.println(
-            "file,board_index,board_name,placement_id,part_name,local_x_mm,local_y_mm,"
-            "machine_x_mm,machine_y_mm,machine_z_mm,rotation_deg"
-        )
-
-        print("Output directory generated: %s" % scan_dir.getAbsolutePath())
-
         board_locations = job_obj.getBoardLocations()
 
         for board_index in range(board_locations.size()):
@@ -60,11 +55,21 @@ def scan_components():
                 print("Skipping disabled board location %d" % board_index)
                 continue
 
+            capture_components_scan_dir = make_scan_directory(board_location)
+            print("Output: %s" % capture_components_scan_dir.getAbsolutePath())
+
+            manifest = PrintWriter(File(capture_components_scan_dir, "manifest.csv"))
+            manifest.println(
+                "file,board_index,board_name,placement_id,part_name,local_x_mm,local_y_mm,"
+                "machine_x_mm,machine_y_mm,machine_z_mm,rotation_deg"
+            )
+            print("Output directory generated: %s" % capture_components_scan_dir.getAbsolutePath())
+
             process_board_placements(
                 camera,
                 board_location,
                 board_index,
-                scan_dir,
+                capture_components_scan_dir,
                 manifest,
             )
 
@@ -97,7 +102,7 @@ def process_board_placements(
     camera,
     board_location,
     board_index,
-    scan_dir,
+    capture_components_scan_dir,
     manifest,
 ):
     board = board_location.getBoard()
@@ -154,13 +159,13 @@ def process_board_placements(
             image = crop_small_passives(image, safe_part_name, rotation)
 
         file_name = "b%s_%s_%s_%s.png" % (
-            pad(board_index, 2),
             safe_board_name,
+            pad(board_index, 2),
             safe_placement_id,
             safe_part_name,
         )
 
-        file_obj = File(scan_dir, file_name)
+        file_obj = File(capture_components_scan_dir, file_name)
         ImageIO.write(image, "PNG", file_obj)
 
         manifest.println(
@@ -230,14 +235,30 @@ def is_board_location_enabled(board_location):
         return True
 
 
-def make_scan_directory():
-    time_str = SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(Date())
+def make_scan_directory(board_location):
+    board = board_location.getBoard()
+    board_name = board.getName()
+    safe_board_name = sanitize(board_name)
 
-    root = File(OUT_ROOT)
+    root = File(OUT_FOLDER, safe_board_name)
     if not root.exists():
         root.mkdirs()
 
-    scan_dir = File(root, "components_" + time_str)
+    time_str = SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(Date())
+
+    parts = []
+
+    if "unit" in globals() and unit and unit != "N/A":
+        parts.append(unit)
+
+    parts.append(time_str)
+
+    if "location" in globals() and location and location != "N/A":
+        parts.append(location)
+
+    dir_name = "_".join(parts)
+
+    scan_dir = File(File(root, dir_name), "components")
     if not scan_dir.exists():
         scan_dir.mkdirs()
 
