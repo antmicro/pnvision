@@ -36,7 +36,7 @@ def run(args):
 
     input_dir = log_path.parent
 
-    scan_dir = next((p for p in input_dir.glob("scan*") if p.is_dir()), None)
+    scan_dir = next((p for p in input_dir.glob("*board*") if p.is_dir()), None)
     if scan_dir is None:
         raise FileNotFoundError(f"No scan* directory found in {input_dir}")
 

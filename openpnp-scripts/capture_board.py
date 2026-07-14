@@ -241,8 +241,8 @@ def make_scan_directory(board_location):
 
     parts = []
 
-    if "unit" in globals() and unit and unit != "N/A":
-        parts.append(unit)
+    if "SN" in globals() and SN and SN != "N/A":
+        parts.append(SN)
 
     parts.append(time_str)
 

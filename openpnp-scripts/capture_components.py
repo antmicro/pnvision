@@ -8,7 +8,7 @@ from java.text import SimpleDateFormat
 from java.util import Date
 from javax.imageio import ImageIO
 
-from org.openpnp.model import LengthUnit, Location
+from org.openpnp.model import LengthUnit
 from org.openpnp.util import Utils2D, MovableUtils
 from org.openpnp.util.UiUtils import submitUiMachineTask
 
@@ -229,8 +229,8 @@ def make_scan_directory(board_location):
 
     parts = []
 
-    if "unit" in globals() and unit and unit != "N/A":
-        parts.append(unit)
+    if "SN" in globals() and SN and SN != "N/A":
+        parts.append(SN)
 
     parts.append(time_str)
 

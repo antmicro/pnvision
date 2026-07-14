@@ -14,8 +14,8 @@ def launch_secondary_script(filename):
     execfile(target_path, globals(), globals())
 
 
-def get_user_input(prompt="Enter unit number:", title="Input"):
-    # Unit number
+def get_user_input(prompt="Enter serial number:", title="Input"):
+    # Serial number
     value = JOptionPane.showInputDialog(None, prompt, title, JOptionPane.QUESTION_MESSAGE)
 
     if value is None:
@@ -24,9 +24,9 @@ def get_user_input(prompt="Enter unit number:", title="Input"):
     value = value.strip()
 
     if value == "":
-        unit = "NA"
+        SN = "NA"
     else:
-        unit = value
+        SN = value
 
     # Assembly place / Assembly machine
     options = ["POZ", "WRO", "GDA", "GOT"]
@@ -38,18 +38,18 @@ def get_user_input(prompt="Enter unit number:", title="Input"):
     if location is None:
         location = "NA"
 
-    return unit, location
+    return SN, location
 
 
 def main():
-    global report_data, unit, location
+    global report_data, SN, location
 
-    unit, location = get_user_input()
+    SN, location = get_user_input()
     time_str = SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(Date())
     report_data = {
         "metadata": {
             "time_stamp": time_str,
-            "unit": unit,  # unit will be read from qr or bar code (code_reader.py)
+            "sn": SN,  # serial number will be read from qr or bar code (code_reader.py)
             "project_reference": "",  # this will be taken from CI
             "commit_sha": "",  # this will be taken from CI
             "location": location,
