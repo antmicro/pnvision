@@ -279,7 +279,7 @@ def log_placement(
         }
     )
 
-    with open(report_file.getAbsolutePath(), "w", encoding="utf-8") as f:
+    with open(report_file.getAbsolutePath(), "w") as f:
         json.dump(report, f, indent=4)
 
 

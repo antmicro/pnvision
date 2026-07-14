@@ -50,8 +50,8 @@ def main():
         "metadata": {
             "time_stamp": time_str,
             "unit": unit,  # unit will be read from qr or bar code (code_reader.py)
-            "project_reference": "BMC Breakout Board",  # this will be taken from CI
-            "commit_sha": "a1b2c3d4",  # this will be taken from CI
+            "project_reference": "",  # this will be taken from CI
+            "commit_sha": "",  # this will be taken from CI
             "location": location,
         },
         "parts": [],
