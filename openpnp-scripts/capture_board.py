@@ -157,7 +157,7 @@ def scan_board_location(
             else:
                 image = camera.settleAndCapture()
 
-            file_name = "board%s_%s_r%s_c%s_x%s_y%s.png" % (
+            image_file_name = "board%s_%s_r%s_c%s_x%s_y%s.png" % (
                 pad(board_index, 2),
                 safe_board_name,
                 pad(row, 3),
@@ -166,10 +166,10 @@ def scan_board_location(
                 fmt(y),
             )
 
-            file_obj = File(capture_board_scan_dir, file_name)
+            file_obj = File(capture_board_scan_dir, image_file_name)
             ImageIO.write(image, "PNG", file_obj)
 
-            print("Saved %s" % file_name)
+            print("Saved %s" % image_file_name)
 
 
 def get_camera_fov_mm(camera):

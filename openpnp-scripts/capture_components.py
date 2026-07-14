@@ -14,6 +14,8 @@ from org.openpnp.util.UiUtils import submitUiMachineTask
 
 from javax.swing import JOptionPane
 
+import json
+
 capture_components_scan_dir = None
 
 # ---------------- USER SETTINGS ----------------
@@ -90,6 +92,9 @@ def process_board_placements(
     board_index,
     capture_components_scan_dir,
 ):
+    with open("report.json", "r") as f:
+        report = json.load(f)
+
     board = board_location.getBoard()
     board_name = board.getName()
     safe_board_name = sanitize(board_name)
@@ -102,26 +107,26 @@ def process_board_placements(
     for placement_index in range(total_placements):
         placement = placements.get(placement_index)
 
-        placement_id = placement.getId()
+        placement_designator = placement.getId()
 
         if placement.getPart() is None:
-            print("Skipping %s: no part assigned." % placement_id)
+            print("Skipping %s: no part assigned." % placement_designator)
             continue
 
         part_name = placement.getPart().getId()
 
         # Skip parts by ID
         if (
-            placement_id.startswith("MP")
-            or placement_id.startswith("TP")
-            or placement_id.startswith("FD")
-            or placement_id.startswith("REF**")
+            placement_designator.startswith("MP")
+            or placement_designator.startswith("TP")
+            or placement_designator.startswith("FD")
+            or placement_designator.startswith("REF**")
         ):
-            print("Skipping %s (%s)" % (placement_id, part_name))
+            print("Skipping %s (%s)" % (placement_designator, part_name))
             continue
 
         safe_part_name = sanitize(part_name)
-        safe_placement_id = sanitize(placement_id)
+        safe_placement_designator = sanitize(placement_designator)
 
         board_local_location = placement.getLocation()
 
@@ -143,17 +148,18 @@ def process_board_placements(
             rotation = machine_location.getRotation()
             image = crop_small_passives(image, safe_part_name, rotation)
 
-        file_name = "b%s_%s_%s_%s.png" % (
+        image_file_name = "b%s_%s_%s_%s.png" % (
             safe_board_name,
             pad(board_index, 2),
-            safe_placement_id,
+            safe_placement_designator,
             safe_part_name,
         )
 
-        file_obj = File(capture_components_scan_dir, file_name)
+        file_obj = File(capture_components_scan_dir, image_file_name)
         ImageIO.write(image, "PNG", file_obj)
 
-        print("Captured %s (%d/%d)" % (placement_id, placement_index + 1, total_placements))
+        print("Captured %s (%d/%d)" % (safe_placement_designator, placement_index + 1, total_placements))
+        log_placement(report, safe_placement_designator, safe_part_name, image_file_name, "report.json")
 
 
 def crop_small_passives(image, safe_part_name, rotation_deg):
@@ -249,13 +255,26 @@ def fmt(value):
     return "%.3f" % float(value)
 
 
-def csv(value):
-    s = str(value)
+def log_placement(
+    report,
+    safe_placement_designator,
+    safe_part_name,
+    image_file_name,
+    report_file,
+):
+    if "parts" not in report:
+        report["parts"] = []
 
-    if "," in s or '"' in s or "\n" in s:
-        return '"' + s.replace('"', '""') + '"'
+    report["parts"].append(
+        {
+            "part_designator": safe_placement_designator,
+            "part_name": safe_part_name,
+            "image_file": image_file_name,
+        }
+    )
 
-    return s
+    with open(report_file, "w") as f:
+        json.dump(report, f, indent=4)
 
 
 main()

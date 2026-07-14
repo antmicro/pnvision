@@ -2,10 +2,21 @@ from datetime import datetime
 from time import sleep
 import os
 
-
 from java.text import SimpleDateFormat
 from java.util import Date
 from javax.swing import JOptionPane
+
+import json
+
+metadata = {
+    "metadata": {
+        "time_stamp": time_str,
+        "unit": unit,  # code_reader.py can read unit from qr codes, not implemented
+        "project_reference": "BMC Breakout Board",  # this will be taken from CI
+        "commit_sha": "a1b2c3d4",  # this will be taken from CI
+        "location": location,
+    }
+}
 
 unit = "NA"
 location = "NA"
@@ -95,23 +106,19 @@ def main():
     unit, location = get_user_input()
     time_str = SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(Date())
 
-    capture_board_task()
+    with open("config.json", "w") as f:
+        json.dump(metadata, f, indent=4)
 
-    # while result["capture_board"]["status"] is None:
-    #    sleep(1)
+    capture_board_task()
 
     if result["capture_board"]["status"] != "SUCCESS":
         raise Exception("Board Capture Error: " + result["capture_board"]["log"])
 
     result_scan_dir = result["capture_board"]["scan_dir"]
-
     # stitch_script = machine.getScripting().getScript("pnvision/stitch_board.py")
     # stitch_script.execute(result_scan_dir.getAbsolutePath())
 
     capture_components_task()
-
-    # while result["capture_components"]["status"] is None:
-    #    sleep(1)
 
     if result["capture_components"]["status"] != "SUCCESS":
         raise Exception("Component Capture Error: " + result["capture_components"]["log"])
