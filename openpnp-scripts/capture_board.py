@@ -22,7 +22,7 @@ CAMERA_FOV_X_MM = 16
 CAMERA_FOV_Y_MM = 9.0
 
 # Overlap between neighboring images.
-OVERLAP = -2.0
+OVERLAP = 0.6
 
 # Optional margin from board edges.
 EDGE_MARGIN_X_MM = 0.0
@@ -49,6 +49,7 @@ def main():
 
 
 def scan_board_tiles():
+    global capture_board_scan_dir
     camera = machine.getDefaultHead().getDefaultCamera()
     job_obj = get_current_job()
 

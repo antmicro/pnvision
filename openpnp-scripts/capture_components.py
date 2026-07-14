@@ -16,8 +16,6 @@ from javax.swing import JOptionPane
 
 import json
 
-capture_components_scan_dir = None
-
 # ---------------- USER SETTINGS ----------------
 
 # Delay initialized after motion before image capture is executed.
@@ -42,6 +40,9 @@ def main():
 
 
 def scan_components():
+    global capture_components_scan_dir
+    global report_file
+
     camera = machine.getDefaultHead().getDefaultCamera()
     job_obj = get_current_job()
 
@@ -57,6 +58,11 @@ def scan_components():
         capture_components_scan_dir = make_scan_directory(board_location)
         print("Output: %s" % capture_components_scan_dir.getAbsolutePath())
         print("Output directory generated: %s" % capture_components_scan_dir.getAbsolutePath())
+
+        report_file = File(capture_components_scan_dir.getParentFile(), "report.json")
+        if globals().get("report_data") is not None and not report_file.exists():
+            with open(report_file.getAbsolutePath(), "w") as f:
+                json.dump(report_data, f, indent=4)
 
         process_board_placements(
             camera,
@@ -92,7 +98,7 @@ def process_board_placements(
     board_index,
     capture_components_scan_dir,
 ):
-    with open("report.json", "r") as f:
+    with open(report_file.getAbsolutePath(), "r") as f:
         report = json.load(f)
 
     board = board_location.getBoard()
@@ -159,7 +165,7 @@ def process_board_placements(
         ImageIO.write(image, "PNG", file_obj)
 
         print("Captured %s (%d/%d)" % (safe_placement_designator, placement_index + 1, total_placements))
-        log_placement(report, safe_placement_designator, safe_part_name, image_file_name, "report.json")
+        log_placement(report, safe_placement_designator, safe_part_name, image_file_name, report_file)
 
 
 def crop_small_passives(image, safe_part_name, rotation_deg):
@@ -273,7 +279,7 @@ def log_placement(
         }
     )
 
-    with open(report_file, "w") as f:
+    with open(report_file.getAbsolutePath(), "w", encoding="utf-8") as f:
         json.dump(report, f, indent=4)
 
 
