@@ -158,7 +158,7 @@
         <span class="metadata-label">Time stamp:</span> {{ metadata.time_stamp }}<br>
         <span class="metadata-label">Unit:</span> {{ metadata.unit }}<br>
         <span class="metadata-label">Git commit SHA:</span> {{ metadata.commit_sha }}<br>
-        <span class="metadata-label">Machine used:</span> {{ metadata.machine_used }}
+        <span class="metadata-label">Machine used:</span> {{ metadata.location }}
     </p>
     <div class="table-wrapper">
     <table>
@@ -174,13 +174,19 @@
         <tbody>
             {% for _, part in parts.iterrows() %}
             <tr>
-                <th scope="row">
-                    {{ part["part_name"] }}
-                </th>
-                <td>{{ part["part_number"] }}</td>
-                <td>{{ part["package"] }}</td>
+                <td>{{ part["part_designator"] }}</th>
+                <td>{{ part["part_name"] }}</td>
+                <td>
+                    <img
+                        src="components/{{ part['image_file'] }}"
+                        alt="{{ part['part_name'] }}"
+                        width="160"
+                        height="90"
+                        style="width:160px; height:90px; object-fit:contain;"
+                    >
+                </td>
                 <td>-</td>
-                <td>-</td> <!--<span class="step-model">{{ part["step"] }}</span>-->
+                <td>-</td> <!--<span class="step-model">{{ part["step"] }}</span>              <th scope="row"></th>-->
             </tr>
             {% endfor %}
         </tbody>
