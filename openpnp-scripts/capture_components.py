@@ -40,44 +40,30 @@ def main():
 
 
 def scan_components():
-    manifest = None
+    camera = machine.getDefaultHead().getDefaultCamera()
+    job_obj = get_current_job()
 
-    try:
-        camera = machine.getDefaultHead().getDefaultCamera()
-        job_obj = get_current_job()
+    board_locations = job_obj.getBoardLocations()
 
-        board_locations = job_obj.getBoardLocations()
+    for board_index in range(board_locations.size()):
+        board_location = board_locations.get(board_index)
 
-        for board_index in range(board_locations.size()):
-            board_location = board_locations.get(board_index)
+        if not is_board_location_enabled(board_location):
+            print("Skipping disabled board location %d" % board_index)
+            continue
 
-            if not is_board_location_enabled(board_location):
-                print("Skipping disabled board location %d" % board_index)
-                continue
+        capture_components_scan_dir = make_scan_directory(board_location)
+        print("Output: %s" % capture_components_scan_dir.getAbsolutePath())
+        print("Output directory generated: %s" % capture_components_scan_dir.getAbsolutePath())
 
-            capture_components_scan_dir = make_scan_directory(board_location)
-            print("Output: %s" % capture_components_scan_dir.getAbsolutePath())
+        process_board_placements(
+            camera,
+            board_location,
+            board_index,
+            capture_components_scan_dir,
+        )
 
-            manifest = PrintWriter(File(capture_components_scan_dir, "manifest.csv"))
-            manifest.println(
-                "file,board_index,board_name,placement_id,part_name,local_x_mm,local_y_mm,"
-                "machine_x_mm,machine_y_mm,machine_z_mm,rotation_deg"
-            )
-            print("Output directory generated: %s" % capture_components_scan_dir.getAbsolutePath())
-
-            process_board_placements(
-                camera,
-                board_location,
-                board_index,
-                capture_components_scan_dir,
-                manifest,
-            )
-
-        print("Component image capture sequence complete.")
-
-    finally:
-        if manifest is not None:
-            manifest.close()
+    print("Component image capture sequence complete.")
 
 
 def get_current_job():
@@ -103,7 +89,6 @@ def process_board_placements(
     board_location,
     board_index,
     capture_components_scan_dir,
-    manifest,
 ):
     board = board_location.getBoard()
     board_name = board.getName()
@@ -168,24 +153,6 @@ def process_board_placements(
         file_obj = File(capture_components_scan_dir, file_name)
         ImageIO.write(image, "PNG", file_obj)
 
-        manifest.println(
-            ",".join(
-                [
-                    csv(file_name),
-                    str(board_index),
-                    csv(board_name),
-                    csv(placement_id),
-                    csv(part_name),
-                    fmt(board_local_location.getX()),
-                    fmt(board_local_location.getY()),
-                    fmt(machine_location.getX()),
-                    fmt(machine_location.getY()),
-                    fmt(machine_location.getZ()),
-                    fmt(machine_location.getRotation()),
-                ]
-            )
-        )
-
         print("Captured %s (%d/%d)" % (placement_id, placement_index + 1, total_placements))
 
 
@@ -236,6 +203,7 @@ def is_board_location_enabled(board_location):
 
 
 def make_scan_directory(board_location):
+    global time_str
     board = board_location.getBoard()
     board_name = board.getName()
     safe_board_name = sanitize(board_name)

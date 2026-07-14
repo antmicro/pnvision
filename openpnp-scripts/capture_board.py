@@ -49,54 +49,40 @@ def main():
 
 
 def scan_board_tiles():
-    manifest = None
+    camera = machine.getDefaultHead().getDefaultCamera()
+    job_obj = get_current_job()
 
-    try:
-        camera = machine.getDefaultHead().getDefaultCamera()
-        job_obj = get_current_job()
+    fov_x, fov_y = get_camera_fov_mm(camera)
+    step_x = fov_x * (1.0 - OVERLAP)
+    step_y = fov_y * (1.0 - OVERLAP)
 
-        fov_x, fov_y = get_camera_fov_mm(camera)
-        step_x = fov_x * (1.0 - OVERLAP)
-        step_y = fov_y * (1.0 - OVERLAP)
+    print("Camera FOV: %.3f x %.3f mm" % (fov_x, fov_y))
+    print("Tile step: %.3f x %.3f mm" % (step_x, step_y))
 
-        print("Camera FOV: %.3f x %.3f mm" % (fov_x, fov_y))
-        print("Tile step: %.3f x %.3f mm" % (step_x, step_y))
+    board_locations = job_obj.getBoardLocations()
 
-        board_locations = job_obj.getBoardLocations()
+    for board_index in range(board_locations.size()):
+        board_location = board_locations.get(board_index)
 
-        for board_index in range(board_locations.size()):
-            board_location = board_locations.get(board_index)
+        if not is_board_location_enabled(board_location):
+            print("Skipping disabled board location %d" % board_index)
+            continue
 
-            if not is_board_location_enabled(board_location):
-                print("Skipping disabled board location %d" % board_index)
-                continue
+        capture_board_scan_dir = make_scan_directory(board_location)
+        print("Output: %s" % capture_board_scan_dir.getAbsolutePath())
 
-            capture_board_scan_dir = make_scan_directory(board_location)
-            print("Output: %s" % capture_board_scan_dir.getAbsolutePath())
+        scan_board_location(
+            camera,
+            board_location,
+            board_index,
+            fov_x,
+            fov_y,
+            step_x,
+            step_y,
+            capture_board_scan_dir,
+        )
 
-            manifest = PrintWriter(File(capture_board_scan_dir, "manifest.csv"))
-            manifest.println(
-                "file,board_index,board_name,placement_id,part_name,local_x_mm,local_y_mm,"
-                "machine_x_mm,machine_y_mm,machine_z_mm,rotation_deg"
-            )
-
-            scan_board_location(
-                camera,
-                board_location,
-                board_index,
-                fov_x,
-                fov_y,
-                step_x,
-                step_y,
-                capture_board_scan_dir,
-                manifest,
-            )
-
-        print("Board tile scan complete.")
-
-    finally:
-        if manifest is not None:
-            manifest.close()
+    print("Board tile scan complete.")
 
 
 def get_current_job():
@@ -126,7 +112,6 @@ def scan_board_location(
     step_x,
     step_y,
     capture_board_scan_dir,
-    manifest,
 ):
 
     board = board_location.getBoard()
@@ -183,24 +168,6 @@ def scan_board_location(
 
             file_obj = File(capture_board_scan_dir, file_name)
             ImageIO.write(image, "PNG", file_obj)
-
-            manifest.println(
-                ",".join(
-                    [
-                        csv(file_name),
-                        str(board_index),
-                        csv(board_name),
-                        str(row),
-                        str(col),
-                        fmt(x),
-                        fmt(y),
-                        fmt(machine_location.getX()),
-                        fmt(machine_location.getY()),
-                        fmt(machine_location.getZ()),
-                        fmt(machine_location.getRotation()),
-                    ]
-                )
-            )
 
             print("Saved %s" % file_name)
 
@@ -259,6 +226,7 @@ def is_board_location_enabled(board_location):
 
 
 def make_scan_directory(board_location):
+    global time_str
     board = board_location.getBoard()
     board_name = board.getName()
     safe_board_name = sanitize(board_name)
