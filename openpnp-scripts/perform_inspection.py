@@ -2,6 +2,9 @@ from datetime import datetime
 from time import sleep
 import os
 
+
+from java.text import SimpleDateFormat
+from java.util import Date
 from javax.swing import JOptionPane
 
 unit = "NA"
@@ -88,12 +91,13 @@ def capture_components_task():
 
 
 def main():
-    global unit, location
+    global unit, location, time_str
     unit, location = get_user_input()
+    time_str = SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(Date())
 
     capture_board_task()
 
-    #while result["capture_board"]["status"] is None:
+    # while result["capture_board"]["status"] is None:
     #    sleep(1)
 
     if result["capture_board"]["status"] != "SUCCESS":

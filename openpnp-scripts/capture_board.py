@@ -267,7 +267,8 @@ def make_scan_directory(board_location):
     if not root.exists():
         root.mkdirs()
 
-    time_str = SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(Date())
+    if "time_str" not in globals():
+        time_str = SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(Date())
 
     parts = []
 
