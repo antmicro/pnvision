@@ -115,8 +115,13 @@ def process_board_placements(
 
         placement_designator = placement.getId()
 
-        if placement.getPart() is None:
-            print("Skipping %s: no part assigned." % placement_designator)
+        # Skip if no part assigned
+        # if placement.getPart() is None:
+        #    print("Skipping %s: no part assigned." % placement_designator)
+        #    continue
+
+        # Skip parts by active placement side
+        if placement.getSide() != board_location.getSide():
             continue
 
         part_name = placement.getPart().getId()
@@ -169,14 +174,15 @@ def process_board_placements(
 
 
 def crop_small_passives(image, safe_part_name, rotation_deg):
+    CROP_MARGIN_SCALE = 1.1
     if "0201" in safe_part_name:
-        scale = 0.11
+        scale = 0.11 * CROP_MARGIN_SCALE
     elif "0402" in safe_part_name:
-        scale = 0.11
+        scale = 0.11 * CROP_MARGIN_SCALE
     elif "0603" in safe_part_name:
-        scale = 0.16
+        scale = 0.16 * CROP_MARGIN_SCALE
     elif "0805" in safe_part_name:
-        scale = 0.22
+        scale = 0.22 * CROP_MARGIN_SCALE
     else:
         return image
 
