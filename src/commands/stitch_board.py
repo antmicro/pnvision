@@ -104,7 +104,8 @@ def stitch_macro_grid(
                 img_shape = sample.shape
 
     if not image_data or img_shape is None:
-        raise RuntimeError("No valid images detected.")
+        print("No valid images detected.")
+        return
 
     canvas_w = int(round((max_x - min_x) * pixels_per_unit_x)) + img_shape[1]
     canvas_h = int(round((max_y - min_y) * pixels_per_unit_y)) + img_shape[0]

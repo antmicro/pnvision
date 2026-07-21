@@ -19,7 +19,7 @@ This tool was designed to capture images of individual PCB components and comple
 
 Requirements:
 
-* Python ≥ 3.9
+* Python ≥ 3.12
 * pipx
 * OpenCV
 * NumPy
@@ -76,9 +76,9 @@ kmake aux-origin -s bl
 * kamke: `kmake pnp -tvo`
 * xmake: `xmake job t pdi -m machine-name`
 
-3. Set board dimensions in OpenPnP
+3. Set board dimensions in OpenPnP (optional if whole board image is needed)
 
-4. Calibrate board according to components placement
+4. Calibrate board according to fiducials or components placement
 
 5. Run perform_inspection.py
 
