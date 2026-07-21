@@ -46,11 +46,11 @@ def run(args):
 
         board_image = board_dir / "full_board.png"
         if board_image.exists():
-            shutil.copyfile(board_image, output_dir / "full_board.png")
+            shutil.copy2(board_image, output_dir / "full_board.png")
         else:
             print(f"Add full_board.png to report/ directory.")
 
-    components_dir = next((p for p in input_dir.rglob("components*") if p.is_dir()), None)
+    components_dir = next((p for p in input_dir.glob("*components*") if p.is_dir()), None)
     if components_dir is None:
         print(f"No components directory found in {input_dir}.")
     else:
