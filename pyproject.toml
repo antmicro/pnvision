@@ -52,3 +52,4 @@ line-length = 120
 [tool.mypy]
 ignore_missing_imports = true
 disallow_untyped_defs = true
+exclude = "^(build|dist|.*\.egg-info)/"
