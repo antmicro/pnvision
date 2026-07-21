@@ -60,9 +60,10 @@ def scan_components():
         print("Output directory generated: %s" % capture_components_scan_dir.getAbsolutePath())
 
         report_file = File(capture_components_scan_dir.getParentFile(), "report.json")
-        if globals().get("report_data") is not None and not report_file.exists():
+        if not report_file.exists():
+            initial_report = globals().get("report_data", {})
             with open(report_file.getAbsolutePath(), "w") as f:
-                json.dump(report_data, f, indent=4)
+                json.dump(initial_report, f, indent=4)
 
         process_board_placements(
             camera,
@@ -183,6 +184,8 @@ def crop_small_passives(image, safe_part_name, rotation_deg):
         scale = 0.16 * CROP_MARGIN_SCALE
     elif "0805" in safe_part_name:
         scale = 0.22 * CROP_MARGIN_SCALE
+    elif "1206" in safe_part_name:
+        scale = 0.32 * CROP_MARGIN_SCALE
     else:
         return image
 
