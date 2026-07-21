@@ -35,29 +35,34 @@ def run(args):
         log = json.load(f)
 
     input_dir = log_path.parent
-
-    scan_dir = next((p for p in input_dir.glob("*board*") if p.is_dir()), None)
-    if scan_dir is None:
-        raise FileNotFoundError(f"No scan* directory found in {input_dir}")
-
-    bash(f"pnvision stitch {scan_dir}", "board_stitch")
-
     output_dir = input_dir / "report"
     output_dir.mkdir(exist_ok=True)
 
+    board_dir = next((p for p in input_dir.glob("*board*") if p.is_dir()), None)
+    if board_dir is None:
+        print(f"No board directory found in {input_dir}. Add full_board.png to report/ directory")
+    else:
+        bash(f"pnvision stitch {board_dir}", "board_stitch")
+
+        board_image = board_dir / "full_board.png"
+        if board_image.exists():
+            shutil.copyfile(board_image, output_dir / "full_board.png")
+        else:
+            print(f"Add full_board.png to report/ directory.")
+
+    components_dir = next((p for p in input_dir.rglob("components*") if p.is_dir()), None)
+    if components_dir is None:
+        print(f"No components directory found in {input_dir}.")
+    else:
+        shutil.copytree(components_dir, output_dir / "components", dirs_exist_ok=True)
+
     template_dir = args.template_dir
-
     environment = Environment(loader=FileSystemLoader(template_dir))
-
     template = environment.get_template("report.html")
 
     for asset in ("logo.svg", "favicon.ico"):
         source = template_dir / asset
         shutil.copy2(source, output_dir / asset)
-
-    board_image = scan_dir / "full_board.png"
-    if board_image.exists():
-        shutil.copyfile(board_image, output_dir / "full_board.png")
 
     parts = pd.DataFrame(log.get("parts", []))
 
