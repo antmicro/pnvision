@@ -30,7 +30,7 @@ CROP_IMAGES = True
 
 # Base directory for the output images.
 if "OUT_FOLDER" not in globals():
-    OUT_FOLDER = System.getProperty("user.home") + "/.openpnp/vision/log/"
+    OUT_FOLDER = System.getProperty("user.home") + "/.openpnp2/vision/log/"
 
 # ------------------------------------------------
 

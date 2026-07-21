@@ -36,7 +36,7 @@ EXTRA_SETTLE_MS = 300
 USE_CAPTURE_RAW = False
 
 if "OUT_FOLDER" not in globals():
-    OUT_FOLDER = System.getProperty("user.home") + "/.openpnp/vision/log/"
+    OUT_FOLDER = System.getProperty("user.home") + "/.openpnp2/vision/log/"
 
 # Reduces long travel
 SERPENTINE = False
