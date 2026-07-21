@@ -6,7 +6,8 @@ import pandas as pd
 from jinja2 import Environment, FileSystemLoader
 
 from helpers.bash_wrapper import bash
-from helpers.paths import Paths
+
+from importlib.resources import files, as_file
 
 
 def add_subparser(subparsers):
@@ -21,8 +22,7 @@ def add_subparser(subparsers):
     parser.add_argument(
         "--template-dir",
         type=Path,
-        default=Paths.TEMPLATE_DIR,
-        help="Directory defualt containing template for report.html",
+        help="Override the built-in template directory.",
     )
 
     parser.set_defaults(func=run)
@@ -56,13 +56,21 @@ def run(args):
     else:
         shutil.copytree(components_dir, output_dir / "components", dirs_exist_ok=True)
 
-    template_dir = args.template_dir
-    environment = Environment(loader=FileSystemLoader(template_dir))
-    template = environment.get_template("report.html")
+    if args.template_dir is not None:
+        template_dir = args.template_dir
+        environment = Environment(loader=FileSystemLoader(template_dir))
+        template = environment.get_template("report.html")
 
-    for asset in ("logo.svg", "favicon.ico"):
-        source = template_dir / asset
-        shutil.copy2(source, output_dir / asset)
+        for asset in ("logo.svg", "favicon.ico"):
+            shutil.copy2(template_dir / asset, output_dir / asset)
+
+    else:
+        with as_file(files("template")) as template_dir:
+            environment = Environment(loader=FileSystemLoader(template_dir))
+            template = environment.get_template("report.html")
+
+            for asset in ("logo.svg", "favicon.ico"):
+                shutil.copy2(template_dir / asset, output_dir / asset)
 
     parts = pd.DataFrame(log.get("parts", []))
 
