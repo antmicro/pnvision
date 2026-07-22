@@ -69,7 +69,7 @@ def scan_board_tiles():
             print("Skipping disabled board location %d" % board_index)
             continue
 
-        capture_board_scan_dir = make_scan_directory(board_location)
+        safe_board_name, capture_board_scan_dir = make_scan_directory(board_location)
         print("Output: %s" % capture_board_scan_dir.getAbsolutePath())
 
         scan_board_location(
@@ -80,6 +80,7 @@ def scan_board_tiles():
             fov_y,
             step_x,
             step_y,
+            safe_board_name,
             capture_board_scan_dir,
         )
 
@@ -112,18 +113,17 @@ def scan_board_location(
     fov_y,
     step_x,
     step_y,
+    safe_board_name,
     capture_board_scan_dir,
 ):
 
     board = board_location.getBoard()
-    board_name = board.getName()
-    safe_board_name = sanitize(board_name)
 
     dimensions = board.getDimensions().convertToUnits(LengthUnit.Millimeters)
     width = dimensions.getX()
     height = dimensions.getY()
 
-    print("Scanning board %d: %s" % (board_index, board_name))
+    print("Scanning board %d: %s" % (board_index, safe_board_name))
     print("Board dimensions: %.3f x %.3f mm" % (width, height))
 
     xs = make_axis_centers(width, fov_x, step_x, EDGE_MARGIN_X_MM)
@@ -230,6 +230,8 @@ def make_scan_directory(board_location):
     global time_str
     board = board_location.getBoard()
     board_name = board.getName()
+    if board_name.endswith(".board.xml"):
+        board_name = board_name[: -len(".board.xml")]
     safe_board_name = sanitize(board_name)
 
     root = File(OUT_FOLDER, safe_board_name)
@@ -255,7 +257,7 @@ def make_scan_directory(board_location):
     if not scan_dir.exists():
         scan_dir.mkdirs()
 
-    return scan_dir
+    return safe_board_name, scan_dir
 
 
 def sanitize(value):

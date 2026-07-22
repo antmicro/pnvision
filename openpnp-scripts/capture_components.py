@@ -55,7 +55,7 @@ def scan_components():
             print("Skipping disabled board location %d" % board_index)
             continue
 
-        capture_components_scan_dir = make_scan_directory(board_location)
+        safe_board_name, capture_components_scan_dir = make_scan_directory(board_location)
         print("Output: %s" % capture_components_scan_dir.getAbsolutePath())
         print("Output directory generated: %s" % capture_components_scan_dir.getAbsolutePath())
 
@@ -69,6 +69,7 @@ def scan_components():
             camera,
             board_location,
             board_index,
+            safe_board_name,
             capture_components_scan_dir,
         )
 
@@ -97,19 +98,17 @@ def process_board_placements(
     camera,
     board_location,
     board_index,
+    safe_board_name,
     capture_components_scan_dir,
 ):
     with open(report_file.getAbsolutePath(), "r") as f:
         report = json.load(f)
 
     board = board_location.getBoard()
-    board_name = board.getName()
-    safe_board_name = sanitize(board_name)
-
     placements = board.getPlacements()
     total_placements = placements.size()
 
-    print("Scanning board %d (%s) - Placements detected: %d" % (board_index, board_name, total_placements))
+    print("Scanning board %d (%s) - Placements detected: %d" % (board_index, safe_board_name, total_placements))
 
     for placement_index in range(total_placements):
         placement = placements.get(placement_index)
@@ -225,8 +224,11 @@ def is_board_location_enabled(board_location):
 
 def make_scan_directory(board_location):
     global time_str
+
     board = board_location.getBoard()
     board_name = board.getName()
+    if board_name.endswith(".board.xml"):
+        board_name = board_name[: -len(".board.xml")]
     safe_board_name = sanitize(board_name)
 
     root = File(OUT_FOLDER, safe_board_name)
@@ -252,7 +254,7 @@ def make_scan_directory(board_location):
     if not scan_dir.exists():
         scan_dir.mkdirs()
 
-    return scan_dir
+    return safe_board_name, scan_dir
 
 
 def sanitize(value):
