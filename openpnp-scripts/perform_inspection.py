@@ -21,7 +21,7 @@ def get_user_input(prompt="Enter serial number:", title="Input"):
     if value is None:
         value = "NA"
 
-    value = value.strip()
+    value = value.strip().replace(" ", "_")
 
     if value == "":
         SN = "NA"
