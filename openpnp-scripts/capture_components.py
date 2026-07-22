@@ -1,20 +1,17 @@
 from __future__ import absolute_import, division
-
 import re
+import json
 
-from java.io import File, PrintWriter
+from java.io import File
 from java.lang import System, Thread
 from java.text import SimpleDateFormat
 from java.util import Date
 from javax.imageio import ImageIO
+from javax.swing import ProgressMonitor
 
 from org.openpnp.model import LengthUnit
 from org.openpnp.util import Utils2D, MovableUtils
 from org.openpnp.util.UiUtils import submitUiMachineTask
-
-from javax.swing import ProgressMonitor
-
-import json
 
 # ---------------- USER SETTINGS ----------------
 
@@ -33,6 +30,9 @@ if "OUT_FOLDER" not in globals():
     OUT_FOLDER = System.getProperty("user.home") + "/.openpnp2/vision/log/"
 
 # ------------------------------------------------
+
+capture_components_scan_dir = ""
+report_file = ""
 
 
 def main():

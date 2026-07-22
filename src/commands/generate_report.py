@@ -1,16 +1,16 @@
 from pathlib import Path
-import json
-import shutil
-
-import pandas as pd
 from jinja2 import Environment, FileSystemLoader
 
 from helpers.bash_wrapper import bash
-
 from importlib.resources import files, as_file
 
+import argparse
+import json
+import shutil
+import pandas as pd
 
-def add_subparser(subparsers):
+
+def add_subparser(subparsers: argparse._SubParsersAction) -> None:
     parser = subparsers.add_parser(
         "report",
         help="Generate HTML report from log file.",
@@ -28,7 +28,7 @@ def add_subparser(subparsers):
     parser.set_defaults(func=run)
 
 
-def run(args):
+def run(args: argparse.Namespace) -> None:
     log_path = Path(args.log_file_location)
 
     with log_path.open("r", encoding="utf-8") as f:
@@ -48,7 +48,7 @@ def run(args):
         if board_image.exists():
             shutil.copy2(board_image, output_dir / "full_board.png")
         else:
-            print(f"Add full_board.png to report/ directory.")
+            print("Add full_board.png to report/ directory.")
 
     components_dir = next((p for p in input_dir.glob("*components*") if p.is_dir()), None)
     if components_dir is None:

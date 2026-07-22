@@ -3,7 +3,9 @@ from typing import Optional
 from pathlib import Path
 
 
-def bash(command: str, name: str = "", debug: bool = False, decorators: bool = True, cwd: Optional[Path] = None):
+def bash(
+    command: str, name: str = "", debug: bool = False, decorators: bool = True, cwd: Optional[Path] = None
+) -> None:
     if name == "":
         name = command
     if decorators:

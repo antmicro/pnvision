@@ -44,6 +44,9 @@ SERPENTINE = False
 
 # ------------------------------------------------
 
+capture_board_scan_dir = ""
+report_file = ""
+
 
 def main():
     submitUiMachineTask(scan_board_tiles)

@@ -1,11 +1,13 @@
 from pathlib import Path
+from pyzbar.pyzbar import decode
+from collections.abc import Iterator
 
+import argparse
 import cv2
 import numpy as np
-from pyzbar.pyzbar import decode, ZBarSymbol
 
 
-def add_subparser(subparsers):
+def add_subparser(subparsers: argparse._SubParsersAction) -> None:
     parser = subparsers.add_parser(
         "code",
         help="Find and read QR-code or Code128 barcode.",
@@ -19,7 +21,7 @@ def add_subparser(subparsers):
     parser.set_defaults(func=run)
 
 
-def generate_variants(image):
+def generate_variants(image: np.ndarray) -> list[np.ndarray]:
     """Generate multiple image variants to improve decoding robustness."""
 
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
@@ -87,7 +89,7 @@ def generate_variants(image):
     return variants
 
 
-def rotations(image):
+def rotations(image: np.ndarray) -> Iterator[np.ndarray]:
     """Generate four image orientations."""
     yield image
     yield cv2.rotate(image, cv2.ROTATE_90_CLOCKWISE)
@@ -95,14 +97,14 @@ def rotations(image):
     yield cv2.rotate(image, cv2.ROTATE_90_COUNTERCLOCKWISE)
 
 
-def detect_codes(image_path):
+def detect_codes(image_path: Path) -> None:
     image = cv2.imread(str(image_path))
 
     if image is None:
         raise RuntimeError(f"Unable to load image: {image_path}")
 
     qr_detector = cv2.QRCodeDetector()
-    barcode_detector = cv2.barcode.BarcodeDetector()
+    # barcode_detector = cv2.barcode.BarcodeDetector()
 
     seen = set()
 
@@ -128,7 +130,7 @@ def detect_codes(image_path):
     print("No barcode or QR code found.")
 
 
-def run(args):
+def run(args: argparse.Namespace) -> None:
     image = Path(args.image_location)
 
     if not image.exists():

@@ -1,8 +1,11 @@
 from pathlib import Path
+from numpy.typing import NDArray
+from typing import cast
+
 import glob
 import os
+import argparse
 import re
-
 import cv2
 import numpy as np
 
@@ -11,7 +14,7 @@ DEFAULT_PIXELS_PER_UNIT_Y = 76
 DEAFULT_OUTPUT_FILENAME = "full_board.png"
 
 
-def add_subparser(subparsers):
+def add_subparser(subparsers: argparse._SubParsersAction) -> None:
     parser = subparsers.add_parser(
         "stitch",
         help="Stitch OpenPnP images into a single board image.",
@@ -50,7 +53,7 @@ def add_subparser(subparsers):
     parser.set_defaults(func=run)
 
 
-def create_feather_mask(shape):
+def create_feather_mask(shape: tuple[int, ...]) -> np.ndarray:
     # 2D Bartlett window mask for weighted spatial blending
     h, w = shape[:2]
     y = np.linspace(0, 1, h)
@@ -64,24 +67,29 @@ def create_feather_mask(shape):
     return mask
 
 
-def normalize_image(img):
-    return cv2.normalize(
-        img,
-        None,
-        alpha=0,
-        beta=255,
-        norm_type=cv2.NORM_MINMAX,
-        dtype=cv2.CV_32F,
+def normalize_image(img: NDArray[np.integer | np.floating]) -> NDArray[np.float32]:
+    dst = np.empty(img.shape, dtype=np.float32)
+
+    return cast(
+        NDArray[np.float32],
+        cv2.normalize(
+            img,
+            dst,
+            alpha=0,
+            beta=255,
+            norm_type=cv2.NORM_MINMAX,
+            dtype=cv2.CV_32F,
+        ),
     )
 
 
 def stitch_macro_grid(
-    image_directory,
-    output_filename,
-    delete_tiles=False,
-    pixels_per_unit_x=DEFAULT_PIXELS_PER_UNIT_X,
-    pixels_per_unit_y=DEFAULT_PIXELS_PER_UNIT_Y,
-):
+    image_directory: str,
+    output_filename: str,
+    delete_tiles: bool = False,
+    pixels_per_unit_x: float = DEFAULT_PIXELS_PER_UNIT_X,
+    pixels_per_unit_y: float = DEFAULT_PIXELS_PER_UNIT_Y,
+) -> None:
     pattern = re.compile(r"^(.+)_r\d+_c\d+_x(\d+\.\d+)_y(\d+\.\d+)\.png$")
 
     file_list = glob.glob(os.path.join(image_directory, "*.png"))
@@ -154,7 +162,7 @@ def stitch_macro_grid(
         print("Deleted input tile images.")
 
 
-def run(args):
+def run(args: argparse.Namespace) -> None:
     image_dir = Path(args.image_directory)
     output = Path(args.output)
 
