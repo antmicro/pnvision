@@ -168,9 +168,9 @@ def scan_board_location(
                 else:
                     image = camera.settleAndCapture()
 
-                image_file_name = "board%s_%s_r%s_c%s_x%s_y%s.png" % (
-                    pad(board_index, 2),
-                    safe_board_name,
+                board_id = SN if "SN" in globals() and SN else safe_board_name
+                image_file_name = "%s_r%s_c%s_x%s_y%s.png" % (
+                    board_id,
                     pad(row, 3),
                     pad(col, 3),
                     fmt(x),

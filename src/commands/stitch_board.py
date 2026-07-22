@@ -82,7 +82,7 @@ def stitch_macro_grid(
     pixels_per_unit_x=DEFAULT_PIXELS_PER_UNIT_X,
     pixels_per_unit_y=DEFAULT_PIXELS_PER_UNIT_Y,
 ):
-    pattern = re.compile(r"x(\d+\.\d+)_y(\d+\.\d+)\.png$")
+    pattern = re.compile(r"^(.+)_r\d+_c\d+_x(\d+\.\d+)_y(\d+\.\d+)\.png$")
 
     file_list = glob.glob(os.path.join(image_directory, "*.png"))
     image_data = []
@@ -96,8 +96,8 @@ def stitch_macro_grid(
         if not match:
             continue
 
-        x_coord = float(match.group(1))
-        y_coord = float(match.group(2))
+        x_coord = float(match.group(2))
+        y_coord = float(match.group(3))
         image_data.append((filepath, x_coord, y_coord))
 
         min_x = min(min_x, x_coord)

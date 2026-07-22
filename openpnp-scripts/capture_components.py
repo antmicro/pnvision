@@ -168,10 +168,10 @@ def process_board_placements(
                 rotation = machine_location.getRotation()
                 image = crop_small_passives(image, safe_part_name, rotation)
 
-            image_file_name = "b%s_%s_%s_%s.png" % (
-                safe_board_name,
-                pad(board_index, 2),
+            board_id = SN if "SN" in globals() and SN else safe_board_name
+            image_file_name = "%s_%s_%s.png" % (
                 safe_placement_designator,
+                board_id,
                 safe_part_name,
             )
 
@@ -222,7 +222,7 @@ def crop_small_passives(image, safe_part_name, rotation_deg):
 
     else:
         # Square
-        side = int(min(w, h) * scale)
+        side = int(max(w, h) * scale)
         target_w = side
         target_h = side
 
