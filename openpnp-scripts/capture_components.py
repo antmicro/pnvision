@@ -12,7 +12,7 @@ from org.openpnp.model import LengthUnit
 from org.openpnp.util import Utils2D, MovableUtils
 from org.openpnp.util.UiUtils import submitUiMachineTask
 
-from javax.swing import JOptionPane
+from javax.swing import ProgressMonitor
 
 import json
 
@@ -108,69 +108,80 @@ def process_board_placements(
     placements = board.getPlacements()
     total_placements = placements.size()
 
+    monitor = ProgressMonitor(None, "Scanning components...", "", 0, total_placements)
+
     print("Scanning board %d (%s) - Placements detected: %d" % (board_index, safe_board_name, total_placements))
 
-    for placement_index in range(total_placements):
-        placement = placements.get(placement_index)
+    try:
+        for placement_index in range(total_placements):
+            if monitor.isCanceled():
+                raise Exception("User cancelled scan")
 
-        placement_designator = placement.getId()
+            monitor.setProgress(placement_index)
+            monitor.setNote("Scanning %d of %d" % (placement_index + 1, total_placements))
 
-        # Skip if no part assigned
-        # if placement.getPart() is None:
-        #    print("Skipping %s: no part assigned." % placement_designator)
-        #    continue
+            placement = placements.get(placement_index)
 
-        # Skip parts by active placement side
-        if placement.getSide() != board_location.getSide():
-            continue
+            placement_designator = placement.getId()
 
-        part_name = placement.getPart().getId()
+            # Skip if no part assigned
+            # if placement.getPart() is None:
+            #    print("Skipping %s: no part assigned." % placement_designator)
+            #    continue
 
-        # Skip parts by ID
-        if (
-            placement_designator.startswith("MP")
-            or placement_designator.startswith("TP")
-            or placement_designator.startswith("FD")
-            or placement_designator.startswith("REF**")
-        ):
-            print("Skipping %s (%s)" % (placement_designator, part_name))
-            continue
+            # Skip parts by active placement side
+            if placement.getSide() != board_location.getSide():
+                continue
 
-        safe_part_name = sanitize(part_name)
-        safe_placement_designator = sanitize(placement_designator)
+            part_name = placement.getPart().getId()
 
-        board_local_location = placement.getLocation()
+            # Skip parts by ID
+            if (
+                placement_designator.startswith("MP")
+                or placement_designator.startswith("TP")
+                or placement_designator.startswith("FD")
+                or placement_designator.startswith("REF**")
+            ):
+                print("Skipping %s (%s)" % (placement_designator, part_name))
+                continue
 
-        machine_location = Utils2D.calculateBoardPlacementLocation(board_location, board_local_location).convertToUnits(
-            LengthUnit.Millimeters
-        )
+            safe_part_name = sanitize(part_name)
+            safe_placement_designator = sanitize(placement_designator)
 
-        MovableUtils.moveToLocationAtSafeZ(camera, machine_location)
+            board_local_location = placement.getLocation()
 
-        if EXTRA_SETTLE_MS > 0:
-            Thread.sleep(EXTRA_SETTLE_MS)
+            machine_location = Utils2D.calculateBoardPlacementLocation(
+                board_location, board_local_location
+            ).convertToUnits(LengthUnit.Millimeters)
 
-        if USE_CAPTURE_RAW:
-            image = camera.captureRaw()
-        else:
-            image = camera.settleAndCapture()
+            MovableUtils.moveToLocationAtSafeZ(camera, machine_location)
 
-        if CROP_IMAGES:
-            rotation = machine_location.getRotation()
-            image = crop_small_passives(image, safe_part_name, rotation)
+            if EXTRA_SETTLE_MS > 0:
+                Thread.sleep(EXTRA_SETTLE_MS)
 
-        image_file_name = "b%s_%s_%s_%s.png" % (
-            safe_board_name,
-            pad(board_index, 2),
-            safe_placement_designator,
-            safe_part_name,
-        )
+            if USE_CAPTURE_RAW:
+                image = camera.captureRaw()
+            else:
+                image = camera.settleAndCapture()
 
-        file_obj = File(capture_components_scan_dir, image_file_name)
-        ImageIO.write(image, "PNG", file_obj)
+            if CROP_IMAGES:
+                rotation = machine_location.getRotation()
+                image = crop_small_passives(image, safe_part_name, rotation)
 
-        print("Captured %s (%d/%d)" % (safe_placement_designator, placement_index + 1, total_placements))
-        log_placement(report, safe_placement_designator, safe_part_name, image_file_name, report_file)
+            image_file_name = "b%s_%s_%s_%s.png" % (
+                safe_board_name,
+                pad(board_index, 2),
+                safe_placement_designator,
+                safe_part_name,
+            )
+
+            file_obj = File(capture_components_scan_dir, image_file_name)
+            ImageIO.write(image, "PNG", file_obj)
+
+            print("Captured %s (%d/%d)" % (safe_placement_designator, placement_index + 1, total_placements))
+            log_placement(report, safe_placement_designator, safe_part_name, image_file_name, report_file)
+    finally:
+        monitor.close()
 
 
 def crop_small_passives(image, safe_part_name, rotation_deg):

@@ -8,6 +8,7 @@ from java.text import SimpleDateFormat
 from java.util import Date
 from java.lang import ProcessBuilder
 from javax.imageio import ImageIO
+from javax.swing import ProgressMonitor
 
 from org.openpnp.model import LengthUnit, Location
 from org.openpnp.util import Utils2D, MovableUtils
@@ -131,46 +132,58 @@ def scan_board_location(
 
     print("Grid: %d columns x %d rows = %d images" % (len(xs), len(ys), len(xs) * len(ys)))
 
-    for row in range(len(ys)):
-        y = ys[row]
+    monitor = ProgressMonitor(None, "Scanning board...", "", 0, len(xs) * len(ys))
 
-        for col0 in range(len(xs)):
-            if SERPENTINE and row % 2 == 1:
-                col = len(xs) - 1 - col0
-            else:
-                col = col0
+    try:
+        for row in range(len(ys)):
+            y = ys[row]
 
-            x = xs[col]
+            for col0 in range(len(xs)):
+                if monitor.isCanceled():
+                    raise Exception("User cancelled scan")
 
-            board_local_location = Location(LengthUnit.Millimeters, x, y, 0.0, 0.0)
+                monitor.setProgress(row * len(xs) + col0)
+                monitor.setNote("Scanning row: %d, col: %d" % (row, col0))
 
-            machine_location = Utils2D.calculateBoardPlacementLocation(
-                board_location, board_local_location
-            ).convertToUnits(LengthUnit.Millimeters)
+                if SERPENTINE and row % 2 == 1:
+                    col = len(xs) - 1 - col0
+                else:
+                    col = col0
 
-            MovableUtils.moveToLocationAtSafeZ(camera, machine_location)
+                x = xs[col]
 
-            if EXTRA_SETTLE_MS > 0:
-                Thread.sleep(EXTRA_SETTLE_MS)
+                board_local_location = Location(LengthUnit.Millimeters, x, y, 0.0, 0.0)
 
-            if USE_CAPTURE_RAW:
-                image = camera.captureRaw()
-            else:
-                image = camera.settleAndCapture()
+                machine_location = Utils2D.calculateBoardPlacementLocation(
+                    board_location, board_local_location
+                ).convertToUnits(LengthUnit.Millimeters)
 
-            image_file_name = "board%s_%s_r%s_c%s_x%s_y%s.png" % (
-                pad(board_index, 2),
-                safe_board_name,
-                pad(row, 3),
-                pad(col, 3),
-                fmt(x),
-                fmt(y),
-            )
+                MovableUtils.moveToLocationAtSafeZ(camera, machine_location)
 
-            file_obj = File(capture_board_scan_dir, image_file_name)
-            ImageIO.write(image, "PNG", file_obj)
+                if EXTRA_SETTLE_MS > 0:
+                    Thread.sleep(EXTRA_SETTLE_MS)
 
-            print("Saved %s" % image_file_name)
+                if USE_CAPTURE_RAW:
+                    image = camera.captureRaw()
+                else:
+                    image = camera.settleAndCapture()
+
+                image_file_name = "board%s_%s_r%s_c%s_x%s_y%s.png" % (
+                    pad(board_index, 2),
+                    safe_board_name,
+                    pad(row, 3),
+                    pad(col, 3),
+                    fmt(x),
+                    fmt(y),
+                )
+
+                file_obj = File(capture_board_scan_dir, image_file_name)
+                ImageIO.write(image, "PNG", file_obj)
+
+                print("Saved %s" % image_file_name)
+
+    finally:
+        monitor.close()
 
 
 def get_camera_fov_mm(camera):
