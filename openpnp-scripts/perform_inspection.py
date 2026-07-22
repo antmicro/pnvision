@@ -1,5 +1,3 @@
-from datetime import datetime
-from time import sleep
 import os
 
 from java.text import SimpleDateFormat

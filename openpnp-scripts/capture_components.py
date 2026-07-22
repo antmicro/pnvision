@@ -29,6 +29,10 @@ CROP_IMAGES = True
 if "OUT_FOLDER" not in globals():
     OUT_FOLDER = System.getProperty("user.home") + "/.openpnp2/vision/log/"
 
+# Component image cropping variables
+ANGLE_DEVIATION = 5.0
+CROP_MARGIN_SCALE = 1.1
+
 # ------------------------------------------------
 
 capture_components_scan_dir = ""
@@ -185,9 +189,6 @@ def process_board_placements(
 
 
 def crop_small_passives(image, safe_part_name, rotation_deg):
-    ANGLE_DEVIATION = 5.0
-    CROP_MARGIN_SCALE = 1.1
-
     if "0201" in safe_part_name:
         scale = 0.11 * CROP_MARGIN_SCALE
     elif "0402" in safe_part_name:
@@ -241,7 +242,7 @@ def crop_small_passives(image, safe_part_name, rotation_deg):
 def is_board_location_enabled(board_location):
     try:
         return board_location.isEnabled()
-    except:
+    except Exception:
         return True
 
 

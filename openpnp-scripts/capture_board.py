@@ -1,12 +1,10 @@
 from __future__ import absolute_import, division
-
 import re
 
-from java.io import File, PrintWriter
+from java.io import File
 from java.lang import System, Thread
 from java.text import SimpleDateFormat
 from java.util import Date
-from java.lang import ProcessBuilder
 from javax.imageio import ImageIO
 from javax.swing import ProgressMonitor
 
@@ -238,7 +236,7 @@ def make_axis_centers(size, fov, step, margin):
 def is_board_location_enabled(board_location):
     try:
         return board_location.isEnabled()
-    except:
+    except Exception:
         return True
 
 
