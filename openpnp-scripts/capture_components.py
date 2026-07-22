@@ -185,7 +185,9 @@ def process_board_placements(
 
 
 def crop_small_passives(image, safe_part_name, rotation_deg):
+    ANGLE_DEVIATION = 5.0
     CROP_MARGIN_SCALE = 1.1
+
     if "0201" in safe_part_name:
         scale = 0.11 * CROP_MARGIN_SCALE
     elif "0402" in safe_part_name:
@@ -199,15 +201,21 @@ def crop_small_passives(image, safe_part_name, rotation_deg):
     else:
         return image
 
+    # Normalize to [0, 360)
+    r = rotation_deg % 360
+
+    def near(angle):
+        return abs((r - angle + 180) % 360 - 180) <= ANGLE_DEVIATION
+
     w = image.getWidth()
     h = image.getHeight()
 
-    if rotation_deg in (0.0, 180.0, -180.0, 360.0):
+    if near(0) or near(180):
         # Landscape (16:9)
         target_h = int(h * scale)
         target_w = int(target_h * (16.0 / 9.0))
 
-    elif rotation_deg in (90.0, -90.0, 270.0, -270.0):
+    elif near(90) or near(270):
         # Portrait (9:16)
         target_w = int(h * scale)
         target_h = int(target_w * (16.0 / 9.0))
