@@ -202,17 +202,21 @@ def crop_small_passives(image, safe_part_name, rotation_deg):
     w = image.getWidth()
     h = image.getHeight()
 
-    r = abs(rotation_deg) % 360
-    rotated = (45 < r < 135) or (225 < r < 315)
-
-    if rotated:
-        # portrait (9:16)
-        target_w = int(h * scale)
-        target_h = int(target_w * (16.0 / 9.0))
-    else:
-        # landscape (16:9)
+    if rotation_deg in (0.0, 180.0, -180.0, 360.0):
+        # Landscape (16:9)
         target_h = int(h * scale)
         target_w = int(target_h * (16.0 / 9.0))
+
+    elif rotation_deg in (90.0, -90.0, 270.0, -270.0):
+        # Portrait (9:16)
+        target_w = int(h * scale)
+        target_h = int(target_w * (16.0 / 9.0))
+
+    else:
+        # Square
+        side = int(min(w, h) * scale)
+        target_w = side
+        target_h = side
 
     target_w = max(1, min(target_w, w))
     target_h = max(1, min(target_h, h))
