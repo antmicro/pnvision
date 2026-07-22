@@ -40,6 +40,12 @@ def add_subparser(subparsers):
         default=DEFAULT_PIXELS_PER_UNIT_Y,
         help=f"Pixels per unit in Y (default: {DEFAULT_PIXELS_PER_UNIT_Y})",
     )
+    parser.add_argument(
+        "-d",
+        "--delete_tiles",
+        action="store_true",
+        help="Delete board tiles after stitching is finished.",
+    )
 
     parser.set_defaults(func=run)
 
@@ -72,6 +78,7 @@ def normalize_image(img):
 def stitch_macro_grid(
     image_directory,
     output_filename,
+    delete_tiles=False,
     pixels_per_unit_x=DEFAULT_PIXELS_PER_UNIT_X,
     pixels_per_unit_y=DEFAULT_PIXELS_PER_UNIT_Y,
 ):
@@ -141,6 +148,11 @@ def stitch_macro_grid(
     cv2.imwrite(output_filename, final)
     print(f"Algorithm terminated. Data written to: {output_filename}")
 
+    if delete_tiles:
+        for filepath, _, _ in image_data:
+            os.remove(filepath)
+        print("Deleted input tile images.")
+
 
 def run(args):
     image_dir = Path(args.image_directory)
@@ -160,6 +172,7 @@ def run(args):
     stitch_macro_grid(
         image_directory=args.image_directory,
         output_filename=str(output),
+        delete_tiles=args.delete_tiles,
         pixels_per_unit_x=args.pixels_per_unit_x,
         pixels_per_unit_y=args.pixels_per_unit_y,
     )
