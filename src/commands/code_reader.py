@@ -2,23 +2,8 @@ from pathlib import Path
 from pyzbar.pyzbar import decode
 from collections.abc import Iterator
 
-import argparse
 import cv2
 import numpy as np
-
-
-def add_subparser(subparsers: argparse._SubParsersAction) -> None:
-    parser = subparsers.add_parser(
-        "code",
-        help="Find and read QR-code or Code128 barcode.",
-    )
-
-    parser.add_argument(
-        "image_location",
-        help="Location of image to inspect.",
-    )
-
-    parser.set_defaults(func=run)
 
 
 def generate_variants(image: np.ndarray) -> list[np.ndarray]:
@@ -130,8 +115,7 @@ def detect_codes(image_path: Path) -> None:
     print("No barcode or QR code found.")
 
 
-def run(args: argparse.Namespace) -> None:
-    image = Path(args.image_location)
+def read_code(image: Path) -> None:
 
     if not image.exists():
         raise FileNotFoundError(image)
@@ -139,3 +123,7 @@ def run(args: argparse.Namespace) -> None:
     print(f"Searching for QR codes and barcodes in {image}...")
 
     detect_codes(image)
+
+
+if __name__ == "__main__":
+    read_code()
