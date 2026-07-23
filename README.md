@@ -19,7 +19,7 @@ This tool was designed to capture images of individual PCB components and comple
 
 Requirements:
 
-* Python ≥ 3.12
+* Python ≥ 3.11
 * pipx
 * OpenCV
 * NumPy
