@@ -1,0 +1,33 @@
+include: antmicro-pcb-release-ci-template@main:.docs.yml
+
+stages:
+  - test
+  - build
+
+build-docs:
+  stage: build
+
+.check-code:
+  image: python:3.11
+  stage: test
+  before_get_sources:
+    - apt update
+    - apt install -y git
+  before_script:
+    - pip3 install --break-system-packages ".[dev]"
+
+black:
+  extends: .check-code
+  script:
+    - black --check .
+
+mypy:
+  extends: .check-code
+  script:
+    - mypy src/
+
+ruff:
+  extends: .check-code
+  script:
+    - ruff check src/
+
