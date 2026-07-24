@@ -30,12 +30,15 @@ pnvision = "pnvision:app"
 
 [tool.setuptools]
 package-dir = {"" = "src"}
+py-modules = ["PnVision"]
 
 [tool.setuptools.packages.find]
 where = ["src"]
 
-[tool.setuptools.package-data]
-template = ["*"]
+[tool.setuptools.data-files]
+"share/pnvision/template" = [
+    "template/**/*",
+]
 
 [tool.ruff.lint]
 select = ["E", "F", "N", "B", "A", "RET"]
