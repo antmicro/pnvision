@@ -4,7 +4,6 @@ from typing import cast
 
 import glob
 import os
-import argparse
 import re
 import cv2
 import numpy as np
@@ -14,47 +13,8 @@ DEFAULT_PIXELS_PER_UNIT_Y = 76
 DEAFULT_OUTPUT_FILENAME = "full_board.png"
 
 
-def add_subparser(subparsers: argparse._SubParsersAction) -> None:
-    parser = subparsers.add_parser(
-        "stitch",
-        help="Stitch OpenPnP images into a single board image.",
-    )
-    parser.add_argument(
-        "image_directory",
-        help="Directory containing PNG images.",
-    )
-    parser.add_argument(
-        "-o",
-        "--output",
-        default=DEAFULT_OUTPUT_FILENAME,
-        help=f"Output image filename (default: {DEAFULT_OUTPUT_FILENAME})",
-    )
-    parser.add_argument(
-        "-ppx",
-        "--pixels-per-unit-x",
-        type=float,
-        default=DEFAULT_PIXELS_PER_UNIT_X,
-        help=f"Pixels per unit in X (default: {DEFAULT_PIXELS_PER_UNIT_X})",
-    )
-    parser.add_argument(
-        "-ppy",
-        "--pixels-per-unit-y",
-        type=float,
-        default=DEFAULT_PIXELS_PER_UNIT_Y,
-        help=f"Pixels per unit in Y (default: {DEFAULT_PIXELS_PER_UNIT_Y})",
-    )
-    parser.add_argument(
-        "-d",
-        "--delete_tiles",
-        action="store_true",
-        help="Delete board tiles after stitching is finished.",
-    )
-
-    parser.set_defaults(func=run)
-
-
 def create_feather_mask(shape: tuple[int, ...]) -> np.ndarray:
-    # 2D Bartlett window mask for weighted spatial blending
+    """2D Bartlett window mask for weighted spatial blending"""
     h, w = shape[:2]
     y = np.linspace(0, 1, h)
     y = np.minimum(y, 1 - y)
@@ -84,8 +44,8 @@ def normalize_image(img: NDArray[np.integer | np.floating]) -> NDArray[np.float3
 
 
 def stitch_macro_grid(
-    image_directory: str,
-    output_filename: str,
+    image_directory: Path,
+    output_filename: Path,
     delete_tiles: bool = False,
     pixels_per_unit_x: float = DEFAULT_PIXELS_PER_UNIT_X,
     pixels_per_unit_y: float = DEFAULT_PIXELS_PER_UNIT_Y,
@@ -162,12 +122,21 @@ def stitch_macro_grid(
         print("Deleted input tile images.")
 
 
-def run(args: argparse.Namespace) -> None:
-    image_dir = Path(args.image_directory)
-    output = Path(args.output)
+def stitch_board(
+    image_directory: Path,
+    output: Path | None = None,
+    pixels_per_unit_x: float | None = None,
+    pixels_per_unit_y: float | None = None,
+    delete_tiles: bool = False,
+) -> None:
+    if pixels_per_unit_x is None:
+        pixels_per_unit_x = DEFAULT_PIXELS_PER_UNIT_X
 
-    if args.output == DEAFULT_OUTPUT_FILENAME:
-        output = image_dir / DEAFULT_OUTPUT_FILENAME
+    if pixels_per_unit_y is None:
+        pixels_per_unit_y = DEFAULT_PIXELS_PER_UNIT_Y
+
+    if output is None:
+        output = image_directory / DEAFULT_OUTPUT_FILENAME
     else:
         if output.exists() and output.is_dir():
             output = output / DEAFULT_OUTPUT_FILENAME
@@ -178,9 +147,18 @@ def run(args: argparse.Namespace) -> None:
     print("Initiating coordinate-mapped stitching routine...")
 
     stitch_macro_grid(
-        image_directory=args.image_directory,
-        output_filename=str(output),
-        delete_tiles=args.delete_tiles,
-        pixels_per_unit_x=args.pixels_per_unit_x,
-        pixels_per_unit_y=args.pixels_per_unit_y,
+        image_directory=image_directory,
+        output_filename=(output),
+        delete_tiles=delete_tiles,
+        pixels_per_unit_x=pixels_per_unit_x,
+        pixels_per_unit_y=pixels_per_unit_y,
     )
+
+
+if __name__ == "__main__":
+    import sys
+
+    if len(sys.argv) < 2:
+        raise SystemExit("Usage: python stitch_board.py <image_directory>")
+
+    stitch_board(image_directory=Path(sys.argv[1]))

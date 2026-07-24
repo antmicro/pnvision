@@ -2,39 +2,21 @@ from pathlib import Path
 from jinja2 import Environment, FileSystemLoader
 
 from helpers.bash_wrapper import bash
-from importlib.resources import files, as_file
 
-import argparse
 import json
 import shutil
 import pandas as pd
 
 
-def add_subparser(subparsers: argparse._SubParsersAction) -> None:
-    parser = subparsers.add_parser(
-        "report",
-        help="Generate HTML report from log file.",
-    )
-    parser.add_argument(
-        "log_file_location",
-        help="Location of log file.",
-    )
-    parser.add_argument(
-        "--template-dir",
-        type=Path,
-        help="Override the built-in template directory.",
-    )
+def generate_html_report(
+    report_location: Path,
+    template_dir: Path,
+) -> None:
 
-    parser.set_defaults(func=run)
-
-
-def run(args: argparse.Namespace) -> None:
-    log_path = Path(args.log_file_location)
-
-    with log_path.open("r", encoding="utf-8") as f:
+    with report_location.open("r", encoding="utf-8") as f:
         log = json.load(f)
 
-    input_dir = log_path.parent
+    input_dir = report_location.parent
     output_dir = input_dir / "report"
     output_dir.mkdir(exist_ok=True)
 
@@ -56,21 +38,11 @@ def run(args: argparse.Namespace) -> None:
     else:
         shutil.copytree(components_dir, output_dir / "components", dirs_exist_ok=True)
 
-    if args.template_dir is not None:
-        template_dir = args.template_dir
-        environment = Environment(loader=FileSystemLoader(template_dir))
-        template = environment.get_template("report.html")
+    environment = Environment(loader=FileSystemLoader(template_dir))
+    template = environment.get_template("report.html")
 
-        for asset in ("logo.svg", "favicon.ico"):
-            shutil.copy2(template_dir / asset, output_dir / asset)
-
-    else:
-        with as_file(files("template")) as template_dir:
-            environment = Environment(loader=FileSystemLoader(template_dir))
-            template = environment.get_template("report.html")
-
-            for asset in ("logo.svg", "favicon.ico"):
-                shutil.copy2(template_dir / asset, output_dir / asset)
+    for asset in ("logo.svg", "favicon.ico"):
+        shutil.copy2(template_dir / asset, output_dir / asset)
 
     parts = pd.DataFrame(log.get("parts", []))
 
@@ -84,3 +56,36 @@ def run(args: argparse.Namespace) -> None:
         f.write(content)
 
     print(f"Report written to {output_path}")
+
+
+def get_default_template_dir() -> Path:
+    import sysconfig
+
+    return Path(sysconfig.get_path("data")) / "share" / "PnVision" / "template"
+
+
+def generate_report(
+    report_location: Path,
+    template_dir: Path | None = None,
+) -> None:
+    if not report_location.exists():
+        raise FileNotFoundError(report_location)
+
+    if template_dir is None:
+        template_dir = get_default_template_dir()
+
+    print(f"Generating HTML report from {report_location}...")
+
+    generate_html_report(
+        report_location=report_location,
+        template_dir=template_dir,
+    )
+
+
+if __name__ == "__main__":
+    import sys
+
+    if len(sys.argv) < 2:
+        raise SystemExit("Usage: python generate_report.py <report.json>")
+
+    generate_report(report_location=Path(sys.argv[1]))
