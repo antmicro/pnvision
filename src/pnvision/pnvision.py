@@ -22,7 +22,7 @@ def report(
         ),
     ] = None,
 ) -> None:
-    from commands.generate_report import generate_report
+    from .commands.generate_report import generate_report
 
     generate_report(
         report_location=log_file_location,
@@ -57,7 +57,7 @@ def stitch(
         ),
     ] = False,
 ) -> None:
-    from commands.stitch_board import stitch_board
+    from .commands.stitch_board import stitch_board
 
     stitch_board(
         image_directory=image_directory,
@@ -75,7 +75,7 @@ def code(
         typer.Argument(..., help="Path to the image containing the QR code."),
     ],
 ) -> None:
-    from commands.read_code import read_code
+    from .commands.read_code import read_code
 
     read_code(image_path)
 

@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "PnVision"
-version = "0.0.2"
+version = "0.0.3"
 description = "OpenPnP visual inspection utilities"
 readme = "README.md"
 requires-python = ">=3.11"
@@ -26,19 +26,17 @@ dev = [
 ]
 
 [project.scripts]
-pnvision = "pnvision:app"
+pnvision = "pnvision.pnvision:app"
 
 [tool.setuptools]
 package-dir = {"" = "src"}
-py-modules = ["PnVision"]
+include-package-data = true
 
 [tool.setuptools.packages.find]
 where = ["src"]
 
-[tool.setuptools.data-files]
-"share/pnvision/template" = [
-    "template/**/*",
-]
+[tool.setuptools.package-data]
+pnvision = ["template/*"]
 
 [tool.ruff.lint]
 select = ["E", "F", "N", "B", "A", "RET"]

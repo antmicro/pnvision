@@ -1,11 +1,12 @@
 from pathlib import Path
 from jinja2 import Environment, FileSystemLoader
-
-from helpers.bash_wrapper import bash
+from importlib.resources import as_file, files
 
 import json
 import shutil
 import pandas as pd
+
+from .helpers.bash_wrapper import bash
 
 
 def generate_html_report(
@@ -58,12 +59,6 @@ def generate_html_report(
     print(f"Report written to {output_path}")
 
 
-def get_default_template_dir() -> Path:
-    import sysconfig
-
-    return Path(sysconfig.get_path("data")) / "share" / "PnVision" / "template"
-
-
 def generate_report(
     report_location: Path,
     template_dir: Path | None = None,
@@ -72,8 +67,9 @@ def generate_report(
         raise FileNotFoundError(report_location)
 
     if template_dir is None:
-        template_dir = get_default_template_dir()
-
+        with as_file(files("pnvision") / "template") as template_dir:
+            generate_html_report(report_location, template_dir)
+        return
     print(f"Generating HTML report from {report_location}...")
 
     generate_html_report(
