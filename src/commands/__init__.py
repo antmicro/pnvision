@@ -1,7 +1,7 @@
 """__init__ importing all commands"""
 
 from . import (
+    read_code,
     stitch_board,
-    code_reader,
     generate_report,
 )

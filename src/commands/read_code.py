@@ -126,4 +126,9 @@ def read_code(image: Path) -> None:
 
 
 if __name__ == "__main__":
-    read_code()
+    import sys
+
+    if len(sys.argv) != 2:
+        raise SystemExit("Usage: python code_reader.py <image_path>")
+
+    read_code(Path(sys.argv[1]))
