@@ -59,6 +59,10 @@ pnvision --help
 ```
 
 ### OpenPnP scripts:
+> **Note**
+>
+>    Components that have `Exclude from bill of materials` set will have `NA` assigned in the report.
+
 1. Go to your board directory and use the commands below from kmake:
 ```bash
 kmake loclib
@@ -75,6 +79,8 @@ kmake aux-origin -s bl
 4. Calibrate board according to fiducials or components placement
 
 5. Run perform_inspection.py
+
+6. In the pop-up window input 12 character serial number with `-top` or `-bottom` suffix, e.g: `000.000.0001-top`.
 
 ## Examples
 

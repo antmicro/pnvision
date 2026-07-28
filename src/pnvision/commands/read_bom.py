@@ -20,11 +20,6 @@ def read_bom(bom: Path) -> tuple[set[str], set[str]]:
             if row["DNP"].strip():
                 dnp_designators.update(refs)
 
-    # if len(dnp_designators) == 1:
-    #     print(f"DNP designator: {dnp_designators}")
-    # elif len(dnp_designators) > 1:
-    #     print(f"DNP designators: {dnp_designators}")
-
     return all_designators, dnp_designators
 
 
@@ -35,7 +30,8 @@ if __name__ == "__main__":
         raise SystemExit("Usage: python read_bom.py <bom_path>")
 
     all_designators, dnp_designators = read_bom(Path(sys.argv[1]))
-    print("all designators: ")
-    print(all_designators)
-    print("dmp_designators: ")
-    print(all_designators)
+
+    if all_designators:
+        print(f"Designator{'s' if len(all_designators) > 1 else ''}: {all_designators}\n\n")
+    if dnp_designators:
+        print(f"DNP designator{'s' if len(dnp_designators) > 1 else ''}: {dnp_designators}")

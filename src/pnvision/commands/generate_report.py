@@ -72,14 +72,12 @@ def add_bom_status(parts: pd.DataFrame, bom_path: Path) -> pd.DataFrame:
     bom_designators, bom_dnp_designators = read_bom(bom_path)
 
     # Parts in the report come from the openPnP board (from position files).
-    position_designators = set(parts["part_designator"])
-
     def bom_status(designator: str) -> str:
-        if designator not in bom_designators or designator not in position_designators:
-            return "NA"
         if designator in bom_dnp_designators:
-            return "YES"
-        return "-"
+            return "DNP"
+        if designator in bom_designators:
+            return "-"
+        return "NA"
 
     parts = parts.copy()
     parts["dnp"] = parts["part_designator"].map(bom_status)
