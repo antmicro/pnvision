@@ -21,7 +21,7 @@ def generate_html_report(
     input_dir = report_location.parent
 
     # bom_path = next(input_dir.glob("*BOM-ALL*.csv"))
-    bom_path = next(input_dir.glob("*BOM-ALL-ReferenceNotGrouped.csv"))
+    bom_path = next(input_dir.glob("*BOM-ALL-ReferenceNotGrouped.csv"), None)
     output_dir = input_dir / "report"
     output_dir.mkdir(exist_ok=True)
 
@@ -31,7 +31,10 @@ def generate_html_report(
     template = environment.get_template("report.html")
 
     parts = pd.DataFrame(log.get("parts", []))
-    parts = add_bom_status(parts, bom_path)
+    if bom_path is not None:
+        parts = add_bom_status(parts, bom_path)
+    else:
+        print("No BOM file found.")
 
     content = template.render(
         metadata=log.get("metadata", {}), project_name=log.get("project_name", "Unknown"), parts=parts
