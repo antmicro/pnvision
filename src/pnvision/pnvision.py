@@ -80,5 +80,17 @@ def code(
     read_code(image_path)
 
 
+@app.command(help="Read BOM-ALL-ReferenceNotGrouped and return list of dnp designators.")
+def bom(
+    bom_path: Annotated[
+        Path,
+        typer.Argument(..., help="Path to the bom."),
+    ],
+) -> None:
+    from .commands.read_bom import read_bom
+
+    read_bom(bom_path)
+
+
 if __name__ == "__main__":
     app()
