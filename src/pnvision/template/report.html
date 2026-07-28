@@ -123,6 +123,7 @@
             font-family: 'Geist Mono', monospace;
             font-size: 0.85rem;
         }
+
         .board-image-container {
             width: 100%;
             display: flex;
@@ -136,6 +137,14 @@
             width: auto;
             height: auto;
             display: block;
+        }
+
+        .part-image {
+            max-width: 160px;
+            max-height: 160px;
+            width: auto;
+            height: auto;
+            object-fit: contain;
         }
     </style>
 </head>
@@ -180,11 +189,7 @@
                     <img
                         src="components/{{ part['image_file'] }}"
                         alt="{{ part['part_name'] }}"
-                        max-width: 160px;
-                        max-height: 160px;
-                        width: auto;
-                        height: auto;
-                        object-fit: contain;
+                        class="part-image"
                     >
                 </td>
                 <td>{{ part["dnp"] }}</td>

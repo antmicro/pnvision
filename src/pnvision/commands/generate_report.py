@@ -20,6 +20,7 @@ def generate_html_report(
 
     input_dir = report_location.parent
 
+    # bom_path = next(input_dir.glob("*BOM-ALL*.csv"))
     bom_path = next(input_dir.glob("*BOM-ALL-ReferenceNotGrouped.csv"))
     output_dir = input_dir / "report"
     output_dir.mkdir(exist_ok=True)

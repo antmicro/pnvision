@@ -67,7 +67,7 @@ kmake aux-origin -s bl
 ```
 
 2. According to preference use kmake or xmake:
-* kamke: `kmake pnp -tvo`
+* kmake: `kmake pnp -tvo --dnp`
 * xmake: `xmake job tb pdi -m machine-name`
 
 3. Set board dimensions in OpenPnP (optional if whole board image is needed)
