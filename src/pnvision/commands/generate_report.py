@@ -1,6 +1,7 @@
 from pathlib import Path
 from jinja2 import Environment, FileSystemLoader
 from importlib.resources import as_file, files
+from .read_bom import read_bom
 
 import json
 import shutil
@@ -18,9 +19,32 @@ def generate_html_report(
         log = json.load(f)
 
     input_dir = report_location.parent
+
+    bom_path = next(input_dir.glob("*BOM-ALL-ReferenceNotGrouped.csv"))
     output_dir = input_dir / "report"
     output_dir.mkdir(exist_ok=True)
 
+    copydirs(input_dir, output_dir, template_dir)
+
+    environment = Environment(loader=FileSystemLoader(template_dir))
+    template = environment.get_template("report.html")
+
+    parts = pd.DataFrame(log.get("parts", []))
+    bom_designators, bom_dnp_designators = read_bom(bom_path)
+    print(bom_dnp_designators)
+    content = template.render(
+        metadata=log.get("metadata", {}), project_name=log.get("project_name", "Unknown"), parts=parts
+    )
+
+    output_path = output_dir / "report.html"
+
+    with output_path.open("w", encoding="utf-8") as f:
+        f.write(content)
+
+    print(f"Report written to {output_path}")
+
+
+def copydirs(input_dir: Path, output_dir: Path, template_dir: Path) -> None:
     board_dir = next((p for p in input_dir.glob("*board*") if p.is_dir()), None)
     if board_dir is None:
         print(f"No board directory found in {input_dir}. Add full_board.png to report/ directory")
@@ -39,24 +63,8 @@ def generate_html_report(
     else:
         shutil.copytree(components_dir, output_dir / "components", dirs_exist_ok=True)
 
-    environment = Environment(loader=FileSystemLoader(template_dir))
-    template = environment.get_template("report.html")
-
     for asset in ("logo.svg", "favicon.ico"):
         shutil.copy2(template_dir / asset, output_dir / asset)
-
-    parts = pd.DataFrame(log.get("parts", []))
-
-    content = template.render(
-        metadata=log.get("metadata", {}), project_name=log.get("project_name", "Unknown"), parts=parts
-    )
-
-    output_path = output_dir / "report.html"
-
-    with output_path.open("w", encoding="utf-8") as f:
-        f.write(content)
-
-    print(f"Report written to {output_path}")
 
 
 def generate_report(
