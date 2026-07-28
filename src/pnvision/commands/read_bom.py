@@ -2,12 +2,12 @@ from pathlib import Path
 import csv
 
 
-def read_bom(bom: Path) -> list[str]:
+def read_bom(bom: Path) -> tuple[set[str], set[str]]:
     if not bom.exists():
         raise FileNotFoundError(bom)
 
-    all_designators = []
-    dnp_designators = []
+    all_designators = set()
+    dnp_designators = set()
 
     with bom.open(newline="", encoding="utf-8") as f:
         reader = csv.DictReader(f)
@@ -15,10 +15,10 @@ def read_bom(bom: Path) -> list[str]:
         for row in reader:
             refs = [r.strip() for r in row["Reference Designators"].split(",")]
 
-            all_designators.append(refs)
+            all_designators.update(refs)
 
             if row["DNP"].strip():
-                dnp_designators.append(refs)
+                dnp_designators.update(refs)
 
     # if len(dnp_designators) == 1:
     #     print(f"DNP designator: {dnp_designators}")
