@@ -17,12 +17,12 @@ def get_user_input(prompt="Enter serial number:", title="Input"):
     value = JOptionPane.showInputDialog(None, prompt, title, JOptionPane.QUESTION_MESSAGE)
 
     if value is None:
-        value = "NA"
+        value = "-"
 
     value = value.strip().replace(" ", "_")
 
     if value == "":
-        SN = "NA"
+        SN = "-"
     else:
         SN = value
 
@@ -34,7 +34,7 @@ def get_user_input(prompt="Enter serial number:", title="Input"):
     )
 
     if location is None:
-        location = "NA"
+        location = "-"
 
     return SN, location
 

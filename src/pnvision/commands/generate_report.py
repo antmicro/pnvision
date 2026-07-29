@@ -79,8 +79,8 @@ def add_bom_status(parts: pd.DataFrame, bom_path: Path) -> pd.DataFrame:
         if designator in bom_dnp_designators:
             return "DNP"
         if designator in bom_designators:
-            return "-"
-        return "NA"
+            return "NO"
+        return "-"
 
     parts = parts.copy()
     parts["dnp"] = parts["part_designator"].map(bom_status)
