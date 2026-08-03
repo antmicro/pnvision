@@ -8,6 +8,7 @@ from java.text import SimpleDateFormat
 from java.util import Date
 from javax.imageio import ImageIO
 from javax.swing import ProgressMonitor
+from java.lang import Thread
 
 from org.openpnp.model import LengthUnit
 from org.openpnp.util import Utils2D, MovableUtils
@@ -41,6 +42,7 @@ def main():
 
 
 def scan_components():
+    Thread.sleep(1500)
     global scan_dir
     global report_file
 

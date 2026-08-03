@@ -47,6 +47,7 @@ def main():
 
 
 def scan_board_tiles():
+    Thread.sleep(1500)
     global scan_dir
     camera = machine.defaultHead.defaultCamera
     job_obj = get_current_job()
