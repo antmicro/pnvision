@@ -1,5 +1,6 @@
 from __future__ import absolute_import, division
 import re
+import json
 
 from java.io import File
 from java.lang import System, Thread
@@ -68,6 +69,12 @@ def scan_board_tiles():
 
         safe_board_name, scan_dir = make_scan_directory(board_location)
         print("Output: %s" % scan_dir.getAbsolutePath())
+
+        report_file = File(scan_dir.getParentFile(), "report.json")
+        if not report_file.exists():
+            initial_report = globals().get("initial_report_data", {})
+            with open(report_file.getAbsolutePath(), "w") as f:
+                json.dump(initial_report, f, indent=4)
 
         scan_board_location(
             camera,
@@ -165,8 +172,8 @@ def scan_board_location(
                     image = camera.settleAndCapture()
 
                 board_id = (
-                    inital_report_data.get("metadata", {}).get("sn", safe_board_name)
-                    if "inital_report_data" in globals()
+                    initial_report_data.get("metadata", {}).get("sn", safe_board_name)
+                    if "initial_report_data" in globals()
                     else safe_board_name
                 )
                 image_file_name = "%s_r%s_c%s_x%s_y%s.png" % (
@@ -255,8 +262,8 @@ def make_scan_directory(board_location):
     location = ""
     time_str = SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(Date())
 
-    if "inital_report_data" in globals():
-        metadata = inital_report_data.get("metadata", {})
+    if "initial_report_data" in globals():
+        metadata = initial_report_data.get("metadata", {})
         sn = metadata.get("sn")
         location = metadata.get("location")
         time_str = metadata.get("time_stamp")

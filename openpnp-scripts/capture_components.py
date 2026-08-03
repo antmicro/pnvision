@@ -62,7 +62,7 @@ def scan_components():
 
         report_file = File(scan_dir.getParentFile(), "report.json")
         if not report_file.exists():
-            initial_report = globals().get("inital_report_data", {})
+            initial_report = globals().get("initial_report_data", {})
             with open(report_file.getAbsolutePath(), "w") as f:
                 json.dump(initial_report, f, indent=4)
 
@@ -104,8 +104,8 @@ def process_board_placements(
         report = json.load(f)
 
     board_id = (
-        inital_report_data.get("metadata", {}).get("sn", safe_board_name)
-        if "inital_report_data" in globals()
+        initial_report_data.get("metadata", {}).get("sn", safe_board_name)
+        if "initial_report_data" in globals()
         else safe_board_name
     )
 
@@ -262,8 +262,8 @@ def make_scan_directory(board_location):
     location = ""
     time_str = SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(Date())
 
-    if "inital_report_data" in globals():
-        metadata = inital_report_data.get("metadata", {})
+    if "initial_report_data" in globals():
+        metadata = initial_report_data.get("metadata", {})
         sn = metadata.get("sn")
         location = metadata.get("location")
         time_str = metadata.get("time_stamp")

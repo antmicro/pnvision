@@ -9,7 +9,7 @@ from java.io import IOException
 SCRIPTS_DIR = os.path.expanduser("~/.openpnp2/scripts")
 
 
-def launch_secondary_script(filename, inital_report_data):
+def launch_secondary_script(filename):
     target_path = os.path.join(SCRIPTS_DIR, filename)
 
     script_globals = globals()
@@ -62,6 +62,7 @@ def get_user_input(prompt="Enter serial number:", title="Input"):
 
     return SN, location
 
+
 def finish_task():
     head = machine.getDefaultHead()
     park = head.getParkLocation()
@@ -70,21 +71,20 @@ def finish_task():
         head.getDefaultNozzle().moveTo(park)
 
     from javax.swing import SwingUtilities
+
     SwingUtilities.invokeLater(
         lambda: JOptionPane.showMessageDialog(
-            None,
-            "Job finished successfully",
-            "OpenPnP",
-            JOptionPane.INFORMATION_MESSAGE
+            None, "Job finished successfully", "OpenPnP", JOptionPane.INFORMATION_MESSAGE
         )
     )
 
+
 def main():
-    global inital_report_data
+    global initial_report_data
 
     SN, location = get_user_input()
     time_str = SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(Date())
-    inital_report_data = {
+    initial_report_data = {
         "metadata": {
             "time_stamp": time_str,
             "sn": SN,  # serial number will be read from qr or bar code (code_reader.py)
@@ -96,11 +96,12 @@ def main():
         "logs": [],
     }
 
-    launch_secondary_script("capture_board.py", inital_report_data)
+    launch_secondary_script("capture_board.py")
     # run_command(capture_board_scan_dir, "pnvision", "stitch", ".")
 
-    launch_secondary_script("capture_components.py", inital_report_data)
+    launch_secondary_script("capture_components.py")
 
     machine.submit(lambda: finish_task())
+
 
 main()
