@@ -62,6 +62,22 @@ def get_user_input(prompt="Enter serial number:", title="Input"):
 
     return SN, location
 
+def finish_task():
+    head = machine.getDefaultHead()
+    park = head.getParkLocation()
+
+    if park is not None:
+        head.getDefaultNozzle().moveTo(park)
+
+    from javax.swing import SwingUtilities
+    SwingUtilities.invokeLater(
+        lambda: JOptionPane.showMessageDialog(
+            None,
+            "Job finished successfully",
+            "OpenPnP",
+            JOptionPane.INFORMATION_MESSAGE
+        )
+    )
 
 def main():
     global inital_report_data
@@ -85,6 +101,6 @@ def main():
 
     launch_secondary_script("capture_components.py", inital_report_data)
 
-    machine.submit(lambda: machine.getDefaultHead().getDefaultNozzle().moveTo(machine.getDefaultHead().getParkLocation()))
+    machine.submit(lambda: finish_task())
 
 main()
