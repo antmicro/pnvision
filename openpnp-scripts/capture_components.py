@@ -266,7 +266,7 @@ def make_scan_directory(board_location):
 
     parts = [sn, time_str, location]
 
-    dir_name = "_".join(parts)
+    dir_name = "_".join(part for part in parts if part and part != "-")
 
     scan_dir = File(File(root, dir_name), "components")
     if not scan_dir.exists():
