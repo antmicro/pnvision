@@ -164,7 +164,11 @@ def scan_board_location(
                 else:
                     image = camera.settleAndCapture()
 
-                board_id = inital_report_data.get("metadata", {}).get("sn", safe_board_name) if "inital_report_data" in globals() else safe_board_name
+                board_id = (
+                    inital_report_data.get("metadata", {}).get("sn", safe_board_name)
+                    if "inital_report_data" in globals()
+                    else safe_board_name
+                )
                 image_file_name = "%s_r%s_c%s_x%s_y%s.png" % (
                     board_id,
                     pad(row, 3),
@@ -247,6 +251,7 @@ def make_scan_directory(board_location):
         root.mkdirs()
 
     sn = ""
+    board_side = str(board_location.getSide()).lower()
     location = ""
     time_str = SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(Date())
 
@@ -256,7 +261,7 @@ def make_scan_directory(board_location):
         location = metadata.get("location")
         time_str = metadata.get("time_stamp")
 
-    parts = [sn, time_str, location]
+    parts = [sn, board_side, time_str, location]
 
     dir_name = "_".join(part for part in parts if part and part != "-")
 

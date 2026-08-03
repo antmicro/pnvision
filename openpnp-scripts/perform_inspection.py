@@ -8,6 +8,7 @@ from java.io import IOException
 
 SCRIPTS_DIR = os.path.expanduser("~/.openpnp2/scripts")
 
+
 def launch_secondary_script(filename, inital_report_data):
     target_path = os.path.join(SCRIPTS_DIR, filename)
 
@@ -80,7 +81,7 @@ def main():
     }
 
     launch_secondary_script("capture_board.py", inital_report_data)
-    #run_command(capture_board_scan_dir, "pnvision", "stitch", ".")
+    # run_command(capture_board_scan_dir, "pnvision", "stitch", ".")
 
     launch_secondary_script("capture_components.py", inital_report_data)
 

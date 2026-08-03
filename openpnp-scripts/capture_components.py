@@ -107,19 +107,18 @@ def process_board_placements(
 
     board = board_location.getBoard()
     placements = board.getPlacements()
+    board_side = board_location.getSide()
+
     total_placements = placements.size()
+    active_placements = len([placement for placement in board.getPlacements() if placement.getSide() == board_side])
+    photographed_placements = 0
 
-    monitor = ProgressMonitor(None, "Scanning components...", "", 0, total_placements)
-
-    print("Scanning board %d (%s) - Placements detected: %d" % (board_index, safe_board_name, total_placements))
+    monitor = ProgressMonitor(None, "Scanning components...", "", 0, active_placements)
 
     try:
         for placement_index in range(total_placements):
             if monitor.isCanceled():
                 raise Exception("User cancelled scan")
-
-            monitor.setProgress(placement_index)
-            monitor.setNote("Scanning %d of %d" % (placement_index + 1, total_placements))
 
             placement = placements.get(placement_index)
 
@@ -135,7 +134,6 @@ def process_board_placements(
                 continue
 
             part_name = placement.getPart().getId()
-
             # Skip parts by ID
             if (
                 placement_designator.startswith("MP")
@@ -145,6 +143,10 @@ def process_board_placements(
             ):
                 print("Skipping %s (%s)" % (placement_designator, part_name))
                 continue
+
+
+            monitor.setProgress(photographed_placements + 1)
+            monitor.setNote("Scanning %d of %d" % (photographed_placements + 1, active_placements))
 
             safe_part_name = sanitize(part_name)
             safe_placement_designator = sanitize(placement_designator)
@@ -169,7 +171,11 @@ def process_board_placements(
                 rotation = machine_location.getRotation()
                 image = crop_small_passives(image, safe_part_name, rotation)
 
-            board_id = inital_report_data.get("metadata", {}).get("sn", safe_board_name) if "inital_report_data" in globals() else safe_board_name
+            board_id = (
+                inital_report_data.get("metadata", {}).get("sn", safe_board_name)
+                if "inital_report_data" in globals()
+                else safe_board_name
+            )
             image_file_name = "%s_%s_%s.png" % (
                 safe_placement_designator,
                 board_id,
@@ -179,7 +185,8 @@ def process_board_placements(
             file_obj = File(scan_dir, image_file_name)
             ImageIO.write(image, "PNG", file_obj)
 
-            print("Captured %s (%d/%d)" % (safe_placement_designator, placement_index + 1, total_placements))
+            photographed_placements += 1
+            print("Captured %s (%d/%d)" % (safe_placement_designator, photographed_placements, active_placements))
             log_placement(report, safe_placement_designator, safe_part_name, image_file_name, report_file)
     finally:
         monitor.close()
@@ -255,6 +262,7 @@ def make_scan_directory(board_location):
         root.mkdirs()
 
     sn = ""
+    board_side = str(board_location.getSide()).lower()
     location = ""
     time_str = SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(Date())
 
@@ -264,7 +272,7 @@ def make_scan_directory(board_location):
         location = metadata.get("location")
         time_str = metadata.get("time_stamp")
 
-    parts = [sn, time_str, location]
+    parts = [sn, board_side, time_str, location]
 
     dir_name = "_".join(part for part in parts if part and part != "-")
 

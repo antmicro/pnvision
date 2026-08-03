@@ -45,8 +45,7 @@ pnvision --help
 ```
 
 ### OpenPnP scripts:
-
-1. In OpenPnP open scripts directory and add scripts from `openpnp-scripts/`.
+1. In OpenPnP open scripts directory and add scripts from `openpnp-scripts/`. If you are using OpenPnP version 2.5 or 2.6 use tagged 0.03 version.
 
 ![How to open scripts directory](img/scripts_directory.png)
 
@@ -80,7 +79,7 @@ kmake aux-origin -s bl
 
 5. Run perform_inspection.py
 
-6. In the pop-up window input 12 character serial number with `-top` or `-bottom` suffix, e.g: `000.000.0001-top`.
+6. In the pop-up window input 12 character serial number, e.g: `000.000.0001`.
 
 ## Examples
 
