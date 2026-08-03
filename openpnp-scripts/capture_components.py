@@ -69,7 +69,6 @@ def scan_components():
         process_board_placements(
             camera,
             board_location,
-            board_index,
             safe_board_name,
             scan_dir,
         )
@@ -98,12 +97,17 @@ def get_current_job():
 def process_board_placements(
     camera,
     board_location,
-    board_index,
     safe_board_name,
     scan_dir,
 ):
     with open(report_file.getAbsolutePath(), "r") as f:
         report = json.load(f)
+
+    board_id = (
+        inital_report_data.get("metadata", {}).get("sn", safe_board_name)
+        if "inital_report_data" in globals()
+        else safe_board_name
+    )
 
     board = board_location.getBoard()
     placements = board.getPlacements()
@@ -113,8 +117,7 @@ def process_board_placements(
     active_placements = len([placement for placement in board.getPlacements() if placement.getSide() == board_side])
     photographed_placements = 0
 
-    monitor = ProgressMonitor(None, "Scanning components...", "", 0, active_placements)
-
+    monitor = ProgressMonitor(None, "Board SN: %s\nScanning components..." % board_id, "", 0, active_placements)
     try:
         for placement_index in range(total_placements):
             if monitor.isCanceled():
@@ -144,10 +147,8 @@ def process_board_placements(
                 print("Skipping %s (%s)" % (placement_designator, part_name))
                 continue
 
-
             monitor.setProgress(photographed_placements + 1)
             monitor.setNote("Scanning %d of %d" % (photographed_placements + 1, active_placements))
-
             safe_part_name = sanitize(part_name)
             safe_placement_designator = sanitize(placement_designator)
 
@@ -171,11 +172,6 @@ def process_board_placements(
                 rotation = machine_location.getRotation()
                 image = crop_small_passives(image, safe_part_name, rotation)
 
-            board_id = (
-                inital_report_data.get("metadata", {}).get("sn", safe_board_name)
-                if "inital_report_data" in globals()
-                else safe_board_name
-            )
             image_file_name = "%s_%s_%s.png" % (
                 safe_placement_designator,
                 board_id,
