@@ -12,8 +12,6 @@ from org.openpnp.model import LengthUnit, Location
 from org.openpnp.util import Utils2D, MovableUtils
 from org.openpnp.util.UiUtils import submitUiMachineTask
 
-capture_board_scan_dir = None
-
 # ---------------- USER SETTINGS ----------------
 
 # Calibrate before use
@@ -42,17 +40,14 @@ SERPENTINE = False
 
 # ------------------------------------------------
 
-capture_board_scan_dir = ""
-report_file = ""
-
 
 def main():
     submitUiMachineTask(scan_board_tiles)
 
 
 def scan_board_tiles():
-    global capture_board_scan_dir
-    camera = machine.getDefaultHead().getDefaultCamera()
+    global scan_dir
+    camera = machine.defaultHead.defaultCamera
     job_obj = get_current_job()
 
     fov_x, fov_y = get_camera_fov_mm(camera)
@@ -71,8 +66,8 @@ def scan_board_tiles():
             print("Skipping disabled board location %d" % board_index)
             continue
 
-        safe_board_name, capture_board_scan_dir = make_scan_directory(board_location)
-        print("Output: %s" % capture_board_scan_dir.getAbsolutePath())
+        safe_board_name, scan_dir = make_scan_directory(board_location)
+        print("Output: %s" % scan_dir.getAbsolutePath())
 
         scan_board_location(
             camera,
@@ -83,7 +78,7 @@ def scan_board_tiles():
             step_x,
             step_y,
             safe_board_name,
-            capture_board_scan_dir,
+            scan_dir,
         )
 
     print("Board tile scan complete.")
@@ -116,7 +111,7 @@ def scan_board_location(
     step_x,
     step_y,
     safe_board_name,
-    capture_board_scan_dir,
+    scan_dir,
 ):
 
     board = board_location.getBoard()
@@ -169,7 +164,7 @@ def scan_board_location(
                 else:
                     image = camera.settleAndCapture()
 
-                board_id = SN if "SN" in globals() and SN else safe_board_name
+                board_id = inital_report_data.get("metadata", {}).get("sn", safe_board_name) if "inital_report_data" in globals() else safe_board_name
                 image_file_name = "%s_r%s_c%s_x%s_y%s.png" % (
                     board_id,
                     pad(row, 3),
@@ -178,7 +173,7 @@ def scan_board_location(
                     fmt(y),
                 )
 
-                file_obj = File(capture_board_scan_dir, image_file_name)
+                file_obj = File(scan_dir, image_file_name)
                 ImageIO.write(image, "PNG", file_obj)
 
                 print("Saved %s" % image_file_name)
@@ -241,7 +236,6 @@ def is_board_location_enabled(board_location):
 
 
 def make_scan_directory(board_location):
-    global time_str
     board = board_location.getBoard()
     board_name = board.getName()
     if board_name.endswith(".board.xml"):
@@ -252,18 +246,17 @@ def make_scan_directory(board_location):
     if not root.exists():
         root.mkdirs()
 
-    if "time_str" not in globals():
-        time_str = SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(Date())
+    sn = ""
+    location = ""
+    time_str = SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(Date())
 
-    parts = []
+    if "inital_report_data" in globals():
+        metadata = inital_report_data.get("metadata", {})
+        sn = metadata.get("sn")
+        location = metadata.get("location")
+        time_str = metadata.get("time_stamp")
 
-    if "SN" in globals() and SN and SN != "N/A":
-        parts.append(SN)
-
-    parts.append(time_str)
-
-    if "location" in globals() and location and location != "N/A":
-        parts.append(location)
+    parts = [sn, time_str, location]
 
     dir_name = "_".join(parts)
 

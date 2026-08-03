@@ -3,13 +3,36 @@ import os
 from java.text import SimpleDateFormat
 from java.util import Date
 from javax.swing import JOptionPane
+from java.lang import ProcessBuilder
+from java.io import IOException
 
-SCRIPTS_DIR = "/home/pnp/.openpnp2/scripts"
+SCRIPTS_DIR = os.path.expanduser("~/.openpnp2/scripts")
 
-
-def launch_secondary_script(filename):
+def launch_secondary_script(filename, inital_report_data):
     target_path = os.path.join(SCRIPTS_DIR, filename)
-    execfile(target_path, globals(), globals())
+
+    script_globals = globals()
+    execfile(target_path, script_globals, script_globals)
+
+    return script_globals.get("scan_dir")
+
+
+# def run_command(dir, *command):
+#     try:
+#         pb = ProcessBuilder(list(command))
+#         pb.directory(dir)
+#         pb.inheritIO()
+
+#         process = pb.start()
+#         exit_code = process.waitFor()
+
+#         print("%s exited with: %d" % (command[0], exit_code))
+#         return exit_code
+
+#     except IOException as e:
+#         print("%s is not installed or not on PATH." % command[0])
+#         print(e)
+#         return -1
 
 
 def get_user_input(prompt="Enter serial number:", title="Input"):
@@ -40,11 +63,11 @@ def get_user_input(prompt="Enter serial number:", title="Input"):
 
 
 def main():
-    global report_data, SN, location
+    global inital_report_data
 
     SN, location = get_user_input()
     time_str = SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(Date())
-    report_data = {
+    inital_report_data = {
         "metadata": {
             "time_stamp": time_str,
             "sn": SN,  # serial number will be read from qr or bar code (code_reader.py)
@@ -56,12 +79,10 @@ def main():
         "logs": [],
     }
 
-    launch_secondary_script("capture_board.py")
+    launch_secondary_script("capture_board.py", inital_report_data)
+    #run_command(capture_board_scan_dir, "pnvision", "stitch", ".")
 
-    # stitch_script = machine.getScripting().getScript("pnvision/stitch_board.py")
-    # stitch_script.execute(result_scan_dir.getAbsolutePath())
-
-    launch_secondary_script("capture_components.py")
+    launch_secondary_script("capture_components.py", inital_report_data)
 
 
 main()

@@ -35,16 +35,13 @@ CROP_MARGIN_SCALE = 1.1
 
 # ------------------------------------------------
 
-capture_components_scan_dir = ""
-report_file = ""
-
 
 def main():
     submitUiMachineTask(scan_components)
 
 
 def scan_components():
-    global capture_components_scan_dir
+    global scan_dir
     global report_file
 
     camera = machine.getDefaultHead().getDefaultCamera()
@@ -59,13 +56,13 @@ def scan_components():
             print("Skipping disabled board location %d" % board_index)
             continue
 
-        safe_board_name, capture_components_scan_dir = make_scan_directory(board_location)
-        print("Output: %s" % capture_components_scan_dir.getAbsolutePath())
-        print("Output directory generated: %s" % capture_components_scan_dir.getAbsolutePath())
+        safe_board_name, scan_dir = make_scan_directory(board_location)
+        print("Output: %s" % scan_dir.getAbsolutePath())
+        print("Output directory generated: %s" % scan_dir.getAbsolutePath())
 
-        report_file = File(capture_components_scan_dir.getParentFile(), "report.json")
+        report_file = File(scan_dir.getParentFile(), "report.json")
         if not report_file.exists():
-            initial_report = globals().get("report_data", {})
+            initial_report = globals().get("inital_report_data", {})
             with open(report_file.getAbsolutePath(), "w") as f:
                 json.dump(initial_report, f, indent=4)
 
@@ -74,7 +71,7 @@ def scan_components():
             board_location,
             board_index,
             safe_board_name,
-            capture_components_scan_dir,
+            scan_dir,
         )
 
     print("Component image capture sequence complete.")
@@ -103,7 +100,7 @@ def process_board_placements(
     board_location,
     board_index,
     safe_board_name,
-    capture_components_scan_dir,
+    scan_dir,
 ):
     with open(report_file.getAbsolutePath(), "r") as f:
         report = json.load(f)
@@ -172,14 +169,14 @@ def process_board_placements(
                 rotation = machine_location.getRotation()
                 image = crop_small_passives(image, safe_part_name, rotation)
 
-            board_id = SN if "SN" in globals() and SN else safe_board_name
+            board_id = inital_report_data.get("metadata", {}).get("sn", safe_board_name) if "inital_report_data" in globals() else safe_board_name
             image_file_name = "%s_%s_%s.png" % (
                 safe_placement_designator,
                 board_id,
                 safe_part_name,
             )
 
-            file_obj = File(capture_components_scan_dir, image_file_name)
+            file_obj = File(scan_dir, image_file_name)
             ImageIO.write(image, "PNG", file_obj)
 
             print("Captured %s (%d/%d)" % (safe_placement_designator, placement_index + 1, total_placements))
@@ -247,8 +244,6 @@ def is_board_location_enabled(board_location):
 
 
 def make_scan_directory(board_location):
-    global time_str
-
     board = board_location.getBoard()
     board_name = board.getName()
     if board_name.endswith(".board.xml"):
@@ -259,18 +254,17 @@ def make_scan_directory(board_location):
     if not root.exists():
         root.mkdirs()
 
-    if "time_str" not in globals():
-        time_str = SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(Date())
+    sn = ""
+    location = ""
+    time_str = SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(Date())
 
-    parts = []
+    if "inital_report_data" in globals():
+        metadata = inital_report_data.get("metadata", {})
+        sn = metadata.get("sn")
+        location = metadata.get("location")
+        time_str = metadata.get("time_stamp")
 
-    if "SN" in globals() and SN and SN != "N/A":
-        parts.append(SN)
-
-    parts.append(time_str)
-
-    if "location" in globals() and location and location != "N/A":
-        parts.append(location)
+    parts = [sn, time_str, location]
 
     dir_name = "_".join(parts)
 
