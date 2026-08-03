@@ -36,29 +36,64 @@ def launch_secondary_script(filename):
 #         return -1
 
 
+def xdg_config_home():
+    return os.environ.get("XDG_CONFIG_HOME", os.path.join(os.path.expanduser("~"), ".config"))
+
+
+def xdg_state_home():
+    return os.environ.get("XDG_STATE_HOME", os.path.join(os.path.expanduser("~"), ".local", "state"))
+
+
+def read_file(path):
+    if not os.path.exists(path):
+        return None
+    with open(path, "r") as f:
+        return f.read().strip()
+
+
+def write_file(path, value):
+    directory = os.path.dirname(path)
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+    with open(path, "w") as f:
+        f.write(value)
+
+
 def get_user_input(prompt="Enter serial number:", title="Input"):
+    config_file = os.path.join(xdg_config_home(), "PnVision", "location")
+    state_file = os.path.join(xdg_state_home(), "PnVision", "serial_number")
+
     # Serial number
     value = JOptionPane.showInputDialog(None, prompt, title, JOptionPane.QUESTION_MESSAGE)
 
     if value is None:
-        value = "-"
-
-    value = value.strip().replace(" ", "_")
-
-    if value == "":
         SN = "-"
     else:
-        SN = value
+        value = value.strip().replace(" ", "_")
+        SN = value if value else "-"
 
-    # Assembly place / Assembly machine
-    options = ["POZ", "WRO", "GDA", "GOT"]
+    write_file(state_file, SN)
 
-    location = JOptionPane.showInputDialog(
-        None, "Select location:", "Location", JOptionPane.QUESTION_MESSAGE, None, options, options[0]
-    )
+    location = read_file(config_file)
 
-    if location is None:
-        location = "-"
+    if not location:
+        # Assembly place / Assembly machine
+        options = ["POZ", "WRO", "GDA", "GOT"]
+
+        location = JOptionPane.showInputDialog(
+            None,
+            "Select location:",
+            "Location",
+            JOptionPane.QUESTION_MESSAGE,
+            None,
+            options,
+            options[0],
+        )
+
+        if location is None:
+            location = "-"
+
+        write_file(config_file, location)
 
     return SN, location
 
