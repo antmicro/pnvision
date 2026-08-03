@@ -85,5 +85,6 @@ def main():
 
     launch_secondary_script("capture_components.py", inital_report_data)
 
+    machine.submit(lambda: machine.getDefaultHead().getDefaultNozzle().moveTo(machine.getDefaultHead().getParkLocation()))
 
 main()
