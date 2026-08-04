@@ -94,7 +94,6 @@ def detect_codes(image_path: Path) -> None:
     seen = set()
 
     for variant in generate_variants(image):
-
         for candidate in rotations(variant):
 
             # ---------- QR ----------
@@ -103,16 +102,19 @@ def detect_codes(image_path: Path) -> None:
             if value and value not in seen:
                 seen.add(value)
                 print(f"QR Code : {value}")
-                return
 
             # ---------- Code128 Barcode ----------
             decoded_objects = decode(candidate)
 
             for obj in decoded_objects:
                 barcode_data = obj.data.decode("utf-8")
+                seen.add(barcode_data)
                 print(f"Decoded String: {barcode_data}")
 
-    print("No barcode or QR code found.")
+    if not seen:
+        print("No barcode or QR code found.")
+    else:
+        return seen
 
 
 def read_code(image: Path) -> None:
@@ -122,7 +124,9 @@ def read_code(image: Path) -> None:
 
     print(f"Searching for QR codes and barcodes in {image}...")
 
-    detect_codes(image)
+    codes = detect_codes(image)
+
+    return codes
 
 
 if __name__ == "__main__":
@@ -131,4 +135,5 @@ if __name__ == "__main__":
     if len(sys.argv) != 2:
         raise SystemExit("Usage: python code_reader.py <image_path>")
 
-    read_code(Path(sys.argv[1]))
+    codes = read_code(Path(sys.argv[1]))
+    print(codes)

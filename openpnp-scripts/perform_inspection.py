@@ -21,22 +21,22 @@ def launch_secondary_script(filename):
     return script_globals.get("scan_dir")
 
 
-# def run_command(dir, *command):
-#     try:
-#         pb = ProcessBuilder(list(command))
-#         pb.directory(dir)
-#         pb.inheritIO()
+def run_command(dir, *command):
+    try:
+        pb = ProcessBuilder(list(command))
+        pb.directory(dir)
+        pb.inheritIO()
 
-#         process = pb.start()
-#         exit_code = process.waitFor()
+        process = pb.start()
+        exit_code = process.waitFor()
 
-#         print("%s exited with: %d" % (command[0], exit_code))
-#         return exit_code
+        print("%s exited with: %d" % (command[0], exit_code))
+        return exit_code
 
-#     except IOException as e:
-#         print("%s is not installed or not on PATH." % command[0])
-#         print(e)
-#         return -1
+    except IOException as e:
+        print("%s is not installed or not on PATH." % command[0])
+        print(e)
+        return -1
 
 
 def xdg_config_home():
@@ -62,11 +62,37 @@ def write_file(path, value):
         f.write(value)
 
 
-def get_user_input(prompt="Enter serial number:", title="Input"):
-    config_file = os.path.join(xdg_config_home(), "PnVision", "location")
-    state_file = os.path.join(xdg_state_home(), "PnVision", "serial_number")
+def handle_serial_number():
+    state_dir = os.path.join(xdg_state_home(), "PnVision")
+    state_file = os.path.join(state_dir, "serial_number")
+    qr_image = os.path.join(state_dir, "qr_code.png")
 
-    # Serial number
+    def machine_task():
+        if photograph_qr_code(qr_image):
+            result = run_command(
+                state_dir,
+                "PnVision",
+                "code",
+                qr_image
+            )
+
+            if result:
+                code = result.strip().replace(" ", "_")
+                if code:
+                    qr_result[0] = code
+
+    machine.submitUiMachineTask(machine_task)
+
+    if qr_result[0]:
+        write_file(state_file, qr_result[0])
+        return
+
+    head = machine.getDefaultHead()
+    park = head.getParkLocation()
+
+    if park is not None:
+        head.getDefaultCamera().moveTo(park)
+
     value = JOptionPane.showInputDialog(None, prompt, title, JOptionPane.QUESTION_MESSAGE)
 
     if value is None:
@@ -76,6 +102,49 @@ def get_user_input(prompt="Enter serial number:", title="Input"):
         SN = value if value else "-"
 
     write_file(state_file, SN)
+
+
+def photograph_qr_code(qr_image):
+    board_locations = job_obj.getBoardLocations()
+    qr_placement = None
+    qr_board_location = None
+
+    for board_index in range(board_locations.size()):
+        board_location = board_locations.get(board_index)
+
+        board = board_location.getBoard()
+        board_side = board_location.getSide()
+
+        placements = board.getPlacements()
+
+        for placement in placements:
+            placement_designator = placement.getId()
+
+            if placement_designator.startswith("QR") and placement.getSide() == board_side:
+                qr_placement = placement
+                qr_board_location = board_location
+                break
+
+        if qr_placement is not None:
+            break
+
+    if qr_placement is not None:
+        machine_location = qr_board_location.getPlacementLocation(qr_placement)
+
+        MovableUtils.moveToLocationAtSafeZ(camera, machine_location)
+
+        image = camera.settleAndCapture()
+        image.save(qr_image)
+
+        return True
+
+    return False
+
+
+def get_user_input(prompt="Enter serial number:", title="Input"):
+    config_file = os.path.join(xdg_config_home(), "PnVision", "location")
+
+    handle_serial_number()
 
     location = read_file(config_file)
 
@@ -101,6 +170,24 @@ def get_user_input(prompt="Enter serial number:", title="Input"):
     return SN, location
 
 
+def get_current_job():
+    try:
+        if job is not None:
+            return job
+    except NameError:
+        pass
+
+    try:
+        if gui is not None:
+            tab = gui.getJobTab()
+            if tab is not None:
+                return tab.getJob()
+    except NameError:
+        pass
+
+    raise Exception("Active OpenPnP job not detected. Load a job prior to execution.")
+
+
 def finish_task():
     head = machine.getDefaultHead()
     park = head.getParkLocation()
@@ -116,7 +203,7 @@ def finish_task():
         )
     )
 
-    for i in range(3):
+    for _ in range(3):
         subprocess.Popen(["canberra-gtk-play", "-i", "complete"])
         time.sleep(0.5)
 
