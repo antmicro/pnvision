@@ -1,21 +1,26 @@
 import os
 
 from org.openpnp.util.UiUtils import submitUiMachineTask
+from org.openpnp.util import Utils2D, MovableUtils
+
 from java.text import SimpleDateFormat
 from java.util import Date
 from javax.swing import JOptionPane
 from java.lang import ProcessBuilder
-from java.io import IOException
+from java.io import IOException, File
 import subprocess
 import time
 
 SCRIPTS_DIR = os.path.expanduser("~/.openpnp2/scripts")
 
 
-def launch_secondary_script(filename):
+def launch_secondary_script(filename, **kwargs):
     target_path = os.path.join(SCRIPTS_DIR, filename)
 
     script_globals = globals()
+    for key, value in kwargs.iteritems():
+        script_globals[key] = value
+
     execfile(target_path, script_globals, script_globals)
 
     return script_globals.get("scan_dir")
@@ -62,31 +67,21 @@ def write_file(path, value):
         f.write(value)
 
 
-def handle_serial_number():
+def handle_serial_number(board_location, prompt="Enter serial number:", title="Input"):
     state_dir = os.path.join(xdg_state_home(), "PnVision")
     state_file = os.path.join(state_dir, "serial_number")
     qr_image = os.path.join(state_dir, "qr_code.png")
 
-    def machine_task():
-        if photograph_qr_code(qr_image):
-            result = run_command(
-                state_dir,
-                "PnVision",
-                "code",
-                qr_image
-            )
+    launch_secondary_script("capture_qr_code.py", board_location=board_location, qr_image=qr_image)
 
-            if result:
-                code = result.strip().replace(" ", "_")
-                if code:
-                    qr_result[0] = code
+    result = run_command(File(state_dir), "pnvision", "code", qr_image)
 
-    machine.submitUiMachineTask(machine_task)
-
-    if qr_result[0]:
-        write_file(state_file, qr_result[0])
-        return
-
+    if result:
+        code = result.strip().replace(" ", "_")
+        if code:
+            write_file(state_file, code)
+            return
+    print(result)
     head = machine.getDefaultHead()
     park = head.getParkLocation()
 
@@ -104,47 +99,10 @@ def handle_serial_number():
     write_file(state_file, SN)
 
 
-def photograph_qr_code(qr_image):
-    board_locations = job_obj.getBoardLocations()
-    qr_placement = None
-    qr_board_location = None
-
-    for board_index in range(board_locations.size()):
-        board_location = board_locations.get(board_index)
-
-        board = board_location.getBoard()
-        board_side = board_location.getSide()
-
-        placements = board.getPlacements()
-
-        for placement in placements:
-            placement_designator = placement.getId()
-
-            if placement_designator.startswith("QR") and placement.getSide() == board_side:
-                qr_placement = placement
-                qr_board_location = board_location
-                break
-
-        if qr_placement is not None:
-            break
-
-    if qr_placement is not None:
-        machine_location = qr_board_location.getPlacementLocation(qr_placement)
-
-        MovableUtils.moveToLocationAtSafeZ(camera, machine_location)
-
-        image = camera.settleAndCapture()
-        image.save(qr_image)
-
-        return True
-
-    return False
-
-
-def get_user_input(prompt="Enter serial number:", title="Input"):
+def get_user_input(board_location):
     config_file = os.path.join(xdg_config_home(), "PnVision", "location")
 
-    handle_serial_number()
+    handle_serial_number(board_location)
 
     location = read_file(config_file)
 
@@ -209,28 +167,33 @@ def finish_task():
 
 
 def main():
-    global initial_report_data
+    job_obj = get_current_job()
+    board_locations = job_obj.getBoardLocations()
 
-    SN, location = get_user_input()
-    time_str = SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(Date())
-    initial_report_data = {
-        "metadata": {
-            "time_stamp": time_str,
-            "sn": SN,  # serial number will be read from qr or bar code (code_reader.py)
-            "project_reference": "",  # this will be taken from CI
-            "commit_sha": "",  # this will be taken from CI
-            "location": location,
-        },
-        "parts": [],
-        "logs": [],
-    }
+    for board_index in range(board_locations.size()):
+        board_location = board_locations.get(board_index)
+        global initial_report_data
 
-    launch_secondary_script("capture_board.py")
-    # run_command(capture_board_scan_dir, "pnvision", "stitch", ".")
+        SN, location = get_user_input(board_location)
+        time_str = SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(Date())
+        initial_report_data = {
+            "metadata": {
+                "time_stamp": time_str,
+                "sn": SN,  # serial number will be read from qr or bar code (code_reader.py)
+                "project_reference": "",  # this will be taken from CI
+                "commit_sha": "",  # this will be taken from CI
+                "location": location,
+            },
+            "parts": [],
+            "logs": [],
+        }
 
-    launch_secondary_script("capture_components.py")
+        launch_secondary_script("capture_board.py")
+        # run_command(capture_board_scan_dir, "pnvision", "stitch", ".")
 
-    submitUiMachineTask(lambda: finish_task())
+        launch_secondary_script("capture_components.py")
+
+        submitUiMachineTask(lambda: finish_task())
 
 
 main()

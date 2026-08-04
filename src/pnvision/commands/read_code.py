@@ -101,7 +101,7 @@ def detect_codes(image_path: Path) -> None:
 
             if value and value not in seen:
                 seen.add(value)
-                print(f"QR Code : {value}")
+                return
 
             # ---------- Code128 Barcode ----------
             decoded_objects = decode(candidate)
@@ -109,12 +109,9 @@ def detect_codes(image_path: Path) -> None:
             for obj in decoded_objects:
                 barcode_data = obj.data.decode("utf-8")
                 seen.add(barcode_data)
-                print(f"Decoded String: {barcode_data}")
+                return
 
-    if not seen:
-        print("No barcode or QR code found.")
-    else:
-        return seen
+    return seen
 
 
 def read_code(image: Path) -> None:
@@ -122,11 +119,12 @@ def read_code(image: Path) -> None:
     if not image.exists():
         raise FileNotFoundError(image)
 
-    print(f"Searching for QR codes and barcodes in {image}...")
-
     codes = detect_codes(image)
 
-    return codes
+    if codes:
+        print(codes)
+    else:
+        print(None)
 
 
 if __name__ == "__main__":
