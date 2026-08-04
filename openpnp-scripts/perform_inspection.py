@@ -1,10 +1,13 @@
 import os
 
+from org.openpnp.util.UiUtils import submitUiMachineTask
 from java.text import SimpleDateFormat
 from java.util import Date
 from javax.swing import JOptionPane
 from java.lang import ProcessBuilder
 from java.io import IOException
+import subprocess
+import time
 
 SCRIPTS_DIR = os.path.expanduser("~/.openpnp2/scripts")
 
@@ -103,7 +106,7 @@ def finish_task():
     park = head.getParkLocation()
 
     if park is not None:
-        head.getDefaultNozzle().moveTo(park)
+        head.getDefaultCamera().moveTo(park)
 
     from javax.swing import SwingUtilities
 
@@ -112,6 +115,10 @@ def finish_task():
             None, "Job finished successfully", "OpenPnP", JOptionPane.INFORMATION_MESSAGE
         )
     )
+
+    for i in range(3):
+        subprocess.Popen(["canberra-gtk-play", "-i", "complete"])
+        time.sleep(0.5)
 
 
 def main():
@@ -136,7 +143,7 @@ def main():
 
     launch_secondary_script("capture_components.py")
 
-    machine.submit(lambda: finish_task())
+    submitUiMachineTask(lambda: finish_task())
 
 
 main()
