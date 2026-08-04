@@ -5,7 +5,7 @@ import json
 from java.io import File
 from java.lang import System, Thread
 from java.text import SimpleDateFormat
-from java.util import Date
+from java.util import Date, ArrayList
 from javax.imageio import ImageIO
 from javax.swing import ProgressMonitor
 from java.lang import Thread
@@ -112,42 +112,21 @@ def process_board_placements(
     )
 
     board = board_location.getBoard()
-    placements = board.getPlacements()
     board_side = board_location.getSide()
+    placements = filter_placements(board.getPlacements(), board_side)
 
-    total_placements = placements.size()
-    active_placements = len([placement for placement in board.getPlacements() if placement.getSide() == board_side])
+    active_placements = placements.size()
     photographed_placements = 0
 
     monitor = ProgressMonitor(None, "Board SN: %s\nScanning components..." % board_id, "", 0, active_placements)
     try:
-        for placement_index in range(total_placements):
+        for placement_index in range(active_placements):
             if monitor.isCanceled():
                 raise Exception("User cancelled scan")
 
             placement = placements.get(placement_index)
-
-            placement_designator = placement.getId()
-
-            # Skip if no part assigned
-            # if placement.getPart() is None:
-            #    print("Skipping %s: no part assigned." % placement_designator)
-            #    continue
-
-            # Skip parts by active placement side
-            if placement.getSide() != board_location.getSide():
-                continue
-
             part_name = placement.getPart().getId()
-            # Skip parts by ID
-            if (
-                placement_designator.startswith("MP")
-                or placement_designator.startswith("TP")
-                or placement_designator.startswith("FD")
-                or placement_designator.startswith("REF**")
-            ):
-                print("Skipping %s (%s)" % (placement_designator, part_name))
-                continue
+            placement_designator = placement.getId()
 
             monitor.setProgress(photographed_placements + 1)
             monitor.setNote("Scanning %d of %d" % (photographed_placements + 1, active_placements))
@@ -188,6 +167,36 @@ def process_board_placements(
             log_placement(report, safe_placement_designator, safe_part_name, image_file_name, report_file)
     finally:
         monitor.close()
+
+
+def filter_placements(placements, board_side):
+    filtered_placements = ArrayList()
+
+    for placement in placements:
+        placement_designator = placement.getId()
+
+        # Skip if no part assigned
+        # if placement.getPart() is None:
+        #    print("Skipping %s: no part assigned." % placement_designator)
+        #    continue
+
+        # Skip parts by active placement side
+        if placement.getSide() != board_side:
+            continue
+
+        part_name = placement.getPart().getId()
+        # Skip parts by ID
+        if (
+            placement_designator.startswith("MP")
+            or placement_designator.startswith("TP")
+            or placement_designator.startswith("FD")
+            or placement_designator.startswith("REF**")
+        ):
+            print("Skipping %s (%s)" % (placement_designator, part_name))
+            continue
+        filtered_placements.add(placement)
+
+    return filtered_placements
 
 
 def crop_small_passives(image, safe_part_name, rotation_deg):
