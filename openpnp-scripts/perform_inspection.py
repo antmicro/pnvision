@@ -1,14 +1,15 @@
 import os
 import subprocess
+from time import sleep
 
 from org.openpnp.util.UiUtils import submitUiMachineTask
 
 from java.text import SimpleDateFormat
 from java.util import Date
-from javax.swing import JOptionPane
-from java.lang import ProcessBuilder, Thread
+from javax.swing import JOptionPane, SwingUtilities
+from java.lang import ProcessBuilder
 from java.io import IOException, BufferedReader, InputStreamReader, File
-
+from java.lang import Exception as JavaException
 
 SCRIPTS_DIR = os.path.expanduser("~/.openpnp2/scripts")
 
@@ -107,6 +108,10 @@ def handle_serial_number(board_location, prompt="Enter serial number:", title="I
         file_qr_image.delete()
 
     if value is None:
+        # User pressed Cancel or closed the dialog
+        raise Exception("User cancelled scan")
+
+    if value == "":
         SN = "-"
     else:
         value = value.strip().replace(" ", "_")
@@ -175,24 +180,32 @@ def is_board_location_enabled(board_location):
         return True
 
 
-def finish_task():
+def calibrate_pnp():
+    locator = machine.getFiducialLocator()
+
+    try:
+        locator.locatePlacementsHolder(board_location)
+
+    except JavaException as e:
+        print("Fiducial location failed, continuing without correction:", e)
+
+
+def finishJob():
     head = machine.getDefaultHead()
     park = head.getParkLocation()
 
     if park is not None:
         head.getDefaultCamera().moveTo(park)
 
-    from javax.swing import SwingUtilities
+    for _ in range(4):
+        subprocess.Popen(["canberra-gtk-play", "-i", "complete"])
+        sleep(0.5)
 
     SwingUtilities.invokeLater(
         lambda: JOptionPane.showMessageDialog(
             None, "Job finished successfully", "OpenPnP", JOptionPane.INFORMATION_MESSAGE
         )
     )
-
-    for _ in range(3):
-        subprocess.Popen(["canberra-gtk-play", "-i", "complete"])
-        Thread.sleep(1500)
 
 
 def perform_inspection():
@@ -201,12 +214,13 @@ def perform_inspection():
 
     for board_index in range(board_locations.size()):
         global initial_report_data, board_location
-
         board_location = board_locations.get(board_index)
 
         if not is_board_location_enabled(board_location):
             print("Skipping disabled board location %d" % board_index)
             continue
+
+        calibrate_pnp()
 
         SN, location = get_user_input(board_location)
         time_str = SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(Date())
@@ -222,14 +236,14 @@ def perform_inspection():
             "parts": [],
             "logs": [],
         }
-        Thread.sleep(1500)
+        sleep(1.5)
 
         capture_board_scan_dir = launch_secondary_script("capture_board.py")
         run_command(capture_board_scan_dir, "pnvision", "stitch", ".")
 
         launch_secondary_script("capture_components.py")
 
-        finish_task()
+        finishJob()
 
 
 def main():
