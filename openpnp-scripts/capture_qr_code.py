@@ -1,4 +1,3 @@
-from org.openpnp.util.UiUtils import submitUiMachineTask
 from org.openpnp.util import Utils2D, MovableUtils
 from org.openpnp.model import LengthUnit
 from java.io import File
@@ -6,10 +5,6 @@ from javax.imageio import ImageIO
 
 
 def main():
-    submitUiMachineTask(capture_qr_code)
-
-
-def capture_qr_code():
     board = board_location.getBoard()
     board_side = board_location.getSide()
     camera = machine.getDefaultHead().getDefaultCamera()

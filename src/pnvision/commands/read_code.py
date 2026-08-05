@@ -82,7 +82,7 @@ def rotations(image: np.ndarray) -> Iterator[np.ndarray]:
     yield cv2.rotate(image, cv2.ROTATE_90_COUNTERCLOCKWISE)
 
 
-def detect_codes(image_path: Path) -> None:
+def detect_codes(image_path: Path) -> set[str]:
     image = cv2.imread(str(image_path))
 
     if image is None:
@@ -101,7 +101,7 @@ def detect_codes(image_path: Path) -> None:
 
             if value and value not in seen:
                 seen.add(value)
-                return
+                continue
 
             # ---------- Code128 Barcode ----------
             decoded_objects = decode(candidate)
@@ -109,12 +109,11 @@ def detect_codes(image_path: Path) -> None:
             for obj in decoded_objects:
                 barcode_data = obj.data.decode("utf-8")
                 seen.add(barcode_data)
-                return
-
+                continue
     return seen
 
 
-def read_code(image: Path) -> None:
+def read_code(image: Path) -> set[str]:
 
     if not image.exists():
         raise FileNotFoundError(image)
@@ -122,9 +121,11 @@ def read_code(image: Path) -> None:
     codes = detect_codes(image)
 
     if codes:
-        print(codes)
+        print(next(iter(codes)))  # first element of set
     else:
         print(None)
+
+    return codes
 
 
 if __name__ == "__main__":

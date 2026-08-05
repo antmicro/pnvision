@@ -1,15 +1,14 @@
 import os
+import subprocess
 
 from org.openpnp.util.UiUtils import submitUiMachineTask
-from org.openpnp.util import Utils2D, MovableUtils
 
 from java.text import SimpleDateFormat
 from java.util import Date
 from javax.swing import JOptionPane
-from java.lang import ProcessBuilder
-from java.io import IOException, File
-import subprocess
-import time
+from java.lang import ProcessBuilder, Thread
+from java.io import IOException, BufferedReader, InputStreamReader, File
+
 
 SCRIPTS_DIR = os.path.expanduser("~/.openpnp2/scripts")
 
@@ -30,18 +29,28 @@ def run_command(dir, *command):
     try:
         pb = ProcessBuilder(list(command))
         pb.directory(dir)
-        pb.inheritIO()
 
         process = pb.start()
+
+        output = []
+        reader = BufferedReader(InputStreamReader(process.getInputStream()))
+
+        line = reader.readLine()
+        while line is not None:
+            output.append(line)
+            line = reader.readLine()
+
         exit_code = process.waitFor()
 
+        result = "\n".join(output)
+
         print("%s exited with: %d" % (command[0], exit_code))
-        return exit_code
+        return result
 
     except IOException as e:
         print("%s is not installed or not on PATH." % command[0])
         print(e)
-        return -1
+        return None
 
 
 def xdg_config_home():
@@ -71,17 +80,20 @@ def handle_serial_number(board_location, prompt="Enter serial number:", title="I
     state_dir = os.path.join(xdg_state_home(), "PnVision")
     state_file = os.path.join(state_dir, "serial_number")
     qr_image = os.path.join(state_dir, "qr_code.png")
+    if not os.path.isdir(state_dir):
+        os.makedirs(state_dir)
 
     launch_secondary_script("capture_qr_code.py", board_location=board_location, qr_image=qr_image)
 
-    result = run_command(File(state_dir), "pnvision", "code", qr_image)
+    code = run_command(File(state_dir), "pnvision", "code", qr_image)
 
-    if result:
-        code = result.strip().replace(" ", "_")
-        if code:
-            write_file(state_file, code)
-            return
-    print(result)
+    if code:
+        if code != "None":
+            code = code.strip().replace(" ", "_")
+            if code:
+                write_file(state_file, code)
+                return code
+
     head = machine.getDefaultHead()
     park = head.getParkLocation()
 
@@ -90,6 +102,10 @@ def handle_serial_number(board_location, prompt="Enter serial number:", title="I
 
     value = JOptionPane.showInputDialog(None, prompt, title, JOptionPane.QUESTION_MESSAGE)
 
+    file_qr_image = File(qr_image)
+    if file_qr_image.exists():
+        file_qr_image.delete()
+
     if value is None:
         SN = "-"
     else:
@@ -97,13 +113,10 @@ def handle_serial_number(board_location, prompt="Enter serial number:", title="I
         SN = value if value else "-"
 
     write_file(state_file, SN)
+    return SN
 
-
-def get_user_input(board_location):
+def handle_location():
     config_file = os.path.join(xdg_config_home(), "PnVision", "location")
-
-    handle_serial_number(board_location)
-
     location = read_file(config_file)
 
     if not location:
@@ -124,7 +137,14 @@ def get_user_input(board_location):
             location = "-"
 
         write_file(config_file, location)
+    return location
 
+def get_user_input(board_location):
+
+    SN = handle_serial_number(board_location)
+
+    location = handle_location()
+    
     return SN, location
 
 
@@ -163,16 +183,16 @@ def finish_task():
 
     for _ in range(3):
         subprocess.Popen(["canberra-gtk-play", "-i", "complete"])
-        time.sleep(0.5)
+        Thread.sleep(1500)
 
 
-def main():
+def perform_inspection():
     job_obj = get_current_job()
     board_locations = job_obj.getBoardLocations()
 
     for board_index in range(board_locations.size()):
-        board_location = board_locations.get(board_index)
         global initial_report_data
+        board_location = board_locations.get(board_index)
 
         SN, location = get_user_input(board_location)
         time_str = SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(Date())
@@ -187,13 +207,16 @@ def main():
             "parts": [],
             "logs": [],
         }
+        Thread.sleep(1500)
 
         launch_secondary_script("capture_board.py")
         # run_command(capture_board_scan_dir, "pnvision", "stitch", ".")
 
         launch_secondary_script("capture_components.py")
 
-        submitUiMachineTask(lambda: finish_task())
+        finish_task()
 
+def main():
+    submitUiMachineTask(perform_inspection)
 
 main()
