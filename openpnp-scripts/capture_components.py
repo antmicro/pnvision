@@ -12,7 +12,6 @@ from java.lang import Thread
 
 from org.openpnp.model import LengthUnit
 from org.openpnp.util import Utils2D, MovableUtils
-from org.openpnp.util.UiUtils import submitUiMachineTask
 
 # ---------------- USER SETTINGS ----------------
 
@@ -38,62 +37,30 @@ CROP_MARGIN_SCALE = 1.1
 
 
 def main():
-    submitUiMachineTask(scan_components)
-
-
-def scan_components():
-    Thread.sleep(1500)
     global scan_dir
     global report_file
+    global board_location
 
     camera = machine.getDefaultHead().getDefaultCamera()
-    job_obj = get_current_job()
 
-    board_locations = job_obj.getBoardLocations()
+    safe_board_name, scan_dir = make_scan_directory(board_location)
+    print("Output: %s" % scan_dir.getAbsolutePath())
+    print("Output directory generated: %s" % scan_dir.getAbsolutePath())
 
-    for board_index in range(board_locations.size()):
-        board_location = board_locations.get(board_index)
+    report_file = File(scan_dir.getParentFile(), "report.json")
+    if not report_file.exists():
+        initial_report = globals().get("initial_report_data", {})
+        with open(report_file.getAbsolutePath(), "w") as f:
+            json.dump(initial_report, f, indent=4)
 
-        if not is_board_location_enabled(board_location):
-            print("Skipping disabled board location %d" % board_index)
-            continue
-
-        safe_board_name, scan_dir = make_scan_directory(board_location)
-        print("Output: %s" % scan_dir.getAbsolutePath())
-        print("Output directory generated: %s" % scan_dir.getAbsolutePath())
-
-        report_file = File(scan_dir.getParentFile(), "report.json")
-        if not report_file.exists():
-            initial_report = globals().get("initial_report_data", {})
-            with open(report_file.getAbsolutePath(), "w") as f:
-                json.dump(initial_report, f, indent=4)
-
-        process_board_placements(
-            camera,
-            board_location,
-            safe_board_name,
-            scan_dir,
-        )
+    process_board_placements(
+        camera,
+        board_location,
+        safe_board_name,
+        scan_dir,
+    )
 
     print("Component image capture sequence complete.")
-
-
-def get_current_job():
-    try:
-        if job is not None:
-            return job
-    except NameError:
-        pass
-
-    try:
-        if gui is not None:
-            tab = gui.getJobTab()
-            if tab is not None:
-                return tab.getJob()
-    except NameError:
-        pass
-
-    raise Exception("Active OpenPnP job not detected. Load a job prior to execution.")
 
 
 def process_board_placements(
@@ -248,13 +215,6 @@ def crop_small_passives(image, safe_part_name, rotation_deg):
     y = (h - target_h) // 2
 
     return image.getSubimage(x, y, target_w, target_h)
-
-
-def is_board_location_enabled(board_location):
-    try:
-        return board_location.isEnabled()
-    except Exception:
-        return True
 
 
 def make_scan_directory(board_location):

@@ -11,7 +11,6 @@ from javax.swing import ProgressMonitor
 
 from org.openpnp.model import LengthUnit, Location
 from org.openpnp.util import Utils2D, MovableUtils
-from org.openpnp.util.UiUtils import submitUiMachineTask
 
 # ---------------- USER SETTINGS ----------------
 
@@ -43,12 +42,9 @@ SERPENTINE = False
 
 
 def main():
-    submitUiMachineTask(scan_board_tiles)
-
-
-def scan_board_tiles():
-    Thread.sleep(1500)
     global scan_dir
+    global board_location
+
     camera = machine.defaultHead.defaultCamera
     job_obj = get_current_job()
 
@@ -59,35 +55,25 @@ def scan_board_tiles():
     print("Camera FOV: %.3f x %.3f mm" % (fov_x, fov_y))
     print("Tile step: %.3f x %.3f mm" % (step_x, step_y))
 
-    board_locations = job_obj.getBoardLocations()
+    safe_board_name, scan_dir = make_scan_directory(board_location)
+    print("Output: %s" % scan_dir.getAbsolutePath())
 
-    for board_index in range(board_locations.size()):
-        board_location = board_locations.get(board_index)
+    report_file = File(scan_dir.getParentFile(), "report.json")
+    if not report_file.exists():
+        initial_report = globals().get("initial_report_data", {})
+        with open(report_file.getAbsolutePath(), "w") as f:
+            json.dump(initial_report, f, indent=4)
 
-        if not is_board_location_enabled(board_location):
-            print("Skipping disabled board location %d" % board_index)
-            continue
-
-        safe_board_name, scan_dir = make_scan_directory(board_location)
-        print("Output: %s" % scan_dir.getAbsolutePath())
-
-        report_file = File(scan_dir.getParentFile(), "report.json")
-        if not report_file.exists():
-            initial_report = globals().get("initial_report_data", {})
-            with open(report_file.getAbsolutePath(), "w") as f:
-                json.dump(initial_report, f, indent=4)
-
-        scan_board_location(
-            camera,
-            board_location,
-            board_index,
-            fov_x,
-            fov_y,
-            step_x,
-            step_y,
-            safe_board_name,
-            scan_dir,
-        )
+    scan_board_location(
+        camera,
+        board_location,
+        fov_x,
+        fov_y,
+        step_x,
+        step_y,
+        safe_board_name,
+        scan_dir,
+    )
 
     print("Board tile scan complete.")
 
@@ -113,7 +99,6 @@ def get_current_job():
 def scan_board_location(
     camera,
     board_location,
-    board_index,
     fov_x,
     fov_y,
     step_x,
@@ -128,7 +113,7 @@ def scan_board_location(
     width = dimensions.getX()
     height = dimensions.getY()
 
-    print("Scanning board %d: %s" % (board_index, safe_board_name))
+    print("Scanning board: %s" % safe_board_name)
     print("Board dimensions: %.3f x %.3f mm" % (width, height))
 
     xs = make_axis_centers(width, fov_x, step_x, EDGE_MARGIN_X_MM)

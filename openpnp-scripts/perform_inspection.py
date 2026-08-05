@@ -115,6 +115,7 @@ def handle_serial_number(board_location, prompt="Enter serial number:", title="I
     write_file(state_file, SN)
     return SN
 
+
 def handle_location():
     config_file = os.path.join(xdg_config_home(), "PnVision", "location")
     location = read_file(config_file)
@@ -139,12 +140,13 @@ def handle_location():
         write_file(config_file, location)
     return location
 
+
 def get_user_input(board_location):
 
     SN = handle_serial_number(board_location)
 
     location = handle_location()
-    
+
     return SN, location
 
 
@@ -164,6 +166,13 @@ def get_current_job():
         pass
 
     raise Exception("Active OpenPnP job not detected. Load a job prior to execution.")
+
+
+def is_board_location_enabled(board_location):
+    try:
+        return board_location.isEnabled()
+    except Exception:
+        return True
 
 
 def finish_task():
@@ -191,14 +200,20 @@ def perform_inspection():
     board_locations = job_obj.getBoardLocations()
 
     for board_index in range(board_locations.size()):
-        global initial_report_data
+        global initial_report_data, board_location
+
         board_location = board_locations.get(board_index)
+
+        if not is_board_location_enabled(board_location):
+            print("Skipping disabled board location %d" % board_index)
+            continue
 
         SN, location = get_user_input(board_location)
         time_str = SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(Date())
         initial_report_data = {
             "metadata": {
                 "time_stamp": time_str,
+                "board_index": board_index,
                 "sn": SN,  # serial number will be read from qr or bar code (code_reader.py)
                 "project_reference": "",  # this will be taken from CI
                 "commit_sha": "",  # this will be taken from CI
@@ -209,14 +224,16 @@ def perform_inspection():
         }
         Thread.sleep(1500)
 
-        launch_secondary_script("capture_board.py")
-        # run_command(capture_board_scan_dir, "pnvision", "stitch", ".")
+        capture_board_scan_dir = launch_secondary_script("capture_board.py")
+        run_command(capture_board_scan_dir, "pnvision", "stitch", ".")
 
         launch_secondary_script("capture_components.py")
 
         finish_task()
 
+
 def main():
     submitUiMachineTask(perform_inspection)
+
 
 main()
