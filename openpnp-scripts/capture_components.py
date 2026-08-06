@@ -1,6 +1,7 @@
 from __future__ import absolute_import, division
 import re
 import json
+import math
 
 from java.io import File
 from java.lang import System, Thread
@@ -63,6 +64,63 @@ def main():
     print("Component image capture sequence complete.")
 
 
+def optimize_placements(placements):
+
+    if placements.size() <= 1:
+        return placements
+
+    points = []
+
+    for i in range(placements.size()):
+        loc = placements.get(i).getLocation()
+        points.append((loc.getX(), loc.getY()))
+
+    size = len(points)
+
+    distance_matrix = []
+
+    for i in range(size):
+        row = []
+        for j in range(size):
+            dx = points[i][0] - points[j][0]
+            dy = points[i][1] - points[j][1]
+            row.append(math.sqrt(dx * dx + dy * dy))
+        distance_matrix.append(row)
+
+    route = list(range(size))
+
+    improved = True
+
+    while improved:
+        improved = False
+
+        for i in range(1, size - 2):
+            for j in range(i + 1, size):
+
+                if j - i == 1:
+                    continue
+
+                a = route[i - 1]
+                b = route[i]
+                c = route[j]
+                d = route[(j + 1) % size]
+
+                old = distance_matrix[a][b] + distance_matrix[c][d]
+
+                new = distance_matrix[a][c] + distance_matrix[b][d]
+
+                if new < old:
+                    route[i : j + 1] = reversed(route[i : j + 1])
+                    improved = True
+
+    optimized = ArrayList()
+
+    for index in route:
+        optimized.add(placements.get(index))
+
+    return optimized
+
+
 def process_board_placements(
     camera,
     board_location,
@@ -81,6 +139,7 @@ def process_board_placements(
     board = board_location.getBoard()
     board_side = board_location.getSide()
     placements = filter_placements(board.getPlacements(), board_side)
+    placements = optimize_placements(placements)
 
     active_placements = placements.size()
     photographed_placements = 0
