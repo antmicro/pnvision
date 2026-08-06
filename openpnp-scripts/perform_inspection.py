@@ -125,34 +125,50 @@ def handle_location():
     config_file = os.path.join(xdg_config_home(), "PnVision", "location")
     location = read_file(config_file)
 
-    if not location:
-        # Assembly place / Assembly machine
-        options = ["POZ", "WRO", "GDA", "GOT"]
+    if location:
+        return location
 
-        location = JOptionPane.showInputDialog(
-            None,
-            "Select location:",
-            "Location",
-            JOptionPane.QUESTION_MESSAGE,
-            None,
-            options,
-            options[0],
-        )
+    # Assembly place / Assembly machine
+    options = ["POZ", "WRO", "GDA", "GOT"]
 
-        if location is None:
-            location = "-"
+    location = JOptionPane.showInputDialog(
+        None,
+        "Select location:",
+        "Location",
+        JOptionPane.QUESTION_MESSAGE,
+        None,
+        options,
+        options[0],
+    )
 
-        write_file(config_file, location)
+    if location is None:
+        location = "-"
+
+    write_file(config_file, location)
     return location
 
 
-def get_user_input(board_location):
+def get_user_input(board_location, board_index):
 
-    SN = handle_serial_number(board_location)
+    sn = handle_serial_number(board_location)
 
     location = handle_location()
 
-    return SN, location
+    time_str = SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(Date())
+    initial_report_data = {
+        "metadata": {
+            "time_stamp": time_str,
+            "board_index": board_index,
+            "sn": sn,
+            "project_reference": "",
+            "commit_sha": "",
+            "location": location,
+        },
+        "parts": [],
+        "logs": [],
+    }
+
+    return initial_report_data
 
 
 def get_current_job():
@@ -173,11 +189,15 @@ def get_current_job():
     raise Exception("Active OpenPnP job not detected. Load a job prior to execution.")
 
 
-def is_board_location_enabled(board_location):
+def is_board_disabled(board_location, board_index):
     try:
-        return board_location.isEnabled()
+        if not board_location.isEnabled():
+            print("Skipping disabled board location %d" % board_index)
+            return True
     except Exception:
-        return True
+        return False
+
+    return False
 
 
 def calibrate_pnp():
@@ -190,7 +210,16 @@ def calibrate_pnp():
         print("Fiducial location failed, continuing without correction:", e)
 
 
-def finishJob():
+def capture_board():
+    capture_board_scan_dir = launch_secondary_script("capture_board.py")
+    run_command(capture_board_scan_dir, "pnvision", "stitch", ".")
+
+
+def capture_components():
+    launch_secondary_script("capture_components.py")
+
+
+def finish_job():
     head = machine.getDefaultHead()
     park = head.getParkLocation()
 
@@ -216,34 +245,20 @@ def perform_inspection():
         global initial_report_data, board_location
         board_location = board_locations.get(board_index)
 
-        if not is_board_location_enabled(board_location):
-            print("Skipping disabled board location %d" % board_index)
+        if is_board_disabled(board_location, board_index):
             continue
 
         calibrate_pnp()
 
-        SN, location = get_user_input(board_location)
-        time_str = SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(Date())
-        initial_report_data = {
-            "metadata": {
-                "time_stamp": time_str,
-                "board_index": board_index,
-                "sn": SN,  # serial number will be read from qr or bar code (code_reader.py)
-                "project_reference": "",  # this will be taken from CI
-                "commit_sha": "",  # this will be taken from CI
-                "location": location,
-            },
-            "parts": [],
-            "logs": [],
-        }
-        sleep(1.5)
+        initial_report_data = get_user_input(board_location, board_index)
 
-        capture_board_scan_dir = launch_secondary_script("capture_board.py")
-        run_command(capture_board_scan_dir, "pnvision", "stitch", ".")
+        sleep(2.0)
 
-        launch_secondary_script("capture_components.py")
+        capture_board()
 
-        finishJob()
+        capture_components()
+
+        finish_job()
 
 
 def main():
