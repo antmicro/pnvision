@@ -121,6 +121,24 @@ def optimize_placements(placements):
     return optimized
 
 
+def get_time_left(active_placements, photographed_placements, camera):
+    if USE_CAPTURE_RAW:
+        additional_settle_time = 0
+    else:
+        additional_settle_time = EXTRA_SETTLE_MS
+
+    remaining = active_placements - photographed_placements
+
+    seconds_per_component = 0.25 + (additional_settle_time + camera.getSettleTimeMs()) / 1000.0
+
+    total_seconds = int(remaining * seconds_per_component)
+
+    minutes = total_seconds // 60
+    seconds = total_seconds % 60
+
+    return "%02d:%02d" % (minutes, seconds)
+
+
 def process_board_placements(
     camera,
     board_location,
@@ -144,7 +162,18 @@ def process_board_placements(
     active_placements = placements.size()
     photographed_placements = 0
 
-    monitor = ProgressMonitor(None, "Board SN: %s\nScanning components..." % board_id, "", 0, active_placements)
+    monitor = ProgressMonitor(
+        None,
+        "Board SN: %s\nScanning components..." % board_id,
+        "Parts: %d/%d Time left: %s"
+        % (
+            photographed_placements,
+            active_placements,
+            get_time_left(active_placements, photographed_placements, camera),
+        ),
+        0,
+        active_placements,
+    )
     try:
         for placement_index in range(active_placements):
             if monitor.isCanceled():
@@ -155,7 +184,14 @@ def process_board_placements(
             placement_designator = placement.getId()
 
             monitor.setProgress(photographed_placements + 1)
-            monitor.setNote("Scanning %d of %d" % (photographed_placements + 1, active_placements))
+            monitor.setNote(
+                "Parts: %d/%d Time left: %s"
+                % (
+                    photographed_placements,
+                    active_placements,
+                    get_time_left(active_placements, photographed_placements, camera),
+                )
+            )
             safe_part_name = sanitize(part_name)
             safe_placement_designator = sanitize(placement_designator)
 
