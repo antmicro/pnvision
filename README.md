@@ -16,10 +16,11 @@ This tool was designed to capture images of individual PCB components and comple
 ## Installation
 
 ### PnVision scripts:
-
+Version v0.1.1 has been confirmed to work on OpenPnP version 2.5.
+Use version v0.1.2+ if you are working with openPnP 2.6+.
 Requirements:
 
-* Python ≥ 3.11
+* Python ≥ 3.10
 * libzbar0
 
 Install pipx if needed:
@@ -45,7 +46,7 @@ pnvision --help
 ```
 
 ### OpenPnP scripts:
-1. In OpenPnP open scripts directory and add scripts from `openpnp-scripts/`. If you are using OpenPnP version 2.5 or 2.6 use tagged 0.03 version.
+1. In OpenPnP open scripts directory and add scripts from `openpnp-scripts/`.
 
 ![How to open scripts directory](img/scripts_directory.png)
 
@@ -67,19 +68,47 @@ pnvision --help
 kmake loclib
 kmake gerber
 kmake aux-origin -s bl
+kmake pnp -tvo --dnp
 ```
 
-2. According to preference use kmake or xmake:
-* kmake: `kmake pnp -tvo --dnp`
-* xmake: `xmake job tb pdi -m machine-name`
+> **Note**
+>
+>    Next steps are be done on OpenPnp
+2. Create new board in `Boards` panel
+![How to add new board](img/create_board.png)
 
-3. Set board dimensions in OpenPnP (optional if whole board image is needed)
+3. Press the created `Board` and go down to `Import placements from CAD files`
+![How to add new placements to board](img/add_placements.png)
 
-4. Calibrate board according to fiducials or components placement
+4. In the new pop-up add your generated .pos files from `1.`. Then select `Assign Parts` and `Create Missing Parts`
+![What Options to select for new placements](img/import_pos.png)
 
-5. Run perform_inspection.py
+5. Go to Job tab and add existing board
+![How to add board to job](img/add_to_job.png)
 
-6. In the pop-up window input 12 character serial number, e.g: `000.000.0001`.
+6. Set the board origin by moving the camera to the bottom-left corner defined by the intersection of the leftmost and bottommost extents of the PCB outline by pressing the blue square button.
+![How to set origin](img/set_origin.png)
+
+7. Optional: set board dimensions in OpenPnP if you want the whole board image to be taken
+![How to set dimensions](img/dimensions.png)
+
+8. Optional: add placement with `QR*` designator and assign its location if you want to automatically assign the serial number
+
+9. Optional: set fiducials as type: `Fiducial`
+
+10. Perform a calibration using placements or fiducials (check `9.`)
+![How to calibrate](img/calibrate.png)
+
+10. In machine setup set `Settle Time` to about 300 ms. In the Device Settings you can also change `brightness` and `contrast`
+![How to set settle time](img/settle_settings.png)
+
+11. Run perform_inspection.py from `Scripts`
+![How to run perform_inspection.py](img/perform_inspection.png)
+
+12. If propmpted in the pop-up window input 12 character serial number, e.g: `000.000.0001` and set your location
+
+13. After the scan is finished the images will be available in
+`~/.openpnp2/vision/log`
 
 ## Examples
 

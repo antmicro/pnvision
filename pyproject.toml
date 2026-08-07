@@ -8,7 +8,7 @@ name = "PnVision"
 version = "0.1.2"
 description = "OpenPnP visual inspection utilities"
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">=3.10"
 dependencies = [
     "numpy>=1.26",
     "opencv-python>=4.8",
