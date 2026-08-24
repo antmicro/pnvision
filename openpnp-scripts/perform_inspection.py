@@ -77,6 +77,17 @@ def write_file(path, value):
         f.write(value)
 
 
+def handle_user_comment():
+    user_comment = JOptionPane.showInputDialog(
+        None,
+        "Enter comment:",
+        "User Comment",
+        JOptionPane.QUESTION_MESSAGE,
+    )
+
+    return user_comment if user_comment else None
+
+
 def handle_serial_number(board_location, prompt="Enter serial number:", title="Input"):
     state_dir = os.path.join(xdg_state_home(), "PnVision")
     state_file = os.path.join(state_dir, "serial_number")
@@ -150,6 +161,8 @@ def handle_location():
 
 def get_user_input(board_location, board_index):
 
+    user_comment = handle_user_comment()
+
     sn = handle_serial_number(board_location)
 
     location = handle_location()
@@ -160,6 +173,7 @@ def get_user_input(board_location, board_index):
             "time_stamp": time_str,
             "board_index": board_index,
             "sn": sn,
+            "user_comment": user_comment,
             "project_reference": "",
             "commit_sha": "",
             "location": location,
