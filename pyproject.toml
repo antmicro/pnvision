@@ -1,11 +1,11 @@
 [build-system]
-requires = ["setuptools>=83.0"]
+requires = ["setuptools>=83.0", "setuptools-scm>=8"]
 build-backend = "setuptools.build_meta"
 
 
 [project]
 name = "PnVision"
-version = "0.1.2"
+dynamic = ["version"]
 description = "OpenPnP visual inspection utilities"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -37,6 +37,8 @@ where = ["src"]
 
 [tool.setuptools.package-data]
 pnvision = ["template/*"]
+
+[tool.setuptools_scm]
 
 [tool.ruff.lint]
 select = ["E", "F", "N", "B", "A", "RET"]

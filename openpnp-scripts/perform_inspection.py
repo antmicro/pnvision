@@ -32,7 +32,8 @@ def launch_secondary_script(filename, **kwargs):
 def run_command(dir, *command):
     try:
         pb = ProcessBuilder(list(command))
-        pb.directory(dir)
+        if dir is not None:
+            pb.directory(dir)
 
         process = pb.start()
 
@@ -192,6 +193,8 @@ def get_user_input(board_location, board_index):
 
     time_str = SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(Date())
 
+    scripts_version = run_command(None, "pnvision", "version")
+
     initial_report_data = {
         "metadata": {
             "timestamp": time_str,
@@ -206,6 +209,7 @@ def get_user_input(board_location, board_index):
             "commit_sha": "",
             "location": location,
             "host": {"os_name": os_name, "kernel_version": kernel_version},
+            "scripts_version": scripts_version,
         },
         "parts": [],
         "logs": [],

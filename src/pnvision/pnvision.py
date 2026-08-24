@@ -92,5 +92,12 @@ def bom(
     read_bom(bom_path)
 
 
+@app.command(help="Print the installed PnVision version.")
+def version() -> None:
+    from .commands.version import get_version
+
+    print(get_version())
+
+
 if __name__ == "__main__":
     app()
