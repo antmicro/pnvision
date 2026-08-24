@@ -1,6 +1,7 @@
 import os
 import subprocess
 from time import sleep
+import getpass
 
 from org.openpnp.util.UiUtils import submitUiMachineTask
 
@@ -163,6 +164,10 @@ def get_user_input(board_location, board_index):
 
     user_comment = handle_user_comment()
 
+    user = getpass.getuser()
+
+    board_side = str(board_location.getSide()).lower()
+
     sn = handle_serial_number(board_location)
 
     location = handle_location()
@@ -170,9 +175,11 @@ def get_user_input(board_location, board_index):
     time_str = SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(Date())
     initial_report_data = {
         "metadata": {
-            "time_stamp": time_str,
+            "timestamp": time_str,
             "board_index": board_index,
             "sn": sn,
+            "side": board_side,
+            "user": user,
             "user_comment": user_comment,
             "project_reference": "",
             "commit_sha": "",
