@@ -225,8 +225,20 @@ def process_board_placements(
             ImageIO.write(image, "PNG", file_obj)
 
             photographed_placements += 1
+
+            loc = placement.getLocation()
+
             print("Captured %s (%d/%d)" % (safe_placement_designator, photographed_placements, active_placements))
-            log_placement(report, safe_placement_designator, safe_part_name, image_file_name, report_file)
+            log_placement(
+                report,
+                safe_placement_designator,
+                safe_part_name,
+                loc.getX(),
+                loc.getY(),
+                loc.getRotation(),
+                image_file_name,
+                report_file,
+            )
     finally:
         monitor.close()
 
@@ -364,6 +376,9 @@ def log_placement(
     report,
     safe_placement_designator,
     safe_part_name,
+    position_x,
+    position_y,
+    rotation,
     image_file_name,
     report_file,
 ):
@@ -372,8 +387,10 @@ def log_placement(
 
     report["parts"].append(
         {
-            "part_designator": safe_placement_designator,
-            "part_name": safe_part_name,
+            "designator": safe_placement_designator,
+            "position": {"x": position_x, "y": position_y},
+            "rotation": rotation,
+            "name": safe_part_name,
             "image_file": image_file_name,
         }
     )
