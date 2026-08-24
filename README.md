@@ -75,21 +75,27 @@ kmake pnp -tvo --dnp
 >
 >    Next steps are be done on OpenPnp
 2. Create new board in `Boards` panel
+
 ![How to add new board](img/create_board.png)
 
 3. Press the created `Board` and go down to `Import placements from CAD files`
+
 ![How to add new placements to board](img/add_placements.png)
 
 4. In the new pop-up add your generated .pos files from `1.`. Then select `Assign Parts` and `Create Missing Parts`
+
 ![What Options to select for new placements](img/import_pos.png)
 
 5. Go to Job tab and add existing board
+
 ![How to add board to job](img/add_to_job.png)
 
 6. Set the board origin by moving the camera to the bottom-left corner defined by the intersection of the leftmost and bottommost extents of the PCB outline by pressing the blue square button.
+
 ![How to set origin](img/set_origin.png)
 
 7. Optional: set board dimensions in OpenPnP if you want the whole board image to be taken
+
 ![How to set dimensions](img/dimensions.png)
 
 8. Optional: add placement with `QR*` designator and assign its location if you want to automatically assign the serial number
@@ -97,17 +103,20 @@ kmake pnp -tvo --dnp
 9. Optional: set fiducials as type: `Fiducial`
 
 10. Perform a calibration using placements or fiducials (check `9.`)
-![How to calibrate](img/calibrate.png)
 
-10. In machine setup set `Settle Time` to about 300 ms. In the Device Settings you can also change `brightness` and `contrast`
+![How to calibrate](img/calibration.png)
+
+11. In machine setup set `Settle Time` to about 300 ms. In the Device Settings you can also change `brightness` and `contrast`
+
 ![How to set settle time](img/settle_settings.png)
 
-11. Run perform_inspection.py from `Scripts`
+12. Run perform_inspection.py from `Scripts`
+
 ![How to run perform_inspection.py](img/perform_inspection.png)
 
-12. If propmpted in the pop-up window input 12 character serial number, e.g: `000.000.0001` and set your location
+13. If prompted in the pop-up window input 12 character serial number, e.g: `000.000.0001` and set your location
 
-13. After the scan is finished the images will be available in
+14. After the scan is finished the images will be available in
 `~/.openpnp2/vision/log`
 
 ## Examples
