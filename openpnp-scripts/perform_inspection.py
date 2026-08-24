@@ -2,8 +2,10 @@ import os
 import subprocess
 from time import sleep
 import getpass
+import sys
 
 from org.openpnp.util.UiUtils import submitUiMachineTask
+import org.openpnp.Main as Main
 
 from java.text import SimpleDateFormat
 from java.util import Date
@@ -160,6 +162,15 @@ def handle_location():
     return location
 
 
+def get_os_name():
+    if os.path.exists("/etc/os-release"):
+        with open("/etc/os-release", "r") as f:
+            for line in f:
+                if line.startswith("PRETTY_NAME="):
+                    return line.strip().split("=", 1)[1].strip('"')
+    return ""
+
+
 def get_user_input(board_location, board_index):
 
     user_comment = handle_user_comment()
@@ -172,7 +183,15 @@ def get_user_input(board_location, board_index):
 
     location = handle_location()
 
+    openpnp_version = str(Main.getVersion())
+
+    python_version = "{}.{}.{}".format(*sys.version_info[:3])
+
+    os_name = get_os_name()
+    kernel_version = subprocess.check_output(["uname", "-r"]).strip()
+
     time_str = SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(Date())
+
     initial_report_data = {
         "metadata": {
             "timestamp": time_str,
@@ -180,10 +199,13 @@ def get_user_input(board_location, board_index):
             "sn": sn,
             "side": board_side,
             "user": user,
+            "openpnp_version": openpnp_version,
+            "python_version": python_version,
             "user_comment": user_comment,
             "project_reference": "",
             "commit_sha": "",
             "location": location,
+            "host": {"os_name": os_name, "kernel_version": kernel_version},
         },
         "parts": [],
         "logs": [],
