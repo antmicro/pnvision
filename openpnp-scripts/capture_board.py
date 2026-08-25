@@ -46,8 +46,6 @@ def main():
     global board_location
 
     camera = machine.defaultHead.defaultCamera
-    job_obj = get_current_job()
-
     fov_x, fov_y = get_camera_fov_mm(camera)
     step_x = fov_x * (1.0 - OVERLAP)
     step_y = fov_y * (1.0 - OVERLAP)
@@ -78,24 +76,6 @@ def main():
     print("Board tile scan complete.")
 
 
-def get_current_job():
-    try:
-        if job is not None:
-            return job
-    except NameError:
-        pass
-
-    try:
-        if gui is not None:
-            tab = gui.getJobTab()
-            if tab is not None:
-                return tab.getJob()
-    except NameError:
-        pass
-
-    raise Exception("No job available. Load an active OpenPnP job first.")
-
-
 def scan_board_location(
     camera,
     board_location,
@@ -121,7 +101,16 @@ def scan_board_location(
 
     print("Grid: %d columns x %d rows = %d images" % (len(xs), len(ys), len(xs) * len(ys)))
 
-    monitor = ProgressMonitor(None, "Scanning board...", "", 0, len(xs) * len(ys))
+    metadata = initial_report_data.get("metadata", {}) if "initial_report_data" in globals() else {}
+    sn = metadata.get("sn")
+
+    monitor = ProgressMonitor(
+        None,
+        "Board SN: %s\nScanning board..." % sn,
+        "",
+        0,
+        len(xs) * len(ys),
+    )
 
     try:
         for row in range(len(ys)):
@@ -157,18 +146,21 @@ def scan_board_location(
                 else:
                     image = camera.settleAndCapture()
 
-                board_id = (
-                    initial_report_data.get("metadata", {}).get("sn", safe_board_name)
-                    if "initial_report_data" in globals()
-                    else safe_board_name
-                )
-                image_file_name = "%s_r%s_c%s_x%s_y%s.png" % (
-                    board_id,
-                    pad(row, 3),
-                    pad(col, 3),
-                    fmt(x),
-                    fmt(y),
-                )
+                if sn is not None:
+                    image_file_name = "%s_r%s_c%s_x%s_y%s.png" % (
+                        sn,
+                        pad(row, 3),
+                        pad(col, 3),
+                        fmt(x),
+                        fmt(y),
+                    )
+                else:
+                    image_file_name = "r%s_c%s_x%s_y%s.png" % (
+                        pad(row, 3),
+                        pad(col, 3),
+                        fmt(x),
+                        fmt(y),
+                    )
 
                 file_obj = File(scan_dir, image_file_name)
                 ImageIO.write(image, "PNG", file_obj)
@@ -252,7 +244,7 @@ def make_scan_directory(board_location):
         metadata = initial_report_data.get("metadata", {})
         sn = metadata.get("sn")
         location = metadata.get("location")
-        time_str = metadata.get("time_stamp")
+        time_str = metadata.get("timestamp")
 
     parts = [sn, board_side, time_str, location]
 

@@ -148,11 +148,8 @@ def process_board_placements(
     with open(report_file.getAbsolutePath(), "r") as f:
         report = json.load(f)
 
-    board_id = (
-        initial_report_data.get("metadata", {}).get("sn", safe_board_name)
-        if "initial_report_data" in globals()
-        else safe_board_name
-    )
+    metadata = initial_report_data.get("metadata", {}) if "initial_report_data" in globals() else {}
+    sn = metadata.get("sn")
 
     board = board_location.getBoard()
     board_side = board_location.getSide()
@@ -164,7 +161,7 @@ def process_board_placements(
 
     monitor = ProgressMonitor(
         None,
-        "Board SN: %s\nScanning components..." % board_id,
+        "Board SN: %s\nScanning components..." % sn,
         "Parts: %d/%d Time left: %s"
         % (
             photographed_placements,
@@ -215,11 +212,17 @@ def process_board_placements(
                 rotation = machine_location.getRotation()
                 image = crop_small_passives(image, safe_part_name, rotation)
 
-            image_file_name = "%s_%s_%s.png" % (
-                safe_placement_designator,
-                board_id,
-                safe_part_name,
-            )
+            if sn is not None:
+                image_file_name = "%s_%s_%s.png" % (
+                    safe_placement_designator,
+                    sn,
+                    safe_part_name,
+                )
+            else:
+                image_file_name = "%s_%s.png" % (
+                    safe_placement_designator,
+                    safe_part_name,
+                )
 
             file_obj = File(scan_dir, image_file_name)
             ImageIO.write(image, "PNG", file_obj)
@@ -344,7 +347,7 @@ def make_scan_directory(board_location):
         metadata = initial_report_data.get("metadata", {})
         sn = metadata.get("sn")
         location = metadata.get("location")
-        time_str = metadata.get("time_stamp")
+        time_str = metadata.get("timestamp")
 
     parts = [sn, board_side, time_str, location]
 
