@@ -9,16 +9,46 @@ ROTATIONS = range(0, 360, 15)
 TOP_N = 10
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+CLAHE_WEIGHT = 0.25
+LOCAL_CONTRAST_WEIGHT = 0.45
+EDGE_WEIGHT = 0.30
 
-def prep(img: np.ndarray) -> np.ndarray:
-    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
+def prep(img: np.ndarray) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
     clahe = cv2.createCLAHE(
         clipLimit=2.0,
         tileGridSize=(8, 8),
     )
 
-    return clahe.apply(gray)
+    enhanced = clahe.apply(img)
+
+    background = cv2.GaussianBlur(
+        enhanced,
+        (0, 0),
+        sigmaX=3.0,
+        sigmaY=3.0,
+    )
+
+    local_contrast = cv2.absdiff(
+        enhanced,
+        background,
+    )
+
+    local_contrast = cv2.normalize(
+        local_contrast,
+        None,
+        0,
+        255,
+        cv2.NORM_MINMAX,
+    ).astype(np.uint8)
+
+    edges = cv2.Canny(
+        enhanced,
+        20,
+        80,
+    )
+
+    return enhanced, local_contrast, edges
 
 
 def rotate(img: np.ndarray, angle: int) -> np.ndarray:
@@ -34,18 +64,22 @@ def rotate(img: np.ndarray, angle: int) -> np.ndarray:
         img,
         matrix,
         (width, height),
-        borderMode=cv2.BORDER_CONSTANT,
-        borderValue=0,
+        borderMode=cv2.BORDER_REPLICATE,
     )
 
 
-def load_templates(path: Path) -> list[np.ndarray]:
-    templates: list[np.ndarray] = []
+def load_templates(
+    path: Path,
+) -> list[tuple[np.ndarray, np.ndarray, np.ndarray]]:
+    templates = []
 
     files = glob.glob(str(path / "*.png"))
 
     for filename in files:
-        image = cv2.imread(filename)
+        image = cv2.imread(
+            filename,
+            cv2.IMREAD_GRAYSCALE,
+        )
 
         if image is None:
             print(f"Could not read: {filename}")
@@ -58,7 +92,7 @@ def load_templates(path: Path) -> list[np.ndarray]:
     return templates
 
 
-def best_match(
+def match_representation(
     image: np.ndarray,
     templates: list[np.ndarray],
 ) -> float:
@@ -84,16 +118,45 @@ def best_match(
 
     top_scores = scores[:TOP_N]
 
-    return sum(top_scores) / len(top_scores)
+    return float(np.mean(top_scores))
+
+
+def best_match(
+    image: np.ndarray,
+    templates: list[tuple[np.ndarray, np.ndarray, np.ndarray]],
+) -> float:
+    image_clahe, image_local, image_edges = prep(image)
+
+    clahe_templates = [template[0] for template in templates]
+    local_templates = [template[1] for template in templates]
+    edge_templates = [template[2] for template in templates]
+
+    clahe_score = match_representation(
+        image_clahe,
+        clahe_templates,
+    )
+
+    local_score = match_representation(
+        image_local,
+        local_templates,
+    )
+
+    edge_score = match_representation(
+        image_edges,
+        edge_templates,
+    )
+
+    return CLAHE_WEIGHT * clahe_score + LOCAL_CONTRAST_WEIGHT * local_score + EDGE_WEIGHT * edge_score
 
 
 def detect_component(input_path: Path) -> None:
-    image = cv2.imread(str(input_path))
+    image = cv2.imread(
+        str(input_path),
+        cv2.IMREAD_GRAYSCALE,
+    )
 
     if image is None:
         raise ValueError(f"Could not read image: {input_path}")
-
-    image = prep(image)
 
     placed = load_templates(
         BASE_DIR / "examples" / "placed",
@@ -117,7 +180,6 @@ def detect_component(input_path: Path) -> None:
 
     result = "placed" if margin > 0 else "not_placed"
 
-    # print(result)
     print(f"placed_score:     {placed_score:.4f}")
     print(f"not_placed_score: {not_placed_score:.4f}")
     print(f"margin:           {margin:+.4f}")
