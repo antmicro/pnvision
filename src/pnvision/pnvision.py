@@ -99,5 +99,17 @@ def version() -> None:
     print(get_version())
 
 
+@app.command(help="Detect whether a component is placed.")
+def detect(
+    image_path: Annotated[
+        Path,
+        typer.Argument(..., help="Path to the component image."),
+    ],
+) -> None:
+    from .commands.compare_components import detect_component
+
+    detect_component(image_path)
+
+
 if __name__ == "__main__":
     app()
