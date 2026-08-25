@@ -78,7 +78,7 @@ def write_file(path, value):
     if not os.path.exists(directory):
         os.makedirs(directory)
     with open(path, "w") as f:
-        f.write(value)
+        f.write("null" if value is None else value)
 
 
 def handle_user_comment():
@@ -127,10 +127,10 @@ def handle_serial_number(board_location, prompt="Enter serial number:", title="I
         raise Exception("User cancelled scan")
 
     if value == "":
-        SN = "-"
+        SN = None
     else:
         value = value.strip().replace(" ", "_")
-        SN = value if value else "-"
+        SN = value if value else None
 
     write_file(state_file, SN)
     return SN
@@ -156,9 +156,6 @@ def handle_location():
         options[0],
     )
 
-    if location is None:
-        location = "-"
-
     write_file(config_file, location)
     return location
 
@@ -172,7 +169,7 @@ def get_os_name():
     return ""
 
 
-def get_user_input(board_location, board_index):
+def get_metadata(board_location, board_index):
 
     user_comment = handle_user_comment()
 
@@ -297,7 +294,7 @@ def perform_inspection():
 
         calibrate_pnp()
 
-        initial_report_data = get_user_input(board_location, board_index)
+        initial_report_data = get_metadata(board_location, board_index)
 
         sleep(2.0)
 
