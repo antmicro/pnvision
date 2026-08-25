@@ -4,7 +4,6 @@ from pathlib import Path
 import cv2
 import numpy as np
 
-
 ROTATIONS = range(0, 360, 15)
 TOP_N = 10
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -34,13 +33,17 @@ def prep(img: np.ndarray) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
         background,
     )
 
-    local_contrast = cv2.normalize(
+    normalized = np.empty_like(local_contrast)
+
+    cv2.normalize(
         local_contrast,
-        None,
+        normalized,
         0,
         255,
         cv2.NORM_MINMAX,
-    ).astype(np.uint8)
+    )
+
+    local_contrast = normalized.astype(np.uint8)
 
     edges = cv2.Canny(
         enhanced,
@@ -180,7 +183,8 @@ def detect_component(input_path: Path) -> None:
 
     result = "placed" if margin > 0 else "not_placed"
 
-    print(f"placed_score:     {placed_score:.4f}")
-    print(f"not_placed_score: {not_placed_score:.4f}")
-    print(f"margin:           {margin:+.4f}")
-    print(f"result:           {result}")
+    print(result)
+    # print(f"placed_score:     {placed_score:.4f}")
+    # print(f"not_placed_score: {not_placed_score:.4f}")
+    # print(f"margin:           {margin:+.4f}")
+    # print(f"result:           {result}")

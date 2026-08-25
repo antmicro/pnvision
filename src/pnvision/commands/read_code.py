@@ -95,7 +95,6 @@ def detect_codes(image_path: Path) -> set[str]:
 
     for variant in generate_variants(image):
         for candidate in rotations(variant):
-
             # ---------- QR ----------
             value, _, _ = qr_detector.detectAndDecode(candidate)
 
