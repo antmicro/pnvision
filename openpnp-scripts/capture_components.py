@@ -177,7 +177,7 @@ def process_board_placements(
                 raise Exception("User cancelled scan")
 
             placement = placements.get(placement_index)
-            part_name = placement.getPart().getId()
+            part_name = placement.getPart().getId() if placement.getPart() is not None else None
             placement_designator = placement.getId()
 
             monitor.setProgress(photographed_placements + 1)
@@ -212,17 +212,15 @@ def process_board_placements(
                 rotation = machine_location.getRotation()
                 image = crop_small_passives(image, safe_part_name, rotation)
 
+            parts = [safe_placement_designator]
+
             if sn is not None:
-                image_file_name = "%s_%s_%s.png" % (
-                    safe_placement_designator,
-                    sn,
-                    safe_part_name,
-                )
-            else:
-                image_file_name = "%s_%s.png" % (
-                    safe_placement_designator,
-                    safe_part_name,
-                )
+                parts.append(sn)
+
+            if part_name is not None:
+                parts.append(safe_part_name)
+
+            image_file_name = "_".join(parts) + ".png"
 
             file_obj = File(scan_dir, image_file_name)
             ImageIO.write(image, "PNG", file_obj)
@@ -235,7 +233,7 @@ def process_board_placements(
             log_placement(
                 report,
                 safe_placement_designator,
-                safe_part_name,
+                part_name,
                 loc.getX(),
                 loc.getY(),
                 loc.getRotation(),
@@ -261,7 +259,6 @@ def filter_placements(placements, board_side):
         if placement.getSide() != board_side:
             continue
 
-        part_name = placement.getPart().getId()
         # Skip parts by ID
         if (
             placement_designator.startswith("MP")
@@ -269,7 +266,7 @@ def filter_placements(placements, board_side):
             or placement_designator.startswith("FD")
             or placement_designator.startswith("REF**")
         ):
-            print("Skipping %s (%s)" % (placement_designator, part_name))
+            print("Skipping %s" % placement_designator)
             continue
         filtered_placements.add(placement)
 
@@ -378,7 +375,7 @@ def fmt(value):
 def log_placement(
     report,
     safe_placement_designator,
-    safe_part_name,
+    part_name,
     position_x,
     position_y,
     rotation,
@@ -393,7 +390,7 @@ def log_placement(
             "designator": safe_placement_designator,
             "position": {"x": position_x, "y": position_y},
             "rotation": rotation,
-            "name": safe_part_name,
+            "name": part_name,
             "image_file": image_file_name,
         }
     )
