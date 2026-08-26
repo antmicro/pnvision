@@ -37,7 +37,11 @@ def generate_html_report(
         print("No BOM file found.")
 
     content = template.render(
-        metadata=log.get("metadata", {}), project_name=log.get("project_name", "Unknown"), parts=parts
+        tools=log.get("tools", {}),
+        scan=log.get("scan", {}),
+        pcb=log.get("pcb", {}),
+        sourcing=log.get("sourcing", {}),
+        parts=parts,
     )
 
     output_path = output_dir / "report.html"

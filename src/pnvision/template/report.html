@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{{metadata.project_reference}} Visual Inspection Report</title>
+    <title>{{pcb.project_reference}} Visual Inspection Report</title>
     <link rel="icon" href="favicon.ico">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -156,48 +156,80 @@
         <div class="header_sep">/</div>
         <div class="header_content">Visual Inspection Report</div>
         <div class="header_sep">/</div>
-        <div class="header_content">{{metadata.project_reference}}</div>
+        <div class="header_content">{{pcb.project_reference}}</div>
     </div>
 
     <div class="board-image-container">
-        <img class="board-image" src="full_board.png" alt="{{metadata.project_reference}} board">
+        <img class="board-image" src="full_board.png" alt="{{pcb.project_reference}} board">
     </div>
 
     <p class="metadata">
-        <span class="metadata-label">Time stamp:</span> {{ metadata.time_stamp }}<br>
-        <span class="metadata-label">Serial number:</span> {{ metadata.sn }}<br>
-        <span class="metadata-label">Git commit SHA:</span> {{ metadata.commit_sha }}<br>
-        <span class="metadata-label">Machine used:</span> {{ metadata.location }}
+        <span class="metadata-label">Timestamp:</span> {{ scan.timestamp }}<br>
+        <span class="metadata-label">Location:</span> {{ scan.location }}<br>
+        <span class="metadata-label">Side:</span> {{ scan.side }}<br>
+        <span class="metadata-label">Board index:</span> {{ scan.board_index }}<br>
+        <span class="metadata-label">User:</span> {{ scan.user }}<br>
+        <span class="metadata-label">User comment:</span> {{ scan.user_comment }}<br>
+
+        <span class="metadata-label">Serial number:</span> {{ pcb.serial_number }}<br>
+        <span class="metadata-label">Project reference:</span> {{ pcb.project_reference }}<br>
+        <span class="metadata-label">Git commit SHA:</span> {{ pcb.sha }}<br>
+
+        <span class="metadata-label">BOM file:</span> {{ sourcing.bom_file }}<br>
+        <span class="metadata-label">Sourcing file:</span> {{ sourcing.sourcing_file }}<br>
+
+        <span class="metadata-label">Scripts version:</span> {{ tools.scripts_version }}<br>
+        <span class="metadata-label">Python version:</span> {{ tools.python_version }}<br>
+        <span class="metadata-label">OpenPnP version:</span> {{ tools.openpnp_version }}<br>
+        <span class="metadata-label">OS:</span> {{ tools.Os_name }}<br>
+        <span class="metadata-label">Kernel version:</span> {{ tools.kernel_version }}
     </p>
-    <div class="table-wrapper">
+<div class="table-wrapper">
     <table>
         <thead>
             <tr>
                 <th scope="col">Ref</th>
                 <th scope="col">Part</th>
+                <th scope="col">Position</th>
+                <th scope="col">Rotation</th>
+                <th scope="col">Feeder</th>
+                <th scope="col">Footprint</th>
+                <th scope="col">MPN original</th>
+                <th scope="col">MPN placed</th>
+                <th scope="col">Manufacturer original</th>
+                <th scope="col">Manufacturer placed</th>
+                <th scope="col">DNP status</th>
                 <th scope="col">Captured image</th>
-                <th scope="col">DNP</th>
-                <th scope="col">DNP test status</th>
             </tr>
         </thead>
         <tbody>
             {% for _, part in parts.iterrows() %}
             <tr>
-                <td>{{ part["part_designator"] }}</th>
-                <td>{{ part["part_name"] }}</td>
+                <td>{{ part["designator"] }}</td>
+                <td>{{ part["name"] }}</td>
+                <td>
+                    X: {{ part["position"]["x"] }}<br>
+                    Y: {{ part["position"]["y"] }}
+                </td>
+                <td>{{ part["rotation"] }}</td>
+                <td>{{ part["feeder"] }}</td>
+                <td>{{ part["footprint"] }}</td>
+                <td>{{ part["mpn_original"] }}</td>
+                <td>{{ part["mpn_placed"] }}</td>
+                <td>{{ part["manufacturer_original"] }}</td>
+                <td>{{ part["manufacturer_placed"] }}</td>
+                <td>{{ part["dnp_status"] }}</td>
                 <td>
                     <img
                         src="components/{{ part['image_file'] }}"
-                        alt="{{ part['part_name'] }}"
+                        alt="{{ part['name'] }}"
                         class="part-image"
                     >
                 </td>
-                <td>{{ part["dnp"] }}</td>
-                <td>{{ part["inspection_status"] }}</td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
-    </div>
+</div>
 </body>
 </html>
