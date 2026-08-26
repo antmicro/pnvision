@@ -90,7 +90,7 @@ kmake pnp -tvo --dnp
 
 ![How to add board to job](img/add_to_job.png)
 
-6. Set the board origin by moving the camera to the bottom-left corner defined by the intersection of the leftmost and bottommost extents of the PCB outline by pressing the blue square button.
+6. Set the board origin by moving the camera to the bottom-left corner defined by the intersection of the leftmost and bottommost extents of the PCB outline by pressing the blue square button
 
 ![How to set origin](img/set_origin.png)
 
@@ -100,9 +100,9 @@ kmake pnp -tvo --dnp
 
 8. Optional: add placement with `QR*` designator and assign its location if you want to automatically assign the serial number
 
-9. Optional: set fiducials as type: `Fiducial`
+9. Optional: set fiducials as type: `Fiducial` and assign them corresponding part
 
-10. Perform a calibration using placements or fiducials (check `9.`)
+10. Perform a calibration using placements or fiducials (seee point `9.`)
 
 ![How to calibrate](img/calibration.png)
 
@@ -116,7 +116,7 @@ kmake pnp -tvo --dnp
 
 13. If prompted in the pop-up window input 12 character serial number, e.g: `000.000.0001` and set your location
 
-14. After the scan is finished the images are stored in `$XDG_DATA_HOME/pnvision` if set, otherwise in `~/.local/share/pnvision`.
+14. After the scan is finished the images are stored in `$XDG_DATA_HOME/pnvision` if set, otherwise in `~/.local/share/pnvision`
 
 ## Examples
 
