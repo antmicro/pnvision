@@ -2,6 +2,7 @@ from __future__ import absolute_import, division
 import re
 import json
 import math
+import os
 
 from java.io import File
 from java.lang import System, Thread
@@ -25,10 +26,6 @@ USE_CAPTURE_RAW = False
 
 # Crop passive component images
 CROP_IMAGES = True
-
-# Base directory for the output images.
-if "OUT_FOLDER" not in globals():
-    OUT_FOLDER = System.getProperty("user.home") + "/.openpnp2/vision/log/"
 
 # Component image cropping variables
 ANGLE_DEVIATION = 5.0
@@ -62,6 +59,17 @@ def main():
     )
 
     print("Component image capture sequence complete.")
+
+
+def data_home():
+    if not System.getProperty("os.name").lower().startswith("windows"):
+        return os.path.join(
+            os.environ.get("XDG_DATA_HOME", os.path.join(os.path.expanduser("~"), ".local", "share")), "pnvision"
+        )
+
+    return os.path.join(
+        os.environ.get("LOCALAPPDATA", os.path.join(os.path.expanduser("~"), "AppData", "Local")), "pnvision"
+    )
 
 
 def optimize_placements(placements):
@@ -331,7 +339,7 @@ def make_scan_directory(board_location):
         board_name = board_name[: -len(".board.xml")]
     safe_board_name = sanitize(board_name)
 
-    root = File(OUT_FOLDER, safe_board_name)
+    root = File(data_home(), safe_board_name)
     if not root.exists():
         root.mkdirs()
 

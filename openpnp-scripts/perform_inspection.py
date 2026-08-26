@@ -10,7 +10,7 @@ import org.openpnp.Main as Main
 from java.text import SimpleDateFormat
 from java.util import Date
 from javax.swing import JOptionPane, SwingUtilities
-from java.lang import ProcessBuilder
+from java.lang import ProcessBuilder, System
 from java.io import IOException, BufferedReader, InputStreamReader, File
 from java.lang import Exception as JavaException
 
@@ -58,12 +58,26 @@ def run_command(dir, *command):
         return None
 
 
-def xdg_config_home():
-    return os.environ.get("XDG_CONFIG_HOME", os.path.join(os.path.expanduser("~"), ".config"))
+def config_home():
+    if not System.getProperty("os.name").lower().startswith("windows"):
+        return os.path.join(
+            os.environ.get("XDG_CONFIG_HOME", os.path.join(os.path.expanduser("~"), ".config")), "pnvision"
+        )
+
+    return os.path.join(
+        os.environ.get("APPDATA", os.path.join(os.path.expanduser("~"), "AppData", "Roaming")), "pnvision"
+    )
 
 
-def xdg_state_home():
-    return os.environ.get("XDG_STATE_HOME", os.path.join(os.path.expanduser("~"), ".local", "state"))
+def state_home():
+    if not System.getProperty("os.name").lower().startswith("windows"):
+        return os.path.join(
+            os.environ.get("XDG_STATE_HOME", os.path.join(os.path.expanduser("~"), ".local", "state")), "pnvision"
+        )
+
+    return os.path.join(
+        os.environ.get("LOCALAPPDATA", os.path.join(os.path.expanduser("~"), "AppData", "Local")), "pnvision"
+    )
 
 
 def read_file(path):
@@ -93,7 +107,7 @@ def handle_user_comment():
 
 
 def handle_serial_number(board_location, prompt="Enter serial number:", title="Input"):
-    state_dir = os.path.join(xdg_state_home(), "PnVision")
+    state_dir = state_home()
     state_file = os.path.join(state_dir, "serial_number")
     qr_image = os.path.join(state_dir, "qr_code.png")
     if not os.path.isdir(state_dir):
@@ -137,7 +151,7 @@ def handle_serial_number(board_location, prompt="Enter serial number:", title="I
 
 
 def handle_location():
-    config_file = os.path.join(xdg_config_home(), "PnVision", "location")
+    config_file = os.path.join(config_home(), "location")
     location = read_file(config_file)
 
     if location:

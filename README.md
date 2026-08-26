@@ -116,8 +116,7 @@ kmake pnp -tvo --dnp
 
 13. If prompted in the pop-up window input 12 character serial number, e.g: `000.000.0001` and set your location
 
-14. After the scan is finished the images will be available in
-`~/.openpnp2/vision/log`
+14. After the scan is finished the images are stored in `$XDG_DATA_HOME/pnvision` if set, otherwise in `~/.local/share/pnvision`.
 
 ## Examples
 
