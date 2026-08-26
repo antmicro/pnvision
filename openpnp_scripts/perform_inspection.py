@@ -207,23 +207,31 @@ def get_metadata(board_location, board_index):
     scripts_version = run_command(None, "pnvision", "version")
 
     initial_report_data = {
-        "metadata": {
-            "timestamp": time_str,
-            "board_index": board_index,
-            "sn": sn,
-            "side": board_side,
-            "user": user,
-            "openpnp_version": openpnp_version,
-            "python_version": python_version,
-            "user_comment": user_comment,
-            "project_reference": "",
-            "commit_sha": "",
-            "location": location,
-            "host": {"os_name": os_name, "kernel_version": kernel_version},
+        "tools": {
             "scripts_version": scripts_version,
+            "python_version": python_version,
+            "openpnp_version": openpnp_version,
+            "host_pc": {"os_name": os_name, "kernel_version": kernel_version},
+        },
+        "scan": {
+            "timestamp": time_str,
+            "location": location,
+            "side": board_side,
+            "board_index": board_index,
+            "results": {},
+            "user": user,
+            "user_comment": user_comment,
+        },
+        "pcb": {
+            "serial_number": sn,
+            "project_reference": "",
+            "sha": "",
+        },
+        "sourcing": {
+            "bom_file": "",
+            "sourcing_file": "",
         },
         "parts": [],
-        "logs": [],
     }
 
     return initial_report_data

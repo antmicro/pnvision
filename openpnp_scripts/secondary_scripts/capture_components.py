@@ -54,7 +54,6 @@ def main():
     process_board_placements(
         camera,
         board_location,
-        safe_board_name,
         scan_dir,
     )
 
@@ -150,14 +149,13 @@ def get_time_left(active_placements, photographed_placements, camera):
 def process_board_placements(
     camera,
     board_location,
-    safe_board_name,
     scan_dir,
 ):
     with open(report_file.getAbsolutePath(), "r") as f:
         report = json.load(f)
 
-    metadata = initial_report_data.get("metadata", {}) if "initial_report_data" in globals() else {}
-    sn = metadata.get("sn")
+    pcbdata = initial_report_data.get("pcb", {}) if "initial_report_data" in globals() else {}
+    serial_number = pcbdata.get("serial_number")
 
     board = board_location.getBoard()
     board_side = board_location.getSide()
@@ -169,7 +167,7 @@ def process_board_placements(
 
     monitor = ProgressMonitor(
         None,
-        "Board SN: %s\nScanning components..." % sn,
+        "Board SN: %s\nScanning components..." % serial_number,
         "Parts: %d/%d Time left: %s"
         % (
             photographed_placements,
@@ -222,8 +220,8 @@ def process_board_placements(
 
             parts = [safe_placement_designator]
 
-            if sn is not None:
-                parts.append(sn)
+            if serial_number is not None:
+                parts.append(serial_number)
 
             if part_name is not None:
                 parts.append(safe_part_name)
@@ -343,18 +341,19 @@ def make_scan_directory(board_location):
     if not root.exists():
         root.mkdirs()
 
-    sn = ""
+    serial_number = ""
     board_side = str(board_location.getSide()).lower()
     location = ""
     time_str = SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(Date())
 
     if "initial_report_data" in globals():
-        metadata = initial_report_data.get("metadata", {})
-        sn = metadata.get("sn")
-        location = metadata.get("location")
-        time_str = metadata.get("timestamp")
+        scandata = initial_report_data.get("scan", {})
+        pcbdata = initial_report_data.get("pcb", {})
+        serial_number = pcbdata.get("serial_number")
+        location = scandata.get("location")
+        time_str = scandata.get("timestamp")
 
-    parts = [sn, board_side, time_str, location]
+    parts = [serial_number, board_side, time_str, location]
 
     dir_name = "_".join(part for part in parts if part and part != "-")
 
@@ -396,9 +395,16 @@ def log_placement(
     report["parts"].append(
         {
             "designator": safe_placement_designator,
+            "name": part_name,
             "position": {"x": position_x, "y": position_y},
             "rotation": rotation,
-            "name": part_name,
+            "feeder": "",
+            "footprint": "",
+            "mpn_original": "",
+            "mpn_placed": "",
+            "manufacturer_original": "",
+            "manufacturer_placed": "",
+            "dnp_status": "",
             "image_file": image_file_name,
         }
     )

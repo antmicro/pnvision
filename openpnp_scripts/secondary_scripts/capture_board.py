@@ -110,12 +110,12 @@ def scan_board_location(
 
     print("Grid: %d columns x %d rows = %d images" % (len(xs), len(ys), len(xs) * len(ys)))
 
-    metadata = initial_report_data.get("metadata", {}) if "initial_report_data" in globals() else {}
-    sn = metadata.get("sn")
+    pcbdata = initial_report_data.get("pcb", {}) if "initial_report_data" in globals() else {}
+    serial_number = pcbdata.get("serial_number")
 
     monitor = ProgressMonitor(
         None,
-        "Board SN: %s\nScanning board..." % sn,
+        "Board SN: %s\nScanning board..." % serial_number,
         "",
         0,
         len(xs) * len(ys),
@@ -155,9 +155,9 @@ def scan_board_location(
                 else:
                     image = camera.settleAndCapture()
 
-                if sn is not None:
+                if serial_number is not None:
                     image_file_name = "%s_r%s_c%s_x%s_y%s.png" % (
-                        sn,
+                        serial_number,
                         pad(row, 3),
                         pad(col, 3),
                         fmt(x),
@@ -244,18 +244,19 @@ def make_scan_directory(board_location):
     if not root.exists():
         root.mkdirs()
 
-    sn = ""
+    serial_number = ""
     board_side = str(board_location.getSide()).lower()
     location = ""
     time_str = SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(Date())
 
     if "initial_report_data" in globals():
-        metadata = initial_report_data.get("metadata", {})
-        sn = metadata.get("sn")
-        location = metadata.get("location")
-        time_str = metadata.get("timestamp")
+        scandata = initial_report_data.get("scan", {})
+        pcbdata = initial_report_data.get("pcb", {})
+        serial_number = pcbdata.get("serial_number")
+        location = scandata.get("location")
+        time_str = scandata.get("timestamp")
 
-    parts = [sn, board_side, time_str, location]
+    parts = [serial_number, board_side, time_str, location]
 
     dir_name = "_".join(part for part in parts if part and part != "-")
 
