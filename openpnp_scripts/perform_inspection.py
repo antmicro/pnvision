@@ -14,7 +14,7 @@ from java.lang import ProcessBuilder, System
 from java.io import IOException, BufferedReader, InputStreamReader, File
 from java.lang import Exception as JavaException
 
-SCRIPTS_DIR = os.path.expanduser("~/.openpnp2/scripts")
+SCRIPTS_DIR = os.path.expanduser("~/.openpnp2/scripts/secondary_scripts")
 
 
 def launch_secondary_script(filename, **kwargs):
@@ -250,7 +250,7 @@ def get_current_job():
 def is_board_disabled(board_location, board_index):
     try:
         if not board_location.isEnabled():
-            print("Skipping disabled board location %d" % board_index)
+            print("Skipping disabled board with index %d" % board_index)
             return True
     except Exception:
         return False
