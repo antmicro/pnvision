@@ -111,5 +111,24 @@ def detect(
     detect_component(image_path)
 
 
+@app.command(help="Generate collage of components sorted by designator.")
+def collage(
+    scans_directory: Annotated[
+        Path,
+        typer.Argument(help="Directory containing all scans."),
+    ],
+    output: Annotated[
+        Optional[Path],
+        typer.Option("--output", "-o", help="Output collage."),
+    ] = None,
+) -> None:
+    from .commands.generate_collage import generate_report
+
+    generate_report(
+        scans_directory=scans_directory,
+        output=output,
+    )
+
+
 if __name__ == "__main__":
     app()
