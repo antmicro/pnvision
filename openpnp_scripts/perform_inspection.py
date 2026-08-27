@@ -314,11 +314,11 @@ def perform_inspection():
         if is_board_disabled(board_location, board_index):
             continue
 
-        calibrate_pnp()
-
         initial_report_data = get_metadata(board_location, board_index)
 
-        sleep(2.0)
+        sleep(1.5)
+
+        calibrate_pnp()
 
         capture_board()
 
