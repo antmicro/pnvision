@@ -73,8 +73,8 @@ kmake pnp -tvo --dnp
 
 > **Note**
 >
->    Next steps are be done on OpenPnp
-2. Create new board in `Boards` panel
+>    Next steps are be done on OpenPnP, please clean the board before scanning
+2. Create new board in `Boards` panel. Make sure the board name is the same as projects name (this name will be used to create a board specific directory)
 
 ![How to add new board](img/create_board.png)
 
@@ -82,7 +82,7 @@ kmake pnp -tvo --dnp
 
 ![How to add new placements to board](img/add_placements.png)
 
-4. In the new pop-up add your generated .pos files from `1.`. Then select `Assign Parts` and `Create Missing Parts`
+4. In the new pop-up add your generated .pos files from `1.`. Then select `Assign Parts` and `Create Missing Parts`. Selecting `Use only Value as PartId` will use `Value` field from Kicad without adding `package`
 
 ![What Options to select for new placements](img/import_pos.png)
 
@@ -98,7 +98,7 @@ kmake pnp -tvo --dnp
 
 ![How to set dimensions](img/dimensions.png)
 
-8. Optional: add placement with `QR*` designator and assign its location if you want to automatically assign the serial number
+8. Optional: add placement with `QR*` designator and assign its location to QR code if you want to automatically assign the serial number
 
 9. Optional: set fiducials as type: `Fiducial` and assign them corresponding part
 
@@ -106,7 +106,7 @@ kmake pnp -tvo --dnp
 
 ![How to calibrate](img/calibration.png)
 
-11. In machine setup set `Settle Time` to about 300 ms. In the Device Settings you can also change `brightness` and `contrast`
+11. In machine setup set `Settle Time` to about 300 ms. In the Device Settings you can also change `brightness` and `contrast`. Note that the speed set in `Machine Controls` affects speed of scanning
 
 ![How to set settle time](img/settle_settings.png)
 
@@ -114,9 +114,11 @@ kmake pnp -tvo --dnp
 
 ![How to run perform_inspection.py](img/perform_inspection.png)
 
-13. If prompted in the pop-up window input 12 character serial number, e.g: `000.000.0001` and set your location
+13. If prompted in the pop-up window input comment about board assembly, serial number, e.g.: `000.000.0001` and set your location
 
 14. After the scan is finished the images are stored in `$XDG_DATA_HOME/pnvision` if set, otherwise in `~/.local/share/pnvision`
+
+15. It is recommended to scan one side of every board first e.g. `top`
 
 ## Examples
 
