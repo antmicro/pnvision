@@ -140,84 +140,66 @@
         }
 
         .part-image {
-            max-width: 160px;
-            max-height: 160px;
-            width: auto;
-            height: auto;
+            width: min(20vw, 320px);
+            height: min(20vw, 320px);
             object-fit: contain;
+            display: block;
+            margin: 0 auto;
         }
     </style>
 </head>
 
-<body>
-    <div class="header">
-        <div class="header_content">
-            <img src="logo.svg" style="padding-top: 7px; height: 32px;">
-        </div>
+<div class="table-wrapper">
+    <table>
+        <thead>
+            <tr>
+                <th scope="col" style="text-align: center;">Designator</th>
 
-        <div class="header_sep">/</div>
-        <div class="header_content">Visual Inspection Report</div>
-        <div class="header_sep">/</div>
-        <div class="header_content">
-            {{ reports[0].pcb.project_reference if reports else "" }}
-        </div>
-    </div>
+                {% for serial_number in serial_numbers %}
+                <th scope="col" style="text-align: center;">
+                    {{ serial_number }}
+                </th>
+                {% endfor %}
+            </tr>
+        </thead>
 
-    <div class="table-wrapper">
-        <table>
-            <thead>
-                <tr>
-                    <th scope="col">Designator</th>
+        <tbody>
+            {% set ns = namespace(designators=[]) %}
 
-                    {% for report in reports %}
-                    <th scope="col">
-                        {{ report.scan.serial_number }}
-                    </th>
-                    {% endfor %}
-                </tr>
-            </thead>
+            {% for report in reports %}
+                {% for part in report.parts %}
+                    {% if part.designator not in ns.designators %}
+                        {% set ns.designators = ns.designators + [part.designator] %}
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
 
-            <tbody>
-                {# Build the union of all designators across all scans #}
-                {% set namespace = namespace(designators=[]) %}
+            {% for designator in ns.designators | sort %}
+            <tr>
+                <td>{{ designator }}</td>
 
-                {% for report in reports %}
-                    {% for part in report.parts %}
-                        {% if part.designator not in namespace.designators %}
-                            {% set namespace.designators = namespace.designators + [part.designator] %}
+                {% for serial_number in serial_numbers %}
+                    {% set filename = (
+                        components_by_designator
+                        .get(designator, {})
+                        .get(serial_number)
+                    ) %}
+
+                    <td>
+                        {% if filename %}
+                            <img
+                                src="components/{{ filename }}"
+                                alt="{{ designator }}"
+                                class="part-image"
+                            >
+                        {% else %}
+                            -
                         {% endif %}
-                    {% endfor %}
+                    </td>
                 {% endfor %}
-
-                {% for designator in namespace.designators | sort %}
-                <tr>
-                    <td>{{ designator }}</td>
-
-                    {% for report in reports %}
-                        {% set part = none %}
-
-                        {% for candidate in report.parts %}
-                            {% if candidate.designator == designator %}
-                                {% set part = candidate %}
-                            {% endif %}
-                        {% endfor %}
-
-                        <td>
-                            {% if part %}
-                                <img
-                                    src="components/{{ part.image_file }}"
-                                    alt="{{ part.name }}"
-                                    class="part-image"
-                                >
-                            {% else %}
-                                -
-                            {% endif %}
-                        </td>
-                    {% endfor %}
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-</body>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 </html>
