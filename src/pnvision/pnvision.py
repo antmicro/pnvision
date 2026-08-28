@@ -106,7 +106,7 @@ def detect(
         typer.Argument(..., help="Path to the component image."),
     ],
 ) -> None:
-    from .commands.compare_components import detect_component
+    from .commands.detect_dnp import detect_component
 
     detect_component(image_path)
 
@@ -127,6 +127,20 @@ def collage(
     generate_report(
         scans_directory=scans_directory,
         output=output,
+    )
+
+
+@app.command(help="Compare components with the same designator and detect outliers.")
+def compare(
+    scans_directory: Annotated[
+        Path,
+        typer.Argument(help="Directory containing all scans."),
+    ],
+) -> None:
+    from .commands.compare_components import compare_components
+
+    compare_components(
+        scans_directory=scans_directory,
     )
 
 
