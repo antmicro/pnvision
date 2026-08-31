@@ -3,13 +3,15 @@ import subprocess
 from time import sleep
 import getpass
 import sys
+import re
+import shutil
 
 from org.openpnp.util.UiUtils import submitUiMachineTask
 import org.openpnp.Main as Main
 
 from java.text import SimpleDateFormat
 from java.util import Date
-from javax.swing import JOptionPane, SwingUtilities
+from javax.swing import JOptionPane, SwingUtilities, JFileChooser
 from java.lang import ProcessBuilder, System
 from java.io import IOException, BufferedReader, InputStreamReader, File
 from java.lang import Exception as JavaException
@@ -174,6 +176,94 @@ def handle_location():
     return location
 
 
+def get_bom_from_user():
+    state_dir = str(state_home())
+    if not os.path.isdir(state_dir):
+        os.makedirs(state_dir)
+
+    for filename in os.listdir(state_dir):
+        if not filename.endswith("-BOM-ALL-ReferenceNotGrouped.csv"):
+            continue
+
+        bom_file_path = os.path.join(state_dir, filename)
+
+        if not os.path.isfile(bom_file_path):
+            continue
+
+        result = JOptionPane.showConfirmDialog(
+            None,
+            "A previous BOM file was found:\n\n" + filename + "\n\n" + "Do you want to use it?",
+            "Previous BOM",
+            JOptionPane.YES_NO_OPTION,
+            JOptionPane.QUESTION_MESSAGE,
+        )
+
+        if result == JOptionPane.YES_OPTION:
+            file = File(bom_file_path)
+            return file
+
+    chooser = JFileChooser()
+    chooser.setDialogTitle("Select BOM-ALL-ReferenceNotGrouped CSV File")
+
+    result = chooser.showOpenDialog(None)
+
+    if result != JFileChooser.APPROVE_OPTION:
+        return None
+
+    file = chooser.getSelectedFile()
+    return file
+
+
+def parse_bom_filename(filename):
+    BOM_FILENAME_RE = re.compile(
+        r"^(?P<project_reference>.+)-(?P<sha>[0-9a-fA-F]{7,40})" r"-BOM-ALL-ReferenceNotGrouped(?:\.csv)?$"
+    )
+
+    match = BOM_FILENAME_RE.match(filename)
+
+    if not match:
+        return None, None
+
+    return (str(match.group("project_reference")), str(match.group("sha")))
+
+
+def save_bom_to_state(bom_path):
+    state_dir = str(state_home())
+    filename = os.path.basename(str(bom_path))
+
+    saved_bom_file_path = os.path.join(state_dir, filename)
+    source_path = str(bom_path.getAbsolutePath())
+
+    if os.path.abspath(source_path) == os.path.abspath(saved_bom_file_path):
+        return str(saved_bom_file_path)
+    try:
+        shutil.copy2(source_path, saved_bom_file_path)
+    except (IOError, OSError):
+        return None
+
+    return str(saved_bom_file_path)
+
+
+def handle_bom():
+    bom_path = get_bom_from_user()
+    if bom_path is None:
+        return None, None, None
+
+    original_bom_file_path = str(bom_path.getAbsolutePath())
+    bom_file = str(bom_path.getName())
+
+    project_reference, sha = parse_bom_filename(bom_file)
+    if project_reference is None:
+        return None, None, None
+
+    saved_bom_file_path = save_bom_to_state(bom_path)
+
+    if saved_bom_file_path is None:
+        return None, None, None
+
+    return (str(original_bom_file_path), str(project_reference), str(sha))
+
+
 def get_os_name():
     if os.path.exists("/etc/os-release"):
         with open("/etc/os-release", "r") as f:
@@ -194,6 +284,8 @@ def get_metadata(board_location, board_index):
     sn = handle_serial_number(board_location)
 
     location = handle_location()
+
+    bom_file_path, project_reference, sha = handle_bom()
 
     openpnp_version = str(Main.getVersion())
 
@@ -224,11 +316,11 @@ def get_metadata(board_location, board_index):
         },
         "pcb": {
             "serial_number": sn,
-            "project_reference": "",
-            "sha": "",
+            "project_reference": project_reference,
+            "sha": sha,
         },
         "sourcing": {
-            "bom_file": "",
+            "bom_file": bom_file_path,
             "sourcing_file": "",
         },
         "parts": [],
@@ -291,6 +383,8 @@ def finish_job():
 
     if park is not None:
         head.getDefaultCamera().moveTo(park)
+
+    sleep(1)
 
     for _ in range(4):
         subprocess.Popen(["canberra-gtk-play", "-i", "complete"])
