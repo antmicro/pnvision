@@ -74,6 +74,31 @@ def generate_html_report(
                 {},
             )[serial_number] = component_path.name
 
+    # Build the table rows separately from the HTML.
+    designators = set()
+
+    for report in reports:
+        for part in report.get("parts", []):
+            designator = part.get("designator")
+
+            if designator:
+                designators.add(designator)
+
+    table_rows = []
+
+    for designator in sorted(designators):
+        images = {}
+
+        for serial_number in serial_numbers:
+            images[serial_number] = components_by_designator.get(designator, {}).get(serial_number)
+
+        table_rows.append(
+            {
+                "designator": designator,
+                "images": images,
+            }
+        )
+
     environment = Environment(
         loader=FileSystemLoader(str(template_dir)),
     )
@@ -81,11 +106,9 @@ def generate_html_report(
     template = environment.get_template("report.html")
 
     content = template.render(
-        reports=reports,
-        scans=reports,
-        components=components_output_dir,
-        components_by_designator=components_by_designator,
         serial_numbers=serial_numbers,
+        rows=table_rows,
+        page_size=50,
     )
 
     output_path.write_text(content, encoding="utf-8")

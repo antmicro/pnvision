@@ -146,11 +146,49 @@
             display: block;
             margin: 0 auto;
         }
+
+        /* Pagination */
+        .pagination {
+            width: 97%;
+            margin: 16px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .pagination button {
+            background-color: transparent;
+            border: 1px solid hsla(210, 6%, 16%, 1);
+            color: #94999e;
+            padding: 6px 10px;
+            font: inherit;
+            cursor: pointer;
+        }
+
+        .pagination button:hover {
+            border-color: #94999e;
+            color: #94999e;
+        }
+
+        .pagination button.active {
+            background-color: hsla(210, 6%, 16%, 1);
+            border-color: #94999e;
+            color: #94999e;
+        }
+
+        .pagination button:disabled {
+            opacity: 0.4;
+            cursor: default;
+        }
     </style>
 </head>
 
+<div class="pagination" id="pagination-top"></div>
+
 <div class="table-wrapper">
-    <table>
+    <table id="report-table">
         <thead>
             <tr>
                 <th scope="col" style="text-align: center;">Designator</th>
@@ -163,43 +201,123 @@
             </tr>
         </thead>
 
-        <tbody>
-            {% set ns = namespace(designators=[]) %}
-
-            {% for report in reports %}
-                {% for part in report.parts %}
-                    {% if part.designator not in ns.designators %}
-                        {% set ns.designators = ns.designators + [part.designator] %}
-                    {% endif %}
-                {% endfor %}
-            {% endfor %}
-
-            {% for designator in ns.designators | sort %}
-            <tr>
-                <td>{{ designator }}</td>
-
-                {% for serial_number in serial_numbers %}
-                    {% set filename = (
-                        components_by_designator
-                        .get(designator, {})
-                        .get(serial_number)
-                    ) %}
-
-                    <td>
-                        {% if filename %}
-                            <img
-                                src="components/{{ filename }}"
-                                alt="{{ designator }}"
-                                class="part-image"
-                            >
-                        {% else %}
-                            -
-                        {% endif %}
-                    </td>
-                {% endfor %}
-            </tr>
-            {% endfor %}
-        </tbody>
+        <tbody id="report-body"></tbody>
     </table>
 </div>
+
+<div class="pagination" id="pagination-bottom"></div>
+
+<script id="report-data" type="application/json">
+{{ rows | tojson }}
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const pageSize = {{ page_size }};
+    const rows = JSON.parse(
+        document.getElementById("report-data").textContent
+    );
+    const serialNumbers = {{ serial_numbers | tojson }};
+
+    const tableBody = document.getElementById("report-body");
+    const paginations = document.querySelectorAll(".pagination");
+
+    const pageCount = Math.ceil(rows.length / pageSize);
+    let currentPage = 1;
+
+    function renderPage(page) {
+        currentPage = Math.max(1, Math.min(page, pageCount));
+
+        const start = (currentPage - 1) * pageSize;
+        const visibleRows = rows.slice(start, start + pageSize);
+
+        tableBody.innerHTML = "";
+
+        visibleRows.forEach(row => {
+            const tr = document.createElement("tr");
+
+            const designatorCell = document.createElement("td");
+            designatorCell.textContent = row.designator;
+            tr.appendChild(designatorCell);
+
+            serialNumbers.forEach(serialNumber => {
+                const td = document.createElement("td");
+                const filename = row.images[serialNumber];
+
+                if (filename) {
+                    const img = document.createElement("img");
+
+                    img.src = `components/${filename}`;
+                    img.alt = row.designator;
+                    img.className = "part-image";
+                    img.loading = "lazy";
+
+                    td.appendChild(img);
+                } else {
+                    td.textContent = "-";
+                }
+
+                tr.appendChild(td);
+            });
+
+            tableBody.appendChild(tr);
+        });
+
+        renderPagination();
+
+        window.scrollTo({
+            top: 0,
+            left: 0,
+            behavior: "auto"
+        });
+    }
+
+    function renderPagination() {
+        paginations.forEach(pagination => {
+            pagination.innerHTML = "";
+
+            if (pageCount <= 1) {
+                pagination.style.display = "none";
+                return;
+            }
+
+            pagination.style.display = "flex";
+
+            const previous = document.createElement("button");
+            previous.type = "button";
+            previous.textContent = "‹";
+            previous.disabled = currentPage === 1;
+            previous.onclick = () => renderPage(currentPage - 1);
+
+            pagination.appendChild(previous);
+
+            for (let page = 1; page <= pageCount; page++) {
+                const button = document.createElement("button");
+
+                button.type = "button";
+                button.textContent = page;
+
+                if (page === currentPage) {
+                    button.classList.add("active");
+                }
+
+                button.onclick = () => renderPage(page);
+
+                pagination.appendChild(button);
+            }
+
+            const next = document.createElement("button");
+            next.type = "button";
+            next.textContent = "›";
+            next.disabled = currentPage === pageCount;
+            next.onclick = () => renderPage(currentPage + 1);
+
+            pagination.appendChild(next);
+        });
+    }
+
+    renderPage(1);
+});
+</script>
+
 </html>
