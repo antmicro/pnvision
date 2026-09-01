@@ -3,6 +3,7 @@ import re
 import json
 import math
 import os
+import csv
 
 from java.io import File
 from java.lang import System, Thread
@@ -55,6 +56,7 @@ def main():
         camera,
         board_location,
         scan_dir,
+        safe_board_name,
     )
 
     print("Component image capture sequence complete.")
@@ -146,11 +148,36 @@ def get_time_left(active_placements, photographed_placements, camera):
     return "%02d:%02d" % (minutes, seconds)
 
 
+def load_bom_data(bom_file):
+    if bom_file is None:
+        return None
+
+    bom_indexed = {}
+
+    with open(bom_file, "r") as f:
+        reader = csv.DictReader(f)
+
+        for row in reader:
+            designator = row.get("Reference Designators", "").strip()
+
+            if designator:
+                bom_indexed[designator] = {
+                    "designator": designator,
+                    "manufacturer": row.get("Manufacturer", "").strip(),
+                    "mpn": row.get("Manufacturer Part Number", "").strip(),
+                }
+
+    return bom_indexed
+
+
 def process_board_placements(
     camera,
     board_location,
     scan_dir,
+    safe_board_name,
 ):
+    print("Scanning board: %s" % safe_board_name)
+
     with open(report_file.getAbsolutePath(), "r") as f:
         report = json.load(f)
 
@@ -164,6 +191,8 @@ def process_board_placements(
 
     active_placements = placements.size()
     photographed_placements = 0
+
+    bom_indexed = load_bom_data(report.get("sourcing", {}).get("bom_file"))
 
     monitor = ProgressMonitor(
         None,
@@ -245,6 +274,7 @@ def process_board_placements(
                 loc.getRotation(),
                 image_file_name,
                 report_file,
+                bom_indexed,
             )
     finally:
         monitor.close()
@@ -388,9 +418,20 @@ def log_placement(
     rotation,
     image_file_name,
     report_file,
+    bom_indexed,
 ):
     if "parts" not in report:
         report["parts"] = []
+
+    mpn_original = ""
+    manufacturer_original = ""
+
+    if bom_indexed is not None:
+        bom_entry = bom_indexed.get(safe_placement_designator)
+
+        if bom_entry is not None:
+            mpn_original = bom_entry.get("mpn", "")
+            manufacturer_original = bom_entry.get("manufacturer", "")
 
     report["parts"].append(
         {
@@ -400,9 +441,9 @@ def log_placement(
             "rotation": rotation,
             "feeder": "",
             "footprint": "",
-            "mpn_original": "",
+            "mpn_original": mpn_original,
             "mpn_placed": "",
-            "manufacturer_original": "",
+            "manufacturer_original": manufacturer_original,
             "manufacturer_placed": "",
             "dnp_status": "",
             "image_file": image_file_name,
