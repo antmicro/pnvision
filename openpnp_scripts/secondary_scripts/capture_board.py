@@ -129,9 +129,6 @@ def scan_board_location(
                 if monitor.isCanceled():
                     raise Exception("User cancelled scan")
 
-                monitor.setProgress(row * len(xs) + col0)
-                monitor.setNote("Scanning row: %d, col: %d" % (row, col0))
-
                 if SERPENTINE and row % 2 == 1:
                     col = len(xs) - 1 - col0
                 else:
@@ -147,6 +144,12 @@ def scan_board_location(
 
                 MovableUtils.moveToLocationAtSafeZ(camera, machine_location)
 
+                global_x = machine_location.getX()
+                global_y = machine_location.getY()
+
+                monitor.setProgress(row * len(xs) + col0)
+                monitor.setNote("Scanning row: %d, col: %d | global X: %.3f, Y: %.3f" % (row, col, global_x, global_y))
+
                 if EXTRA_SETTLE_MS > 0:
                     Thread.sleep(EXTRA_SETTLE_MS)
 
@@ -160,15 +163,15 @@ def scan_board_location(
                         serial_number,
                         pad(row, 3),
                         pad(col, 3),
-                        fmt(x),
-                        fmt(y),
+                        fmt(global_x),
+                        fmt(global_y),
                     )
                 else:
                     image_file_name = "r%s_c%s_x%s_y%s.png" % (
                         pad(row, 3),
                         pad(col, 3),
-                        fmt(x),
-                        fmt(y),
+                        fmt(global_x),
+                        fmt(global_y),
                     )
 
                 file_obj = File(scan_dir, image_file_name)
