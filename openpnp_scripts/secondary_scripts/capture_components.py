@@ -165,6 +165,7 @@ def load_bom_data(bom_file):
                     "designator": designator,
                     "manufacturer": row.get("Manufacturer", "").strip(),
                     "mpn": row.get("Manufacturer Part Number", "").strip(),
+                    "DNP": row.get("DNP", "").strip(),
                 }
 
     return bom_indexed
@@ -425,6 +426,7 @@ def log_placement(
 
     mpn_original = ""
     manufacturer_original = ""
+    dnp_status = ""
 
     if bom_indexed is not None:
         bom_entry = bom_indexed.get(safe_placement_designator)
@@ -432,6 +434,7 @@ def log_placement(
         if bom_entry is not None:
             mpn_original = bom_entry.get("mpn", "")
             manufacturer_original = bom_entry.get("manufacturer", "")
+            dnp_status = bom_entry.get("DNP", "")
 
     report["parts"].append(
         {
@@ -445,7 +448,7 @@ def log_placement(
             "mpn_placed": "",
             "manufacturer_original": manufacturer_original,
             "manufacturer_placed": "",
-            "dnp_status": "",
+            "dnp_status": dnp_status,
             "image_file": image_file_name,
         }
     )
