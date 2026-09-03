@@ -8,11 +8,11 @@ from typing import Optional
 app = typer.Typer(no_args_is_help=True)
 
 
-@app.command(help="Generate HTML report from log file.")
+@app.command(help="Generate HTML report from scan.")
 def report(
     log_file_location: Annotated[
         Path,
-        typer.Argument(help="Location of log file."),
+        typer.Argument(help="Location of report.json."),
     ],
     template_dir: Annotated[
         Optional[Path],
@@ -99,18 +99,6 @@ def version() -> None:
     print(get_version())
 
 
-@app.command(help="Detect whether a component is placed.")
-def detect(
-    image_path: Annotated[
-        Path,
-        typer.Argument(..., help="Path to the component image."),
-    ],
-) -> None:
-    from .commands.detect_dnp import detect_component
-
-    detect_component(image_path)
-
-
 @app.command(help="Generate collage of components sorted by designator.")
 def collage(
     scans_directory: Annotated[
@@ -130,17 +118,22 @@ def collage(
     )
 
 
-@app.command(help="Compare components with the same designator and detect outliers.")
-def compare(
-    scans_directory: Annotated[
+@app.command(help="Detect if components are placed using traditional methods.")
+def detect_cv(
+    report_file: Annotated[
         Path,
-        typer.Argument(help="Directory containing all scans."),
+        typer.Argument(help="Location of report.json."),
+    ],
+    components_directory: Annotated[
+        Path,
+        typer.Argument(help="Directory containing PNG images."),
     ],
 ) -> None:
-    from .commands.compare_components import compare_components
+    from .commands.detect_components_cv import detect_components
 
-    compare_components(
-        scans_directory=scans_directory,
+    detect_components(
+        report_file=report_file,
+        components_directory=components_directory,
     )
 
 

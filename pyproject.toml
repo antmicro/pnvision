@@ -36,7 +36,10 @@ include-package-data = true
 where = ["src"]
 
 [tool.setuptools.package-data]
-pnvision = ["template/*"]
+pnvision = [
+    "collage_template/**/*",
+    "template/**/*",
+]
 
 [tool.setuptools_scm]
 
