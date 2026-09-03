@@ -310,7 +310,7 @@ def get_metadata(board_location, board_index):
             "location": location,
             "side": board_side,
             "board_index": board_index,
-            "results": {},
+            "statistics": {"populated_components": "", "dnp_components": ""},
             "user": user,
             "user_comment": user_comment,
         },

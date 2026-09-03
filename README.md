@@ -114,7 +114,7 @@ kmake pnp -tvo --dnp
 
 ![How to run perform_inspection.py](img/perform_inspection.png)
 
-13. If prompted in the pop-up window input comment about board assembly, serial number, e.g.: `000.000.0001` and set your location
+13. If prompted in the pop-up window input comment about board assembly, serial number, e.g.: `000.000.0001`, set your location and add `*-BOM-ALL-ReferenceNotGrouped.csv`
 
 14. After the scan is finished the images are stored in `$XDG_DATA_HOME/pnvision` if set, otherwise in `~/.local/share/pnvision`
 

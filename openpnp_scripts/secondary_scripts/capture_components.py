@@ -449,6 +449,7 @@ def log_placement(
             "manufacturer_original": manufacturer_original,
             "manufacturer_placed": "",
             "dnp_status": dnp_status,
+            "analyzed_placement_status": "",
             "image_file": image_file_name,
         }
     )
