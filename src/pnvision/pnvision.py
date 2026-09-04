@@ -137,5 +137,17 @@ def detect_cv(
     )
 
 
+@app.command(help="Deploy CI generated data to OpenPnP machine.")
+def deploy(
+    artifacts_directory: Annotated[
+        Path,
+        typer.Argument(help="Zip directory containing all data."),
+    ],
+) -> None:
+    from .commands.deploy import deploy
+
+    deploy(artifacts_directory=artifacts_directory)
+
+
 if __name__ == "__main__":
     app()
