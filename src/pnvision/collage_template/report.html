@@ -53,7 +53,16 @@
             margin-left: auto;
             margin-right: auto;
             overflow-x: auto;
+            overflow-y: auto;
+            max-height: 80vh;
             -webkit-overflow-scrolling: touch;
+        }
+        #report-table thead th {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background-color: #111315;
+            color: #d6d9dc;
         }
 
         table {
@@ -224,6 +233,83 @@
             opacity: 0.4;
             cursor: default;
         }
+        .failed-checkbox {
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            border: 2px solid #94999e;
+            background-color: transparent;
+            cursor: pointer;
+            vertical-align: middle;
+            position: relative;
+            border-radius: 3px;
+        }
+
+        .failed-checkbox:hover {
+            border-color: #d6d9dc;
+            box-shadow: 0 0 5px hsla(0, 0%, 80%, 0.35);
+        }
+
+        .failed-checkbox:checked {
+            background-color: hsla(210, 6%, 25%, 1);
+            border-color: #d6d9dc;
+            box-shadow: 0 0 6px hsla(0, 0%, 80%, 0.3);
+        }
+
+        .failed-checkbox:checked::after {
+            content: "✕";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -52%);
+            color: #ffffff;
+            font-size: 18px;
+            font-weight: bold;
+            line-height: 1;
+        }
+
+        .failed-filter {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #d6d9dc;
+            cursor: pointer;
+            user-select: none;
+            font-weight: 500;
+        }
+
+        .failed-filter input {
+            appearance: none;
+            width: 22px;
+            height: 22px;
+            border: 2px solid #94999e;
+            background-color: transparent;
+            cursor: pointer;
+            position: relative;
+            border-radius: 3px;
+        }
+
+        .failed-filter input:hover {
+            border-color: #d6d9dc;
+            box-shadow: 0 0 5px hsla(0, 0%, 80%, 0.35);
+        }
+
+        .failed-filter input:checked {
+            background-color: hsla(210, 6%, 25%, 1);
+            border-color: #d6d9dc;
+        }
+
+        .failed-filter input:checked::after {
+            content: "✕";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -52%);
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: bold;
+            line-height: 1;
+        }
     </style>
 </head>
 
@@ -235,6 +321,12 @@
         autocomplete="off"
         spellcheck="false"
     >
+
+
+    <label class="failed-filter">
+        <input type="checkbox" id="failed-only-toggle">
+        Failed only
+    </label>
 </div>
 
 <div class="pagination" id="pagination-top"></div>
@@ -250,6 +342,10 @@
                     {{ serial_number }}
                 </th>
                 {% endfor %}
+
+                <th scope="col" style="text-align: center;">
+                    FAILED?
+                </th>
             </tr>
         </thead>
 
@@ -274,19 +370,58 @@ document.addEventListener("DOMContentLoaded", () => {
     const tableBody = document.getElementById("report-body");
     const paginations = document.querySelectorAll(".pagination");
     const searchInput = document.getElementById("table-search-input");
+    const failedOnlyToggle = document.getElementById("failed-only-toggle");
 
-    const pageCount = Math.ceil(rows.length / pageSize);
+    const failedComponents = new Set();
 
     let currentPage = 1;
     let currentSearch = "";
 
+    function getFilteredRows() {
+        return rows.filter(row => {
+            const matchesSearch =
+                !currentSearch ||
+                String(row.designator)
+                    .toLowerCase()
+                    .includes(currentSearch);
+
+            const matchesFailed =
+                !failedOnlyToggle.checked ||
+                failedComponents.has(row.designator);
+
+            return matchesSearch && matchesFailed;
+        });
+    }
+
     function renderPage(page, matchIndex = -1) {
+        const filteredRows = getFilteredRows();
+
+        const pageCount = Math.max(
+            1,
+            Math.ceil(filteredRows.length / pageSize)
+        );
+
         currentPage = Math.max(1, Math.min(page, pageCount));
 
         const start = (currentPage - 1) * pageSize;
-        const visibleRows = rows.slice(start, start + pageSize);
+        const visibleRows = filteredRows.slice(start, start + pageSize);
 
         tableBody.innerHTML = "";
+
+        if (visibleRows.length === 0) {
+            const tr = document.createElement("tr");
+            const td = document.createElement("td");
+
+            td.colSpan = serialNumbers.length + 2;
+            td.textContent = "No matching components found.";
+            td.className = "search-no-match";
+
+            tr.appendChild(td);
+            tableBody.appendChild(tr);
+
+            renderPagination();
+            return;
+        }
 
         visibleRows.forEach((row, index) => {
             const tr = document.createElement("tr");
@@ -295,10 +430,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 tr.classList.add("search-match");
             }
 
+            // Designator
             const designatorCell = document.createElement("td");
             designatorCell.textContent = row.designator;
             tr.appendChild(designatorCell);
 
+            // Images
             serialNumbers.forEach(serialNumber => {
                 const td = document.createElement("td");
                 const filename = row.images[serialNumber];
@@ -319,12 +456,36 @@ document.addEventListener("DOMContentLoaded", () => {
                 tr.appendChild(td);
             });
 
+            // FAILED? checkbox
+            const failedCell = document.createElement("td");
+            failedCell.style.textAlign = "center";
+
+            const checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+            checkbox.className = "failed-checkbox";
+
+            checkbox.checked = failedComponents.has(row.designator);
+
+            checkbox.addEventListener("change", () => {
+                if (checkbox.checked) {
+                    failedComponents.add(row.designator);
+                } else {
+                    failedComponents.delete(row.designator);
+                }
+            });
+
+            failedCell.appendChild(checkbox);
+            tr.appendChild(failedCell);
+
             tableBody.appendChild(tr);
         });
 
         renderPagination();
 
-        if (matchIndex >= start && matchIndex < start + pageSize) {
+        if (
+            matchIndex >= start &&
+            matchIndex < start + pageSize
+        ) {
             const row = tableBody.children[matchIndex - start];
 
             if (row) {
@@ -345,6 +506,13 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function renderPagination() {
+        const filteredRows = getFilteredRows();
+
+        const pageCount = Math.max(
+            1,
+            Math.ceil(filteredRows.length / pageSize)
+        );
+
         paginations.forEach(pagination => {
             pagination.innerHTML = "";
 
@@ -359,6 +527,7 @@ document.addEventListener("DOMContentLoaded", () => {
             previous.type = "button";
             previous.textContent = "‹";
             previous.disabled = currentPage === 1;
+
             previous.onclick = () => {
                 renderPage(currentPage - 1);
             };
@@ -386,6 +555,7 @@ document.addEventListener("DOMContentLoaded", () => {
             next.type = "button";
             next.textContent = "›";
             next.disabled = currentPage === pageCount;
+
             next.onclick = () => {
                 renderPage(currentPage + 1);
             };
@@ -397,38 +567,49 @@ document.addEventListener("DOMContentLoaded", () => {
     function searchTable(query) {
         currentSearch = query.trim().toLowerCase();
 
-        if (!currentSearch) {
-            renderPage(currentPage);
-            return;
-        }
+        const filteredRows = getFilteredRows();
 
-        const matchIndex = rows.findIndex(row =>
-            String(row.designator).toLowerCase().includes(currentSearch)
-        );
-
-        if (matchIndex === -1) {
+        if (filteredRows.length === 0) {
             tableBody.innerHTML = "";
 
             const tr = document.createElement("tr");
             const td = document.createElement("td");
 
-            td.colSpan = serialNumbers.length + 1;
-            td.textContent = "No matching designator found.";
+            td.colSpan = serialNumbers.length + 2;
+
+            if (currentSearch && failedOnlyToggle.checked) {
+                td.textContent =
+                    "No matching failed component found.";
+            } else if (currentSearch) {
+                td.textContent =
+                    "No matching designator found.";
+            } else {
+                td.textContent =
+                    "No failed components.";
+            }
+
             td.className = "search-no-match";
 
             tr.appendChild(td);
             tableBody.appendChild(tr);
 
+            renderPagination();
             return;
         }
 
-        const page = Math.floor(matchIndex / pageSize) + 1;
+        const matchIndex = 0;
 
-        renderPage(page, matchIndex);
+        currentPage = 1;
+        renderPage(currentPage, matchIndex);
     }
 
     searchInput.addEventListener("input", () => {
         searchTable(searchInput.value);
+    });
+
+    failedOnlyToggle.addEventListener("change", () => {
+        currentPage = 1;
+        renderPage(1);
     });
 
     document.addEventListener("keydown", event => {
