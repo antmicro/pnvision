@@ -68,7 +68,7 @@ pnvision --help
 kmake loclib
 kmake gerber
 kmake aux-origin -s bl
-kmake pnp -tvo --dnp
+kmake pnp -to --dnp
 ```
 
 > **Note**
