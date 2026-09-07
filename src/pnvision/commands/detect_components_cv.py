@@ -7,14 +7,14 @@ from typing import Any
 import cv2
 import numpy as np
 
-MIN_COMP_AREA_RATIO = 0.25
-MIN_PAD_AREA_RATIO = 0.04
+MIN_COMP_AREA_RATIO = 0.20
+MIN_PAD_AREA_RATIO = 0.05
 
 CANNY_THRESH1 = 40
 CANNY_THRESH2 = 120
 
-BLUR_KERNEL_RATIO = 0.015
-MORPH_KERNEL_RATIO = 0.020
+BLUR_KERNEL_RATIO = 0.010
+MORPH_KERNEL_RATIO = 0.025
 
 COLOR_COMP = (0, 255, 0)
 COLOR_PAD = (255, 0, 0)
@@ -36,7 +36,7 @@ def detect_placement(image: np.ndarray, debug_path: Path) -> bool:
 
     kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (m_k, m_k))
     closed = cv2.morphologyEx(edges, cv2.MORPH_CLOSE, kernel, iterations=2)
-    dilated = cv2.dilate(closed, kernel, iterations=1)
+    dilated = closed
 
     contours, _ = cv2.findContours(dilated, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
@@ -111,13 +111,11 @@ def detect_components(
         is_dnp = dnp_status == "DNP"
 
         if is_dnp and placed:
-            print(f":x: DISCREPANCY: JSON says DNP, but component is PLACED | Designator: {designator} ({image_file})")
+            print(f"DISCREPANCY: JSON says DNP, but component is PLACED | Designator: {designator} ({image_file})")
             discrepancies += 1
 
         elif not is_dnp and not placed:
-            print(
-                f":x: DISCREPANCY: JSON says Placed, but component is MISSING | Designator: {designator} ({image_file})"
-            )
+            print(f"DISCREPANCY: JSON says Placed, but component is MISSING | Designator: {designator} ({image_file})")
             discrepancies += 1
 
     print("-------------------------------------")
