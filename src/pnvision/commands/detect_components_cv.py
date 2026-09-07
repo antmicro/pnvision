@@ -112,11 +112,16 @@ def detect_components(
 
         if is_dnp and placed:
             print(f"DISCREPANCY: JSON says DNP, but component is PLACED | Designator: {designator} ({image_file})")
+            part["analyzed_placement_status"] = "DISCREPANCY"
             discrepancies += 1
 
         elif not is_dnp and not placed:
             print(f"DISCREPANCY: JSON says Placed, but component is MISSING | Designator: {designator} ({image_file})")
+            part["analyzed_placement_status"] = "DISCREPANCY"
             discrepancies += 1
+
+    with report_file.open("w", encoding="utf-8") as file:
+        json.dump(report, file, indent=2, ensure_ascii=False)
 
     print("-------------------------------------")
     print(f"Total Discrepancies Found: {discrepancies}")
