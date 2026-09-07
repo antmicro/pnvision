@@ -128,12 +128,20 @@ def detect_cv(
         Path,
         typer.Argument(help="Directory containing PNG images."),
     ],
+    debug: Annotated[
+        bool,
+        typer.Option(
+            "--debug",
+            help="Save debug images to the debug directory.",
+        ),
+    ] = False,
 ) -> None:
     from .commands.detect_components_cv import detect_components
 
     detect_components(
         report_file=report_file,
         components_directory=components_directory,
+        save_debug=debug,
     )
 
 

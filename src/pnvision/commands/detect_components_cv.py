@@ -20,7 +20,7 @@ COLOR_COMP = (0, 255, 0)
 COLOR_PAD = (255, 0, 0)
 
 
-def detect_placement(image: np.ndarray, debug_path: Path) -> bool:
+def detect_placement(image: np.ndarray, debug_path: Path | None) -> bool:
     h, w = image.shape[:2]
     total_area = h * w
 
@@ -65,7 +65,8 @@ def detect_placement(image: np.ndarray, debug_path: Path) -> bool:
         for x, y, w_box, h_box in large_contours + pad_contours:
             cv2.rectangle(debug_img, (x, y), (x + w_box, y + h_box), COLOR_PAD, 3)
 
-    cv2.imwrite(str(debug_path), debug_img)
+    if debug_path is not None:
+        cv2.imwrite(str(debug_path), debug_img)
 
     return placed
 
@@ -73,6 +74,7 @@ def detect_placement(image: np.ndarray, debug_path: Path) -> bool:
 def detect_components(
     report_file: Path,
     components_directory: Path,
+    save_debug: bool = False,
 ) -> None:
 
     with report_file.open("r", encoding="utf-8") as file:
@@ -80,8 +82,10 @@ def detect_components(
 
     parts: list[dict[str, Any]] = report.get("parts", [])
 
-    debug_dir = components_directory / "debug"
-    debug_dir.mkdir(parents=True, exist_ok=True)
+    debug_dir = None
+    if save_debug:
+        debug_dir = components_directory / "debug"
+        debug_dir.mkdir(parents=True, exist_ok=True)
 
     discrepancies = 0
 
@@ -105,7 +109,11 @@ def detect_components(
         if image is None:
             continue
 
-        debug_path = debug_dir / f"debug_{image_file}"
+        if debug_dir is not None:
+            debug_path = debug_dir / f"debug_{image_file}"
+        else:
+            debug_path = None
+
         placed = detect_placement(image, debug_path)
 
         is_dnp = dnp_status == "DNP"
@@ -125,4 +133,3 @@ def detect_components(
 
     print("-------------------------------------")
     print(f"Total Discrepancies Found: {discrepancies}")
-    print(f"Debug images exported to: {debug_dir.resolve()}")
