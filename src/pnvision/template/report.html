@@ -181,8 +181,8 @@
         <span class="metadata-label">Scripts version:</span> {{ tools.scripts_version }}<br>
         <span class="metadata-label">Python version:</span> {{ tools.python_version }}<br>
         <span class="metadata-label">OpenPnP version:</span> {{ tools.openpnp_version }}<br>
-        <span class="metadata-label">OS:</span> {{ tools.Os_name }}<br>
-        <span class="metadata-label">Kernel version:</span> {{ tools.kernel_version }}
+        <span class="metadata-label">OS:</span> {{ tools.host_pc.os_name }}<br>
+        <span class="metadata-label">Kernel version:</span> {{ tools.host_pc.kernel_version }}
     </p>
 <div class="table-wrapper">
     <table>
@@ -199,6 +199,7 @@
                 <th scope="col">Manufacturer original</th>
                 <th scope="col">Manufacturer placed</th>
                 <th scope="col">DNP status</th>
+                <th scope="col">Discrepancy status</th>
                 <th scope="col">Captured image</th>
             </tr>
         </thead>
@@ -219,6 +220,7 @@
                 <td>{{ part["manufacturer_original"] }}</td>
                 <td>{{ part["manufacturer_placed"] }}</td>
                 <td>{{ part["dnp_status"] }}</td>
+                <td>{{ part["analyzed_placement_status"] }}</td>
                 <td>
                     <img
                         src="components/{{ part['image_file'] }}"

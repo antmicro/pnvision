@@ -25,7 +25,7 @@ def generate_html_report(
     output_dir = input_dir / "report"
     output_dir.mkdir(exist_ok=True)
 
-    copydirs(input_dir, output_dir, template_dir)
+    copydirs(input_dir, output_dir, report_location, template_dir)
 
     environment = Environment(loader=FileSystemLoader(template_dir))
     template = environment.get_template("report.html")
@@ -52,7 +52,7 @@ def generate_html_report(
     print(f"Report written to {output_path}")
 
 
-def copydirs(input_dir: Path, output_dir: Path, template_dir: Path) -> None:
+def copydirs(input_dir: Path, output_dir: Path, report_location: Path, template_dir: Path) -> Path | None:
     board_dir = next((p for p in input_dir.glob("*board*") if p.is_dir()), None)
     if board_dir is None:
         print(f"No board directory found in {input_dir}. Add full_board.png to report/ directory")
@@ -70,9 +70,12 @@ def copydirs(input_dir: Path, output_dir: Path, template_dir: Path) -> None:
         print(f"No components directory found in {input_dir}.")
     else:
         shutil.copytree(components_dir, output_dir / "components", dirs_exist_ok=True)
+        bash(f"pnvision detect-cv {report_location} {components_dir}", "detect_dnp_disrepancies")
 
     for asset in ("logo.svg", "favicon.ico"):
         shutil.copy2(template_dir / asset, output_dir / asset)
+
+    return output_dir / "components"
 
 
 def add_bom_status(parts: pd.DataFrame, bom_path: Path) -> pd.DataFrame:
