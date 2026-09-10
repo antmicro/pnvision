@@ -26,6 +26,5 @@ PnVision requires: `python3` installed.
 To show available functionalities run:
 
 ```bash
-cd <pnvision project directory>
 pnvision --help
 ```
