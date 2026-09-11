@@ -1,82 +1,80 @@
-from __future__ import annotations
-
+import cv2
 import json
+import numpy as np
 from pathlib import Path
 from typing import Any
 
-import cv2
-import numpy as np
-
-MIN_COMP_AREA_RATIO = 0.20
-MIN_PAD_AREA_RATIO = 0.05
-
-CANNY_THRESH1 = 40
-CANNY_THRESH2 = 120
-
-BLUR_KERNEL_RATIO = 0.010
-MORPH_KERNEL_RATIO = 0.025
-
-COLOR_COMP = (0, 255, 0)
-COLOR_PAD = (255, 0, 0)
+GAUSSIAN_BLUR_KSIZE = 5
+MEDIAN_BLUR_KSIZE = 5
+THRESH_MIN_VAL = 15
+MIN_CONTOUR_AREA = 1000.0
+MIN_COMPONENT_RATIO = 0.15
 
 
-def detect_placement(image: np.ndarray, debug_path: Path | None) -> bool:
-    h, w = image.shape[:2]
-    total_area = h * w
+def process_image(image_path: Path, debug_dir: Path | None) -> tuple[bool, np.ndarray | None, list, list]:
+    """
+    Applies the vision pipeline to determine if a rectangular SMD component is placed.
 
-    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-    clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8))
-    norm_img = clahe.apply(gray)
+    Returns:
+        (is_placed, debug_image, component_rects, pad_rects)
+    """
+    img = cv2.imread(str(image_path))
+    if img is None:
+        return False, None, [], []
 
-    b_k = max(3, int(min(w, h) * BLUR_KERNEL_RATIO) | 1)
-    m_k = max(3, int(min(w, h) * MORPH_KERNEL_RATIO))
+    debug_img = img.copy() if debug_dir else None
+    image_area = img.shape[0] * img.shape[1]
 
-    blurred = cv2.GaussianBlur(norm_img, (b_k, b_k), 0)
-    edges = cv2.Canny(blurred, CANNY_THRESH1, CANNY_THRESH2)
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
-    kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (m_k, m_k))
-    closed = cv2.morphologyEx(edges, cv2.MORPH_CLOSE, kernel, iterations=2)
-    dilated = closed
+    gauss = cv2.GaussianBlur(gray, (GAUSSIAN_BLUR_KSIZE, GAUSSIAN_BLUR_KSIZE), 0)
 
-    contours, _ = cv2.findContours(dilated, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    median = cv2.medianBlur(gauss, MEDIAN_BLUR_KSIZE)
 
-    debug_img = image.copy()
+    _, thresh = cv2.threshold(median, THRESH_MIN_VAL, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
 
-    large_contours = []
-    pad_contours = []
+    contours, _ = cv2.findContours(thresh, cv2.RETR_CCOMP, cv2.CHAIN_APPROX_SIMPLE)
 
+    valid_contours = []
     for cnt in contours:
-        x, y, w_box, h_box = cv2.boundingRect(cnt)
-        ratio = (w_box * h_box) / total_area
+        area = cv2.contourArea(cnt)
+        if area >= MIN_CONTOUR_AREA:
+            valid_contours.append(cnt)
 
-        if ratio >= MIN_COMP_AREA_RATIO:
-            large_contours.append((x, y, w_box, h_box))
-        elif MIN_PAD_AREA_RATIO <= ratio < MIN_COMP_AREA_RATIO:
-            pad_contours.append((x, y, w_box, h_box))
+    valid_contours = sorted(valid_contours, key=cv2.contourArea, reverse=True)
 
-    placed = False
+    is_placed = False
+    component_rects = []
+    pad_rects = []
 
-    if len(large_contours) == 1:
-        placed = True
-        for x, y, w_box, h_box in large_contours:
-            cv2.rectangle(debug_img, (x, y), (x + w_box, y + h_box), COLOR_COMP, 3)
+    if not valid_contours:
+        is_placed = False
     else:
-        placed = False
-        for x, y, w_box, h_box in large_contours + pad_contours:
-            cv2.rectangle(debug_img, (x, y), (x + w_box, y + h_box), COLOR_PAD, 3)
+        largest_area = cv2.contourArea(valid_contours[0])
 
-    if debug_path is not None:
-        cv2.imwrite(str(debug_path), debug_img)
+        if largest_area >= (MIN_COMPONENT_RATIO * image_area) or len(valid_contours) == 1:
+            is_placed = True
+            component_rects.append(cv2.minAreaRect(valid_contours[0]))
+        else:
+            is_placed = False
+            for cnt in valid_contours:
+                pad_rects.append(cv2.minAreaRect(cnt))
 
-    return placed
+    if debug_img is not None:
+        for rect in pad_rects:
+            box = cv2.boxPoints(rect)
+            box_i32 = box.astype(np.int32)
+            cv2.drawContours(debug_img, [box_i32], 0, (255, 0, 0), 4)
+
+        for rect in component_rects:
+            box = cv2.boxPoints(rect)
+            box_i32 = box.astype(np.int32)
+            cv2.drawContours(debug_img, [box_i32], 0, (0, 255, 0), 4)
+
+    return is_placed, debug_img, component_rects, pad_rects
 
 
-def detect_components(
-    report_file: Path,
-    components_directory: Path,
-    save_debug: bool = False,
-) -> None:
-
+def detect_components(report_file: Path, components_directory: Path, save_debug: bool) -> None:
     with report_file.open("r", encoding="utf-8") as file:
         report: dict[str, Any] = json.load(file)
 
@@ -96,27 +94,18 @@ def detect_components(
         image_file = str(part.get("image_file", ""))
         dnp_status = str(part.get("dnp_status", "")).strip().upper()
 
-        if not image_file:
-            continue
-
+        is_dnp = dnp_status == "DNP"
         image_path = components_directory / image_file
 
-        if not image_path.is_file():
+        if not image_path.exists():
+            print(f"Warning: Image file not found for {designator} ({image_file})")
             continue
 
-        image = cv2.imread(str(image_path))
+        placed, debug_img, _, _ = process_image(image_path, debug_dir)
 
-        if image is None:
-            continue
-
-        if debug_dir is not None:
-            debug_path = debug_dir / f"debug_{image_file}"
-        else:
-            debug_path = None
-
-        placed = detect_placement(image, debug_path)
-
-        is_dnp = dnp_status == "DNP"
+        if save_debug and debug_img is not None and debug_dir is not None:
+            debug_path = debug_dir / image_file
+            cv2.imwrite(str(debug_path), debug_img)
 
         if is_dnp and placed:
             print(f"DISCREPANCY: JSON says DNP, but component is PLACED | Designator: {designator} ({image_file})")
@@ -128,8 +117,11 @@ def detect_components(
             part["analyzed_placement_status"] = "DISCREPANCY"
             discrepancies += 1
 
-    with report_file.open("w", encoding="utf-8") as file:
-        json.dump(report, file, indent=2, ensure_ascii=False)
+        else:
+            part["analyzed_placement_status"] = "MATCH"
 
-    print("-------------------------------------")
-    print(f"Total Discrepancies Found: {discrepancies}")
+    with report_file.open("w", encoding="utf-8") as file:
+        json.dump(report, file, ensure_ascii=False, indent=4)
+
+    print("--- Inspection Complete ---")
+    print(f"Total discrepancies found: {discrepancies}")
