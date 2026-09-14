@@ -8,4 +8,5 @@ The script can be used locally and in conjunction with CI infrastructure.
 * [Installation](installation.md) describes the installation process.
 * [Quick start](quick-start.md) presents a basic usage example.
 * [Usage](usage.md) lists all commands available and presents commands syntax.
+* [Add a Board](add-board.md) explains how to add a board to an OpenPnP job.
 * [Development](development.md) describes requirements for development and the process of adding new commands.
