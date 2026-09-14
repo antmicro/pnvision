@@ -78,7 +78,7 @@ def copydirs(input_dir: Path, output_dir: Path, report_location: Path, template_
     return output_dir / "components"
 
 
-def add_bom_status(parts: pd.DataFrame, bom_path: Path) -> pd.DataFrame:
+def add_bom_status(part: pd.DataFrame, bom_path: Path) -> pd.DataFrame:
     bom_designators, bom_dnp_designators = read_bom(bom_path)
 
     # Parts in the report come from the openPnP board (from position files).
@@ -89,9 +89,9 @@ def add_bom_status(parts: pd.DataFrame, bom_path: Path) -> pd.DataFrame:
             return "NO"
         return "-"
 
-    parts = parts.copy()
-    parts["dnp"] = parts["part_designator"].map(bom_status)
-    return parts
+    part = part.copy()
+    part["dnp"] = part["designator"].map(bom_status)
+    return part
 
 
 def generate_report(
