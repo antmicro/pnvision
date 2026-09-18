@@ -1,3 +1,5 @@
+"""Moves camera head to capture image of every component in current JOB. Adds components/ directory with stamped pictures."""
+
 from __future__ import absolute_import, division
 import re
 import json

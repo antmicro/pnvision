@@ -1,3 +1,5 @@
+"""Moves camera head to capture images of whole board by moving camera over set distance. Adds board/ directory with stamped pictures."""
+
 from __future__ import absolute_import, division
 import re
 import json

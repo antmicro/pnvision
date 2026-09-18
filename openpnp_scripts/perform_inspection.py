@@ -1,3 +1,5 @@
+"""Runs an inspection procedure for an OpenPnP machine. Asks for user input, captures component images, saves report.json and scan."""
+
 import os
 import subprocess
 from time import sleep
@@ -31,11 +33,11 @@ def launch_secondary_script(filename, **kwargs):
     return script_globals.get("scan_dir")
 
 
-def run_command(dir, *command):
+def run_command(command_dir, *command):
     try:
         pb = ProcessBuilder(list(command))
-        if dir is not None:
-            pb.directory(dir)
+        if command_dir:
+            pb.directory(command_dir)
 
         process = pb.start()
 
@@ -119,17 +121,15 @@ def handle_serial_number(board_location, prompt="Enter serial number:", title="I
 
     code = run_command(File(state_dir), "pnvision", "code", qr_image)
 
+    code = code.strip().replace(" ", "_") if code and code != "None" else None
     if code:
-        if code != "None":
-            code = code.strip().replace(" ", "_")
-            if code:
-                write_file(state_file, code)
-                return code
+        write_file(state_file, code)
+        return code
 
     head = machine.getDefaultHead()
     park = head.getParkLocation()
 
-    if park is not None:
+    if park:
         head.getDefaultCamera().moveTo(park)
 
     value = JOptionPane.showInputDialog(None, prompt, title, JOptionPane.QUESTION_MESSAGE)
@@ -142,11 +142,9 @@ def handle_serial_number(board_location, prompt="Enter serial number:", title="I
         # User pressed Cancel or closed the dialog
         raise Exception("User cancelled scan")
 
-    if value == "":
-        SN = None
-    else:
-        value = value.strip().replace(" ", "_")
-        SN = value if value else None
+    SN = None
+    if value:
+        SN = value.strip().replace(" ", "_")
 
     write_file(state_file, SN)
     return SN
@@ -265,11 +263,15 @@ def handle_bom():
 
 
 def get_os_name():
-    if os.path.exists("/etc/os-release"):
-        with open("/etc/os-release", "r") as f:
-            for line in f:
-                if line.startswith("PRETTY_NAME="):
-                    return line.strip().split("=", 1)[1].strip('"')
+    if not os.path.exists("/etc/os-release"):
+        return ""
+
+    with open("/etc/os-release", "r") as f:
+        for line in f:
+            if not line.startswith("PRETTY_NAME="):
+                continue
+            return line.strip().split("=", 1)[1].strip('"')
+
     return ""
 
 
@@ -330,31 +332,23 @@ def get_metadata(board_location, board_index):
 
 
 def get_current_job():
-    try:
-        if job is not None:
-            return job
-    except NameError:
-        pass
+    if globals().get("job"):
+        return job
 
-    try:
-        if gui is not None:
-            tab = gui.getJobTab()
-            if tab is not None:
-                return tab.getJob()
-    except NameError:
-        pass
+    gui_obj = globals().get("gui")
+    if gui_obj:
+        tab = gui_obj.getJobTab()
+        if tab:
+            return tab.getJob()
 
     raise Exception("Active OpenPnP job not detected. Load a job prior to execution.")
 
 
-def is_board_disabled(board_location, board_index):
-    try:
-        if not board_location.isEnabled():
-            print("Skipping disabled board with index %d" % board_index)
-            return True
-    except Exception:
-        return False
+def is_board_enabled(board_location, board_index):
+    if board_location.isEnabled():
+        return True
 
+    print("Skipping disabled board with index %d" % board_index)
     return False
 
 
@@ -381,7 +375,7 @@ def finish_job():
     head = machine.getDefaultHead()
     park = head.getParkLocation()
 
-    if park is not None:
+    if park:
         head.getDefaultCamera().moveTo(park)
 
     sleep(1)
@@ -405,7 +399,7 @@ def perform_inspection():
         global initial_report_data, board_location
         board_location = board_locations.get(board_index)
 
-        if is_board_disabled(board_location, board_index):
+        if not is_board_enabled(board_location, board_index):
             continue
 
         initial_report_data = get_metadata(board_location, board_index)

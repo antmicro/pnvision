@@ -1,3 +1,5 @@
+"""Moves camera head to image of QR* desginator and saves file to qr_image path."""
+
 from org.openpnp.util import Utils2D, MovableUtils
 from org.openpnp.model import LengthUnit
 from java.io import File
