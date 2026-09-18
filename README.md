@@ -2,68 +2,116 @@
 
 Copyright (c) 2026 [Antmicro](https://www.antmicro.com)
 
-This tool was designed to capture images of individual PCB components and complete assembled boards using LumenPnP for documentation and reference purposes.
+This tool was designed to capture images of individual PCB components and complete assembled boards using [OpenPnP](https://openpnp.github.io/) for documentation and reference purposes.
 
 ## Table of Contents
 
 1. [Installation](#installation)
-2. [Usage](#usage)
-3. [Examples](#examples)
+2. [Repository structure](#repository-structure)
+3. [Usage](#usage)
 4. [Licensing](#licensing)
-
----
 
 ## Installation
 
 ### PnVision scripts:
-Version v0.1.1 has been confirmed to work on OpenPnP version 2.5.
-Use version v0.1.2+ if you are working with openPnP 2.6+.
+> [!IMPORTANT]
+> All versions tagged have been tested on OpenPnP 2.6 and 2.7 press-play-walk-away fork.
+
 Requirements:
 
 * Python ≥ 3.10
 * libzbar0
 
-Install pipx if needed:
+Optional:
+* [kicad-make](https://github.com/antmicro/kicad-make) - can be used for position files generation
 
-```bash
-python3 -m pip install --user pipx
-python3 -m pipx ensurepath
-```
-
-Restart your shell after running ensurepath.
-
-To install script run:
+To install script, run following command (we suggest using `pipx`):
 
 ```bash
 pipx install .
 ```
-in the project repository. This installs the application in an isolated environment and exposes the CLI globally.
+in the project repository.
 
-Verify installation:
+You can now use:
 
 ```bash
 pnvision --help
 ```
 
 ### OpenPnP scripts:
-1. In OpenPnP presss `Scripts` then `Open Scripts Directory` and copy all files and folders from `openpnp_scripts`.
+1. In OpenPnP presss `Scripts` then `Open Scripts Directory` and copy all the files and folders from `openpnp_scripts`.
 
 ![How to open scripts directory](img/scripts_directory.png)
 
-## Usage
-### PnVision scripts:
-To show available functionalities run:
+## Repository structure
+* openpnp_scripts/perform_inspection.py - only script visible to the user, it launches secondary scripts
 
-```bash
-pnvision --help
+* openpnp_scripts/secondary_scripts - scripts hidden from the user
+
+* openpnp_scripts/Events - scripts that are triggered by OpenPnP during machine operation
+
+* src/pnvision - repository for report generation and scan management
+
+```
+.
+├── openpnp_scripts
+│   ├── Events
+│   │   └── Feeder.AfterFeed.py
+│   ├── perform_inspection.py
+│   └── secondary_scripts
+│       ├── capture_board.py
+│       ├── capture_components.py
+│       ├── ...
+│       └── capture_qr_code.py
+└── src
+    └── pnvision
+        └── commands
+            ├── __init__.py
+            ...
+            ├── version.py
+            └── helpers
+                ├── bash_wrapper.py
+                └── __init__.py
 ```
 
-### OpenPnP scripts:
-> **Note**
->
->    Components that have `Exclude from bill of materials` set will have `NA` assigned in the report.
 
-1. Go to your board directory and use the commands below from kmake:
+
+## Usage
+### PnVision scripts:
+Available commands:
+
+| Command | Description |
+|---|---|
+| `report` | Generate an HTML report from a scan |
+| `stitch` | Stitch OpenPnP images into one board image |
+| `code` | Read a QR code from an image |
+| `bom` | List DNP designators from the BOM |
+| `version` | Print the installed version |
+| `collage` | Generate a component collage |
+| `detect-cv` | Detect component placement |
+| `deploy` | Deploy CI-generated data to OpenPnP |
+
+### Examples
+
+```bash
+pnvision report [--template-dir TEMPLATE_DIR] INPUT_JSON
+```
+* TEMPLATE_DIR - Template directory with report.html, favicon.ico and logo.svg
+* INPUT_JSON - Input report JSON file
+
+```bash
+pnvision code IMAGE_PATH
+```
+* IMAGE_PATH - The image file with QR or barcode
+
+### OpenPnP scripts:
+> [!IMPORTANT]
+> Components with `Exclude from bill of materials` property set will have `null` assigned in the report.
+
+1. Open your KiCad board in PCB Editor, select `File -> Fabrication Outputs -> Generate Placement Files`, Select `Format` as `Plain Text`.
+
+Alternatively kicad-make tool can be used to generate .pos files:
+
 ```bash
 kmake loclib
 kmake gerber
@@ -71,10 +119,10 @@ kmake aux-origin -s bl
 kmake pnp -to --dnp
 ```
 
-> **Note**
->
->    Next steps are be done on OpenPnP, please clean the board before scanning
-2. Create new board in `Boards` panel. Make sure the board name is the same as projects name (this name will be used to create a board specific directory)
+> [!IMPORTANT]
+> Next steps are be done on OpenPnP, please clean the board before scanning
+
+2. Create new board in `Boards` panel. Make sure the board name is the same as project's name (this name will be saved to report.json)
 
 ![How to add new board](img/create_board.png)
 
@@ -82,7 +130,7 @@ kmake pnp -to --dnp
 
 ![How to add new placements to board](img/add_placements.png)
 
-4. In the new pop-up add your generated .pos files from `1.`. Then select `Assign Parts` and `Create Missing Parts`. Selecting `Use only Value as PartId` will use `Value` field from Kicad without adding `package`
+4. In the new pop-up, add your generated .pos files from `1.`. Then select `Assign Parts` and `Create Missing Parts`. Selecting `Use only Value as PartId` will use `Value` field from Kicad without adding `package`
 
 ![What Options to select for new placements](img/import_pos.png)
 
@@ -90,7 +138,7 @@ kmake pnp -to --dnp
 
 ![How to add board to job](img/add_to_job.png)
 
-6. Set the board origin by moving the camera to the bottom-left corner defined by the intersection of the leftmost and bottommost extents of the PCB outline by pressing the blue square button
+6. Set the board origin by moving the camera to the bottom-left corner of the PCB outline, where the leftmost and bottommost edges intersect. Click the blue square button to set the origin.
 
 ![How to set origin](img/set_origin.png)
 
@@ -106,7 +154,7 @@ kmake pnp -to --dnp
 
 ![How to calibrate](img/calibration.png)
 
-11. In machine setup set `Settle Time` to about 300 ms. In the Device Settings you can also change `brightness` and `contrast`. Note that the speed set in `Machine Controls` affects speed of scanning
+11. In machine setup, set `Settle Time` to about 300 ms. You can also change `brightness` and `contrast` in the Device Settings. Note that the speed set in `Machine Controls` affects speed of scanning.
 
 ![How to set settle time](img/settle_settings.png)
 
@@ -114,23 +162,12 @@ kmake pnp -to --dnp
 
 ![How to run perform_inspection.py](img/perform_inspection.png)
 
-13. If prompted in the pop-up window input comment about board assembly, serial number, e.g.: `000.000.0001`, set your location and add `*-BOM-ALL-ReferenceNotGrouped.csv`
+13. If prompted, input custom scan location, comment about board assembly, input serial number in the pop-up window, then set your location and add `*-BOM-ALL-ReferenceNotGrouped.csv`
 
-14. After the scan is finished the images are stored in `$XDG_DATA_HOME/pnvision` if set, otherwise in `~/.local/share/pnvision`
+> [!Note]
+> BOM in csv format can be generated using kmake bom: `kmake bom --all -g`
 
-15. It is recommended to scan one side of every board first e.g. `top`
+14. After the scan is finished, the images are saved to configured custom location. If no custom location is set, they are saved to `$XDG_DATA_HOME/pnvision` if set, otherwise in `~/.local/share/pnvision`
 
-## Examples
-
-```bash
-pnvision report [--template-dir TEMPLATE_DIR] INPUT_JSON
-```
-* TEMPLATE_DIR - Template directory with report.html, favicon.ico and logo.svg
-* INPUT_JSON - Input report JSON file
-
-```bash
-pnvision stitch [-o OUTPUT] INPUT_FOLDER
-```
-* OUTPUT - Output file generated by capture_board, defaults to PNG format
-* INPUT_FOLDER - Input folder generated by capture_board
+15. It is recommended to scan one side of every board first.
 
