@@ -1,3 +1,5 @@
+"""Reads qr code and barcode in the image using cv."""
+
 from pathlib import Path
 from pyzbar.pyzbar import decode
 from collections.abc import Iterator
@@ -6,15 +8,42 @@ import cv2
 import numpy as np
 
 
-def generate_variants(image: np.ndarray) -> list[np.ndarray]:
-    """Generate multiple image variants to improve decoding robustness."""
+def get_grayscale(image: np.ndarray) -> np.ndarray:
+    """Convert an image to grayscale."""
+    return cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
-    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
-    variants = []
-
+def get_clahe(gray: np.ndarray) -> np.ndarray:
+    """Enhance local contrast using CLAHE."""
     clahe = cv2.createCLAHE(clipLimit=2.5, tileGridSize=(8, 8))
+    return clahe.apply(gray)
 
+
+def get_otsu(gray: np.ndarray) -> np.ndarray:
+    """Binarize an image using Otsu's thresholding."""
+    _, otsu = cv2.threshold(
+        gray,
+        0,
+        255,
+        cv2.THRESH_BINARY + cv2.THRESH_OTSU,
+    )
+    return otsu
+
+
+def get_adaptive_threshold(gray: np.ndarray) -> np.ndarray:
+    """Binarize an image using adaptive Gaussian thresholding."""
+    return cv2.adaptiveThreshold(
+        gray,
+        255,
+        cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
+        cv2.THRESH_BINARY,
+        31,
+        3,
+    )
+
+
+def get_sharpened(gray: np.ndarray) -> np.ndarray:
+    """Sharpen image details using a convolution kernel."""
     sharpen_kernel = np.array(
         [
             [0, -1, 0],
@@ -23,55 +52,27 @@ def generate_variants(image: np.ndarray) -> list[np.ndarray]:
         ],
         dtype=np.float32,
     )
+    return cv2.filter2D(gray, -1, sharpen_kernel)
 
-    variants.append(gray)
 
-    # CLAHE
-    variants.append(clahe.apply(gray))
+def get_blackhat(gray: np.ndarray) -> np.ndarray:
+    """Extract dark regions on a light background using black-hat morphology."""
+    kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (15, 5))
+    return cv2.morphologyEx(gray, cv2.MORPH_BLACKHAT, kernel)
 
-    # Otsu
-    _, otsu = cv2.threshold(
+
+def generate_variants(image: np.ndarray) -> list[np.ndarray]:
+    """Generate multiple image variants to improve decoding robustness."""
+    gray = get_grayscale(image)
+
+    return [
         gray,
-        0,
-        255,
-        cv2.THRESH_BINARY + cv2.THRESH_OTSU,
-    )
-    variants.append(otsu)
-
-    # Adaptive threshold
-    adaptive = cv2.adaptiveThreshold(
-        gray,
-        255,
-        cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
-        cv2.THRESH_BINARY,
-        31,
-        3,
-    )
-    variants.append(adaptive)
-
-    # Sharpen
-    sharpen = cv2.filter2D(
-        gray,
-        -1,
-        sharpen_kernel,
-    )
-    variants.append(sharpen)
-
-    # Blackhat
-    kernel = cv2.getStructuringElement(
-        cv2.MORPH_RECT,
-        (15, 5),
-    )
-
-    blackhat = cv2.morphologyEx(
-        gray,
-        cv2.MORPH_BLACKHAT,
-        kernel,
-    )
-
-    variants.append(blackhat)
-
-    return variants
+        get_clahe(gray),
+        get_otsu(gray),
+        get_adaptive_threshold(gray),
+        get_sharpened(gray),
+        get_blackhat(gray),
+    ]
 
 
 def rotations(image: np.ndarray) -> Iterator[np.ndarray]:
@@ -83,26 +84,26 @@ def rotations(image: np.ndarray) -> Iterator[np.ndarray]:
 
 
 def detect_codes(image_path: Path) -> set[str]:
+    """Loop through every variant and detect qr and barcode."""
     image = cv2.imread(str(image_path))
 
     if image is None:
         raise RuntimeError(f"Unable to load image: {image_path}")
 
     qr_detector = cv2.QRCodeDetector()
-    # barcode_detector = cv2.barcode.BarcodeDetector()
 
     seen = set()
 
     for variant in generate_variants(image):
         for candidate in rotations(variant):
-            # ---------- QR ----------
+            # QR code detection
             value, _, _ = qr_detector.detectAndDecode(candidate)
 
             if value and value not in seen:
                 seen.add(value)
                 continue
 
-            # ---------- Code128 Barcode ----------
+            # Code128 Barcode detection
             decoded_objects = decode(candidate)
 
             for obj in decoded_objects:
@@ -113,7 +114,7 @@ def detect_codes(image_path: Path) -> set[str]:
 
 
 def read_code(image: Path) -> set[str]:
-
+    """Read qr codes and barcodes from image, print first one found."""
     if not image.exists():
         raise FileNotFoundError(image)
 
