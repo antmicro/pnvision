@@ -7,7 +7,8 @@ import json
 import shutil
 import pandas as pd
 
-from .helpers.bash_wrapper import bash
+from .stitch_board import stitch_board
+from .detect_components_cv import detect_components
 
 
 def generate_html_report(
@@ -57,7 +58,7 @@ def copydirs(input_dir: Path, output_dir: Path, report_location: Path, template_
     if board_dir is None:
         print(f"No board directory found in {input_dir}. Add full_board.png to report/ directory")
     else:
-        bash(f"pnvision stitch {board_dir}", "board_stitch")
+        stitch_board(image_directory=board_dir)
 
         board_image = board_dir / "full_board.png"
         if board_image.exists():
@@ -70,7 +71,7 @@ def copydirs(input_dir: Path, output_dir: Path, report_location: Path, template_
         print(f"No components directory found in {input_dir}.")
     else:
         shutil.copytree(components_dir, output_dir / "components", dirs_exist_ok=True)
-        bash(f"pnvision detect-cv {report_location} {components_dir}", "detect_dnp_disrepancies")
+        detect_components(report_location, components_dir)
 
     for asset in ("logo.svg", "favicon.ico"):
         shutil.copy2(template_dir / asset, output_dir / asset)

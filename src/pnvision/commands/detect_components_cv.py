@@ -74,7 +74,7 @@ def process_image(image_path: Path, debug_dir: Path | None) -> tuple[bool, np.nd
     return is_placed, debug_img, component_rects, pad_rects
 
 
-def detect_components(report_file: Path, components_directory: Path, save_debug: bool) -> None:
+def detect_components(report_file: Path, components_directory: Path, save_debug: bool = False) -> None:
     with report_file.open("r", encoding="utf-8") as file:
         report: dict[str, Any] = json.load(file)
 
