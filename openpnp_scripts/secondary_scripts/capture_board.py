@@ -1,19 +1,27 @@
-"""Moves camera head to capture images of whole board by moving camera over set distance. Adds board/ directory with stamped pictures."""
+"""Moves the camera head to capture images of the whole board.
+
+Moves the camera over a set distance and saves the captured images
+in the board/ directory with stamped filenames.
+"""
 
 from __future__ import absolute_import, division
-import re
 import json
 import os
+import sys
 
 from java.io import File
-from java.lang import System, Thread
-from java.text import SimpleDateFormat
-from java.util import Date
+from java.lang import Thread
 from javax.imageio import ImageIO
 from javax.swing import ProgressMonitor
 
 from org.openpnp.model import LengthUnit, Location
 from org.openpnp.util import Utils2D, MovableUtils
+
+scripts_dir = os.path.dirname(os.path.abspath(__file__))
+if scripts_dir not in sys.path:
+    sys.path.insert(0, scripts_dir)
+
+from utils import make_scan_directory
 
 # ---------------- USER SETTINGS ----------------
 
@@ -51,7 +59,7 @@ def capture_board(machine, board_location, initial_report_data):
     print("Camera FOV: %.3f x %.3f mm" % (fov_x, fov_y))
     print("Tile step: %.3f x %.3f mm" % (step_x, step_y))
 
-    safe_board_name, scan_dir = make_scan_directory(board_location, initial_report_data)
+    safe_board_name, scan_dir = make_scan_directory(board_location, initial_report_data, "board")
     print("Output: %s" % scan_dir.getAbsolutePath())
 
     report_file = File(scan_dir.getParentFile(), "report.json")
@@ -75,17 +83,6 @@ def capture_board(machine, board_location, initial_report_data):
         print("Board tile scan complete.")
 
     return scanned, scan_dir
-
-
-def data_home():
-    if not System.getProperty("os.name").lower().startswith("windows"):
-        return os.path.join(
-            os.environ.get("XDG_DATA_HOME", os.path.join(os.path.expanduser("~"), ".local", "share")), "pnvision"
-        )
-
-    return os.path.join(
-        os.environ.get("LOCALAPPDATA", os.path.join(os.path.expanduser("~"), "AppData", "Local")), "pnvision"
-    )
 
 
 def scan_board_location(
@@ -235,55 +232,6 @@ def make_axis_centers(size, fov, step, margin):
     return pts
 
 
-def is_board_location_enabled(board_location):
-    try:
-        return board_location.isEnabled()
-    except Exception:
-        return True
-
-
-def make_scan_directory(board_location, initial_report_data):
-    board = board_location.getBoard()
-    board_name = board.getName()
-    if board_name.endswith(".board.xml"):
-        board_name = board_name[: -len(".board.xml")]
-    safe_board_name = sanitize(board_name)
-
-    root = File(data_home(), safe_board_name)
-    if not root.exists():
-        root.mkdirs()
-
-    serial_number = ""
-    board_side = str(board_location.getSide()).lower()
-    location = ""
-    time_str = SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(Date())
-
-    if initial_report_data:
-        scandata = initial_report_data.get("scan", {})
-        pcbdata = initial_report_data.get("pcb", {})
-        serial_number = pcbdata.get("serial_number")
-        location = scandata.get("location")
-        time_str = scandata.get("time")
-    else:
-        serial_number = None
-        location = board_location
-        time_str = None
-
-    parts = [serial_number, board_side, time_str, location]
-
-    dir_name = "_".join(part for part in parts if part and part != "-")
-
-    scan_dir = File(File(root, dir_name), "board")
-    if not scan_dir.exists():
-        scan_dir.mkdirs()
-
-    return safe_board_name, scan_dir
-
-
-def sanitize(value):
-    return re.sub(r'[\\/:*?"<>|\s]+', "_", str(value))
-
-
 def pad(value, width):
     s = str(value)
     while len(s) < width:
@@ -293,12 +241,3 @@ def pad(value, width):
 
 def fmt(value):
     return "%.3f" % float(value)
-
-
-def csv(value):
-    s = str(value)
-
-    if "," in s or '"' in s or "\n" in s:
-        return '"' + s.replace('"', '""') + '"'
-
-    return s

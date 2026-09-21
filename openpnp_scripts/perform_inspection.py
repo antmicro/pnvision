@@ -1,4 +1,8 @@
-"""Runs an inspection procedure for an OpenPnP machine. Asks for user input, captures component images, saves report.json and scan."""
+"""Runs an inspection procedure for an OpenPnP machine.
+
+Asks for user input, captures component images, and saves
+report.json and scan results.
+"""
 
 import os
 import subprocess
@@ -14,7 +18,7 @@ import org.openpnp.Main as Main
 from java.text import SimpleDateFormat
 from java.util import Date
 from javax.swing import JOptionPane, SwingUtilities, JFileChooser
-from java.lang import ProcessBuilder, System
+from java.lang import ProcessBuilder
 from java.io import IOException, BufferedReader, InputStreamReader, File
 from java.lang import Exception as JavaException
 
@@ -22,10 +26,10 @@ scripts_dir = os.path.os.path.join(str(scripting.getScriptsDirectory()), "second
 if scripts_dir not in sys.path:
     sys.path.insert(0, scripts_dir)
 
-from utils import config_home, state_home
-from capture_components import capture_components
-from capture_board import capture_board
+from utils import config_home, state_home, is_board_enabled
 from capture_qr_code import capture_qr_code
+from capture_board import capture_board
+from capture_components import capture_components
 
 
 def run_command(command_dir, *command):
@@ -170,8 +174,7 @@ def get_bom_from_user():
         )
 
         if result == JOptionPane.YES_OPTION:
-            file = File(bom_file_path)
-            return file
+            return File(bom_file_path)
 
     chooser = JFileChooser()
     chooser.setDialogTitle("Select BOM-ALL-ReferenceNotGrouped CSV File")
@@ -315,13 +318,6 @@ def get_current_job():
             return tab.getJob()
 
     raise Exception("Active OpenPnP job not detected. Load a job prior to execution.")
-
-
-def is_board_enabled(board_location):
-    if board_location.isEnabled():
-        return True
-
-    return False
 
 
 def calibrate_pnp(board_location):

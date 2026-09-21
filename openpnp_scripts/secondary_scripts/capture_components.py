@@ -1,22 +1,29 @@
-"""Moves camera head to capture image of every component in current JOB. Adds components/ directory with stamped pictures."""
+"""Moves camera head to capture image of every component in current JOB.
+
+Adds components/ directory with stamped files.
+"""
 
 from __future__ import absolute_import, division
-import re
 import json
 import math
 import os
 import csv
+import sys
 
 from java.io import File
-from java.lang import System, Thread
-from java.text import SimpleDateFormat
-from java.util import Date, ArrayList
+from java.lang import Thread
+from java.util import ArrayList
 from javax.imageio import ImageIO
 from javax.swing import ProgressMonitor
-from java.lang import Thread
 
 from org.openpnp.model import LengthUnit
 from org.openpnp.util import Utils2D, MovableUtils
+
+scripts_dir = os.path.dirname(os.path.abspath(__file__))
+if scripts_dir not in sys.path:
+    sys.path.insert(0, scripts_dir)
+
+from utils import make_scan_directory, sanitize
 
 # ---------------- USER SETTINGS ----------------
 
@@ -41,7 +48,7 @@ def capture_components(machine, board_location, initial_report_data):
 
     camera = machine.getDefaultHead().getDefaultCamera()
 
-    safe_board_name, scan_dir = make_scan_directory(board_location, initial_report_data)
+    safe_board_name, scan_dir = make_scan_directory(board_location, initial_report_data, "components")
     print("Output: %s" % scan_dir.getAbsolutePath())
     print("Output directory generated: %s" % scan_dir.getAbsolutePath())
 
@@ -61,17 +68,6 @@ def capture_components(machine, board_location, initial_report_data):
 
     print("Component image capture sequence complete.")
     return scan_dir
-
-
-def data_home():
-    if not System.getProperty("os.name").lower().startswith("windows"):
-        return os.path.join(
-            os.environ.get("XDG_DATA_HOME", os.path.join(os.path.expanduser("~"), ".local", "share")), "pnvision"
-        )
-
-    return os.path.join(
-        os.environ.get("LOCALAPPDATA", os.path.join(os.path.expanduser("~"), "AppData", "Local")), "pnvision"
-    )
 
 
 def optimize_placements(placements):
@@ -356,48 +352,6 @@ def crop_small_passives(image, safe_part_name, rotation_deg):
     y = (h - target_h) // 2
 
     return image.getSubimage(x, y, target_w, target_h)
-
-
-def make_scan_directory(board_location, initial_report_data):
-    board = board_location.getBoard()
-    board_name = board.getName()
-    if board_name.endswith(".board.xml"):
-        board_name = board_name[: -len(".board.xml")]
-    safe_board_name = sanitize(board_name)
-
-    root = File(data_home(), safe_board_name)
-    if not root.exists():
-        root.mkdirs()
-
-    serial_number = ""
-    board_side = str(board_location.getSide()).lower()
-    location = ""
-    time_str = SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(Date())
-
-    if initial_report_data:
-        scandata = initial_report_data.get("scan", {})
-        pcbdata = initial_report_data.get("pcb", {})
-        serial_number = pcbdata.get("serial_number")
-        location = scandata.get("location")
-        time_str = scandata.get("time")
-    else:
-        serial_number = None
-        location = board_location
-        time_str = None
-
-    parts = [serial_number, board_side, time_str, location]
-
-    dir_name = "_".join(part for part in parts if part and part != "-")
-
-    scan_dir = File(File(root, dir_name), "components")
-    if not scan_dir.exists():
-        scan_dir.mkdirs()
-
-    return safe_board_name, scan_dir
-
-
-def sanitize(value):
-    return re.sub(r'[\\/:*?"<>|\s]+', "_", str(value))
 
 
 def log_placement(
