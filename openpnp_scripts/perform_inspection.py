@@ -18,11 +18,11 @@ from java.lang import ProcessBuilder, System
 from java.io import IOException, BufferedReader, InputStreamReader, File
 from java.lang import Exception as JavaException
 
-SCRIPTS_DIR = os.path.expanduser("~/.openpnp2/scripts/secondary_scripts")
+scripts_dir = str(scripting.getScriptsDirectory())
 
 
 def launch_secondary_script(filename, **kwargs):
-    target_path = os.path.join(SCRIPTS_DIR, filename)
+    target_path = os.path.join(scripts_dir, filename)
 
     script_globals = globals()
     for key, value in kwargs.iteritems():
@@ -344,11 +344,10 @@ def get_current_job():
     raise Exception("Active OpenPnP job not detected. Load a job prior to execution.")
 
 
-def is_board_enabled(board_location, board_index):
+def is_board_enabled(board_location):
     if board_location.isEnabled():
         return True
 
-    print("Skipping disabled board with index %d" % board_index)
     return False
 
 
@@ -399,7 +398,8 @@ def perform_inspection():
         global initial_report_data, board_location
         board_location = board_locations.get(board_index)
 
-        if not is_board_enabled(board_location, board_index):
+        if not is_board_enabled(board_location):
+            print("Skipping disabled board with index %d" % board_index)
             continue
 
         initial_report_data = get_metadata(board_location, board_index)

@@ -402,17 +402,6 @@ def sanitize(value):
     return re.sub(r'[\\/:*?"<>|\s]+', "_", str(value))
 
 
-def pad(value, width):
-    s = str(value)
-    while len(s) < width:
-        s = "0" + s
-    return s
-
-
-def fmt(value):
-    return "%.3f" % float(value)
-
-
 def log_placement(
     report,
     safe_placement_designator,
