@@ -41,9 +41,7 @@ SERPENTINE = False
 # ------------------------------------------------
 
 
-def main():
-    global scan_dir
-    global board_location
+def capture_board(machine, board_location, initial_report_data):
 
     camera = machine.defaultHead.defaultCamera
     fov_x, fov_y = get_camera_fov_mm(camera)
@@ -53,16 +51,15 @@ def main():
     print("Camera FOV: %.3f x %.3f mm" % (fov_x, fov_y))
     print("Tile step: %.3f x %.3f mm" % (step_x, step_y))
 
-    safe_board_name, scan_dir = make_scan_directory(board_location)
+    safe_board_name, scan_dir = make_scan_directory(board_location, initial_report_data)
     print("Output: %s" % scan_dir.getAbsolutePath())
 
     report_file = File(scan_dir.getParentFile(), "report.json")
     if not report_file.exists():
-        initial_report = globals().get("initial_report_data", {})
         with open(report_file.getAbsolutePath(), "w") as f:
-            json.dump(initial_report, f, indent=4)
+            json.dump(initial_report_data, f, indent=4)
 
-    scan_board_location(
+    scanned = scan_board_location(
         camera,
         board_location,
         fov_x,
@@ -71,9 +68,13 @@ def main():
         step_y,
         safe_board_name,
         scan_dir,
+        initial_report_data,
     )
 
-    print("Board tile scan complete.")
+    if scanned:
+        print("Board tile scan complete.")
+
+    return scanned, scan_dir
 
 
 def data_home():
@@ -96,6 +97,7 @@ def scan_board_location(
     step_y,
     safe_board_name,
     scan_dir,
+    initial_report_data,
 ):
 
     board = board_location.getBoard()
@@ -112,7 +114,7 @@ def scan_board_location(
 
     print("Grid: %d columns x %d rows = %d images" % (len(xs), len(ys), len(xs) * len(ys)))
 
-    pcbdata = initial_report_data.get("pcb", {}) if "initial_report_data" in globals() else {}
+    pcbdata = initial_report_data.get("pcb", {})
     serial_number = pcbdata.get("serial_number")
 
     monitor = ProgressMonitor(
@@ -184,6 +186,8 @@ def scan_board_location(
     finally:
         monitor.close()
 
+    return len(xs) * len(ys) > 0
+
 
 def get_camera_fov_mm(camera):
     fov_x = CAMERA_FOV_X_MM
@@ -238,7 +242,7 @@ def is_board_location_enabled(board_location):
         return True
 
 
-def make_scan_directory(board_location):
+def make_scan_directory(board_location, initial_report_data):
     board = board_location.getBoard()
     board_name = board.getName()
     if board_name.endswith(".board.xml"):
@@ -254,12 +258,16 @@ def make_scan_directory(board_location):
     location = ""
     time_str = SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(Date())
 
-    if "initial_report_data" in globals():
+    if initial_report_data:
         scandata = initial_report_data.get("scan", {})
         pcbdata = initial_report_data.get("pcb", {})
         serial_number = pcbdata.get("serial_number")
         location = scandata.get("location")
-        time_str = scandata.get("timestamp")
+        time_str = scandata.get("time")
+    else:
+        serial_number = None
+        location = board_location
+        time_str = None
 
     parts = [serial_number, board_side, time_str, location]
 
@@ -294,6 +302,3 @@ def csv(value):
         return '"' + s.replace('"', '""') + '"'
 
     return s
-
-
-main()

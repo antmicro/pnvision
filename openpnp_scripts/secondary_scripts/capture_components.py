@@ -37,31 +37,30 @@ CROP_MARGIN_SCALE = 1.1
 # ------------------------------------------------
 
 
-def main():
-    global scan_dir
-    global report_file
-    global board_location
+def capture_components(machine, board_location, initial_report_data):
 
     camera = machine.getDefaultHead().getDefaultCamera()
 
-    safe_board_name, scan_dir = make_scan_directory(board_location)
+    safe_board_name, scan_dir = make_scan_directory(board_location, initial_report_data)
     print("Output: %s" % scan_dir.getAbsolutePath())
     print("Output directory generated: %s" % scan_dir.getAbsolutePath())
 
     report_file = File(scan_dir.getParentFile(), "report.json")
     if not report_file.exists():
-        initial_report = globals().get("initial_report_data", {})
         with open(report_file.getAbsolutePath(), "w") as f:
-            json.dump(initial_report, f, indent=4)
+            json.dump(initial_report_data, f, indent=4)
 
     process_board_placements(
         camera,
         board_location,
         scan_dir,
         safe_board_name,
+        report_file,
+        initial_report_data,
     )
 
     print("Component image capture sequence complete.")
+    return scan_dir
 
 
 def data_home():
@@ -173,12 +172,7 @@ def load_bom_data(bom_file):
     return bom_indexed
 
 
-def process_board_placements(
-    camera,
-    board_location,
-    scan_dir,
-    safe_board_name,
-):
+def process_board_placements(camera, board_location, scan_dir, safe_board_name, report_file, initial_report_data):
     print("Scanning board: %s" % safe_board_name)
 
     with open(report_file.getAbsolutePath(), "r") as f:
@@ -364,7 +358,7 @@ def crop_small_passives(image, safe_part_name, rotation_deg):
     return image.getSubimage(x, y, target_w, target_h)
 
 
-def make_scan_directory(board_location):
+def make_scan_directory(board_location, initial_report_data):
     board = board_location.getBoard()
     board_name = board.getName()
     if board_name.endswith(".board.xml"):
@@ -380,12 +374,16 @@ def make_scan_directory(board_location):
     location = ""
     time_str = SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(Date())
 
-    if "initial_report_data" in globals():
+    if initial_report_data:
         scandata = initial_report_data.get("scan", {})
         pcbdata = initial_report_data.get("pcb", {})
         serial_number = pcbdata.get("serial_number")
         location = scandata.get("location")
-        time_str = scandata.get("timestamp")
+        time_str = scandata.get("time")
+    else:
+        serial_number = None
+        location = board_location
+        time_str = None
 
     parts = [serial_number, board_side, time_str, location]
 
@@ -450,6 +448,3 @@ def log_placement(
 
     with open(report_file.getAbsolutePath(), "w") as f:
         json.dump(report, f, indent=4)
-
-
-main()

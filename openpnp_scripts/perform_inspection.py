@@ -18,19 +18,14 @@ from java.lang import ProcessBuilder, System
 from java.io import IOException, BufferedReader, InputStreamReader, File
 from java.lang import Exception as JavaException
 
-scripts_dir = str(scripting.getScriptsDirectory())
+scripts_dir = os.path.os.path.join(str(scripting.getScriptsDirectory()), "secondary_scripts")
+if scripts_dir not in sys.path:
+    sys.path.insert(0, scripts_dir)
 
-
-def launch_secondary_script(filename, **kwargs):
-    target_path = os.path.join(scripts_dir, filename)
-
-    script_globals = globals()
-    for key, value in kwargs.iteritems():
-        script_globals[key] = value
-
-    execfile(target_path, script_globals, script_globals)
-
-    return script_globals.get("scan_dir")
+from utils import config_home, state_home
+from capture_components import capture_components
+from capture_board import capture_board
+from capture_qr_code import capture_qr_code
 
 
 def run_command(command_dir, *command):
@@ -60,28 +55,6 @@ def run_command(command_dir, *command):
         print("%s is not installed or not on PATH." % command[0])
         print(e)
         return None
-
-
-def config_home():
-    if not System.getProperty("os.name").lower().startswith("windows"):
-        return os.path.join(
-            os.environ.get("XDG_CONFIG_HOME", os.path.join(os.path.expanduser("~"), ".config")), "pnvision"
-        )
-
-    return os.path.join(
-        os.environ.get("APPDATA", os.path.join(os.path.expanduser("~"), "AppData", "Roaming")), "pnvision"
-    )
-
-
-def state_home():
-    if not System.getProperty("os.name").lower().startswith("windows"):
-        return os.path.join(
-            os.environ.get("XDG_STATE_HOME", os.path.join(os.path.expanduser("~"), ".local", "state")), "pnvision"
-        )
-
-    return os.path.join(
-        os.environ.get("LOCALAPPDATA", os.path.join(os.path.expanduser("~"), "AppData", "Local")), "pnvision"
-    )
 
 
 def read_file(path):
@@ -117,7 +90,7 @@ def handle_serial_number(board_location, prompt="Enter serial number:", title="I
     if not os.path.isdir(state_dir):
         os.makedirs(state_dir)
 
-    launch_secondary_script("capture_qr_code.py", board_location=board_location, qr_image=qr_image)
+    capture_qr_code(machine, board_location, qr_image)
 
     code = run_command(File(state_dir), "pnvision", "code", qr_image)
 
@@ -351,7 +324,7 @@ def is_board_enabled(board_location):
     return False
 
 
-def calibrate_pnp():
+def calibrate_pnp(board_location):
     locator = machine.getFiducialLocator()
 
     try:
@@ -359,15 +332,6 @@ def calibrate_pnp():
 
     except JavaException as e:
         print("Fiducial location failed, continuing without correction:", e)
-
-
-def capture_board():
-    capture_board_scan_dir = launch_secondary_script("capture_board.py")
-    run_command(capture_board_scan_dir, "pnvision", "stitch", ".")
-
-
-def capture_components():
-    launch_secondary_script("capture_components.py")
 
 
 def finish_job():
@@ -395,7 +359,7 @@ def perform_inspection():
     board_locations = job_obj.getBoardLocations()
 
     for board_index in range(board_locations.size()):
-        global initial_report_data, board_location
+
         board_location = board_locations.get(board_index)
 
         if not is_board_enabled(board_location):
@@ -406,11 +370,13 @@ def perform_inspection():
 
         sleep(1.5)
 
-        calibrate_pnp()
+        calibrate_pnp(board_location)
 
-        capture_board()
+        board_scanned, capture_board_scan_dir = capture_board(machine, board_location, initial_report_data)
+        if board_scanned:
+            run_command(capture_board_scan_dir, "pnvision", "stitch", ".")
 
-        capture_components()
+        capture_components(machine, board_location, initial_report_data)
 
         finish_job()
 
