@@ -1,18 +1,13 @@
 from java.io import File
-from java.lang import System
-import os
 import json
+import os
+import sys
 
+scripts_dir = os.path.os.path.join(str(scripting.getScriptsDirectory()), "secondary_scripts")
+if scripts_dir not in sys.path:
+    sys.path.insert(0, scripts_dir)
 
-def state_home():
-    if not System.getProperty("os.name").lower().startswith("windows"):
-        return os.path.join(
-            os.environ.get("XDG_STATE_HOME", os.path.join(os.path.expanduser("~"), ".local", "state")), "pnvision"
-        )
-
-    return os.path.join(
-        os.environ.get("LOCALAPPDATA", os.path.join(os.path.expanduser("~"), "AppData", "Local")), "pnvision"
-    )
+from utils import state_home
 
 
 def get_feeder_state_file():
@@ -37,17 +32,16 @@ def load_state():
         return {}
 
 
+placement_designator = placement.getId()
 part_id = part.getId()
-feeder_name = feeder.getName()
-feeder_id = feeder.getId()
 
 state = load_state()
 
-state[part_id] = {"feeder": feeder_name, "feeder_id": feeder_id}
+state[placement_designator] = {"part": part_id}
 
 state_file = get_feeder_state_file()
 
 with open(state_file.getAbsolutePath(), "w") as f:
     json.dump(state, f, indent=4)
 
-print("Feeder state: %s -> %s (%s)" % (part_id, feeder_name, feeder_id))
+print("Assembly: %s -> %s" % (placement_designator, part_id))
