@@ -31,6 +31,9 @@ from capture_qr_code import capture_qr_code
 from capture_board import capture_board
 from capture_components import capture_components
 
+# Assembly place / Assembly machine
+ALLOWED_LOCATIONS = ["POZ", "WRO", "GDA", "GOT"]
+
 
 def run_command(command_dir, *command):
     """Runs a command and returns its standard output."""
@@ -146,17 +149,14 @@ def handle_location():
     if location:
         return location
 
-    # Assembly place / Assembly machine
-    options = ["POZ", "WRO", "GDA", "GOT"]
-
     location = JOptionPane.showInputDialog(
         None,
         "Select location:",
         "Location",
         JOptionPane.QUESTION_MESSAGE,
         None,
-        options,
-        options[0],
+        ALLOWED_LOCATIONS,
+        ALLOWED_LOCATIONS[0],
     )
 
     write_file(config_file, location)
