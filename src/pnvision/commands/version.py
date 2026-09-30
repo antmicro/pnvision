@@ -1,3 +1,5 @@
+"""Displays version created dynamically during installation."""
+
 from importlib.metadata import version as package_version
 
 

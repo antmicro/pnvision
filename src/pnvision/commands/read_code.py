@@ -1,4 +1,4 @@
-"""Reads qr code and barcode in the image using cv."""
+"""Reads qr code and barcode in the image using computer vision."""
 
 from pathlib import Path
 from pyzbar.pyzbar import decode

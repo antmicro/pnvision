@@ -1,3 +1,5 @@
+"""Generates HTML assembly report from report.json and scan data."""
+
 from pathlib import Path
 from jinja2 import Environment, FileSystemLoader
 from importlib.resources import as_file, files
@@ -15,6 +17,7 @@ def generate_html_report(
     report_location: Path,
     template_dir: Path,
 ) -> None:
+    """Runs a procedure for generating report."""
 
     with report_location.open("r", encoding="utf-8") as f:
         log = json.load(f)
@@ -54,6 +57,8 @@ def generate_html_report(
 
 
 def copydirs(input_dir: Path, output_dir: Path, report_location: Path, template_dir: Path) -> Path | None:
+    """Copies necessary template directories."""
+
     board_dir = next((p for p in input_dir.glob("*board*") if p.is_dir()), None)
     if board_dir is None:
         print(f"No board directory found in {input_dir}. Add full_board.png to report/ directory")
@@ -80,6 +85,8 @@ def copydirs(input_dir: Path, output_dir: Path, report_location: Path, template_
 
 
 def add_bom_status(part: pd.DataFrame, bom_path: Path) -> pd.DataFrame:
+    """Assigns DNP status from BOM."""
+
     bom_designators, bom_dnp_designators = read_bom(bom_path)
 
     # Parts in the report come from the openPnP board (from position files).
@@ -99,6 +106,8 @@ def generate_report(
     report_location: Path,
     template_dir: Path | None = None,
 ) -> None:
+    """Generates an HTML report using the given template or the bundled default."""
+
     if not report_location.exists():
         raise FileNotFoundError(report_location)
 

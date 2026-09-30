@@ -1,3 +1,5 @@
+"""Stitches board images using traditional methods to one image."""
+
 from pathlib import Path
 from numpy.typing import NDArray
 from typing import cast
@@ -28,6 +30,8 @@ def create_feather_mask(shape: tuple[int, ...]) -> np.ndarray:
 
 
 def normalize_image(img: NDArray[np.integer | np.floating]) -> NDArray[np.float32]:
+    """Normalizes image using cv2."""
+
     dst = np.empty(img.shape, dtype=np.float32)
 
     return cast(
@@ -50,6 +54,8 @@ def stitch_macro_grid(
     pixels_per_unit_x: float = DEFAULT_PIXELS_PER_UNIT_X,
     pixels_per_unit_y: float = DEFAULT_PIXELS_PER_UNIT_Y,
 ) -> None:
+    """Stitches images by placing them in a grid."""
+
     pattern = re.compile(r"^(.+)_r\d+_c\d+_x(\d+\.\d+)_y(\d+\.\d+)\.png$")
 
     file_list = glob.glob(os.path.join(image_directory, "*.png"))
@@ -129,6 +135,8 @@ def stitch_board(
     pixels_per_unit_y: float | None = None,
     delete_tiles: bool = False,
 ) -> None:
+    """Runs a procedure for stiching the board images."""
+
     if pixels_per_unit_x is None:
         pixels_per_unit_x = DEFAULT_PIXELS_PER_UNIT_X
 

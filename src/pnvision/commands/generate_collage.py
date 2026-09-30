@@ -1,3 +1,5 @@
+"""Generates HTML collage report from scans."""
+
 from pathlib import Path
 from importlib.resources import as_file, files
 from jinja2 import Environment, FileSystemLoader
@@ -11,6 +13,8 @@ def generate_html_report(
     template_dir: Path,
     output: Path | None = None,
 ) -> None:
+    """Runs a procedure for generating collage."""
+
     scans_directory = scans_directory.resolve()
 
     if not scans_directory.is_dir():
@@ -129,6 +133,8 @@ def generate_report(
     scans_directory: Path,
     output: Path | None = None,
 ) -> None:
+    """Generates collage report from directories containing scans."""
+
     if not scans_directory.exists():
         raise FileNotFoundError(scans_directory)
 

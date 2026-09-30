@@ -1,8 +1,12 @@
+"""Reads BOM data and displays all designators along with dnp designators."""
+
 from pathlib import Path
 import csv
 
 
 def read_bom(bom: Path) -> tuple[set[str], set[str]]:
+    """Reads BOM and returns all designators along with dnp designators."""
+
     if not bom.exists():
         raise FileNotFoundError(bom)
 

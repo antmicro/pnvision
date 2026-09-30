@@ -1,3 +1,5 @@
+"""Detects whether SMD components are placed using computer vision methods."""
+
 import cv2
 import json
 import numpy as np
@@ -12,12 +14,8 @@ MIN_COMPONENT_RATIO = 0.15
 
 
 def process_image(image_path: Path, debug_dir: Path | None) -> tuple[bool, np.ndarray | None, list, list]:
-    """
-    Applies the vision pipeline to determine if a rectangular SMD component is placed.
+    """Applies the vision pipeline to determine if a rectangular SMD component is placed."""
 
-    Returns:
-        (is_placed, debug_image, component_rects, pad_rects)
-    """
     img = cv2.imread(str(image_path))
     if img is None:
         return False, None, [], []
@@ -75,6 +73,8 @@ def process_image(image_path: Path, debug_dir: Path | None) -> tuple[bool, np.nd
 
 
 def detect_components(report_file: Path, components_directory: Path, save_debug: bool = False) -> None:
+    """Compares DNP status from report with images using computer vision."""
+
     with report_file.open("r", encoding="utf-8") as file:
         report: dict[str, Any] = json.load(file)
 

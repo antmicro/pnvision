@@ -1,3 +1,5 @@
+"""Extracts and copies files from zip to home state."""
+
 import os
 from pathlib import Path
 from zipfile import ZipFile
@@ -5,6 +7,8 @@ import shutil
 
 
 def get_state_home() -> Path:
+    """Returns state home file."""
+
     if "XDG_STATE_HOME" in os.environ:
         return Path(os.environ["XDG_STATE_HOME"]) / "pnvision"
 
@@ -15,6 +19,8 @@ def get_state_home() -> Path:
 
 
 def copy_files_from_zip(artifacts_directory: Path, state_directory: Path) -> None:
+    """Copies files from zip to state directory."""
+
     with ZipFile(artifacts_directory) as zip_file:
         files = [Path(name) for name in zip_file.namelist()]
 
@@ -55,6 +61,7 @@ def copy_files_from_zip(artifacts_directory: Path, state_directory: Path) -> Non
 
 
 def deploy(artifacts_directory: Path) -> None:
+    """Runs a procedure for copying scan files."""
 
     state_directory = get_state_home()
     if state_directory.exists():
