@@ -26,7 +26,7 @@ scripts_dir = os.path.os.path.join(str(scripting.getScriptsDirectory()), "second
 if scripts_dir not in sys.path:
     sys.path.insert(0, scripts_dir)
 
-from utils import config_home, state_home, is_board_enabled, read_file
+from utils import config_home, state_home, is_board_enabled, read_file, sanitize
 from capture_qr_code import capture_qr_code
 from capture_board import capture_board
 from capture_components import capture_components
@@ -178,6 +178,20 @@ def handle_location():
     return location
 
 
+def handle_project_name(board_location):
+    board = board_location.getBoard()
+    board_name = board.getName()
+
+    BOARD_NAME = re.compile(r"^(?P<project_reference>.+)-(?P<sha>[0-9a-fA-F]{7,40})-inspection\.board\.xml$")
+
+    match = BOARD_NAME.match(board_name)
+
+    if not match:
+        return None, None
+
+    return (str(match.group("project_reference")), str(match.group("sha")))
+
+
 def get_bom_from_user():
     """Handles reading BOM from user input."""
 
@@ -217,21 +231,6 @@ def get_bom_from_user():
     return file
 
 
-def parse_bom_filename(filename):
-    """Handles parsing bom filename."""
-
-    BOM_FILENAME_RE = re.compile(
-        r"^(?P<project_reference>.+)-(?P<sha>[0-9a-fA-F]{7,40})" r"-BOM-ALL-ReferenceNotGrouped(?:\.csv)?$"
-    )
-
-    match = BOM_FILENAME_RE.match(filename)
-
-    if not match:
-        return None, None
-
-    return (str(match.group("project_reference")), str(match.group("sha")))
-
-
 def save_bom_to_state(bom_path):
     """Saves bom to state home location."""
 
@@ -242,35 +241,24 @@ def save_bom_to_state(bom_path):
     source_path = str(bom_path.getAbsolutePath())
 
     if os.path.abspath(source_path) == os.path.abspath(saved_bom_file_path):
-        return str(saved_bom_file_path)
+        return
     try:
         shutil.copy2(source_path, saved_bom_file_path)
     except (IOError, OSError):
-        return None
-
-    return str(saved_bom_file_path)
+        return
 
 
 def handle_bom():
     """Handles reading BOM from user input."""
 
     bom_path = get_bom_from_user()
+
     if bom_path is None:
-        return None, None, None
+        return None
 
-    original_bom_file_path = str(bom_path.getAbsolutePath())
-    bom_file = str(bom_path.getName())
+    save_bom_to_state(bom_path)
 
-    project_reference, sha = parse_bom_filename(bom_file)
-    if project_reference is None:
-        return None, None, None
-
-    saved_bom_file_path = save_bom_to_state(bom_path)
-
-    if saved_bom_file_path is None:
-        return None, None, None
-
-    return (str(original_bom_file_path), str(project_reference), str(sha))
+    return str(bom_path.getAbsolutePath())
 
 
 def get_os_name():
@@ -303,7 +291,9 @@ def get_metadata(board_location, board_index):
 
     location = handle_location()
 
-    bom_file_path, project_reference, sha = handle_bom()
+    project_reference, sha = handle_project_name()
+
+    bom_file_path = handle_bom(board_location)
 
     openpnp_version = str(Main.getVersion())
 
