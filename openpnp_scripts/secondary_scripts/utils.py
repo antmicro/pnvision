@@ -38,6 +38,12 @@ def state_home():
 def data_home():
     """Returns data home file, scans are stored by default here."""
 
+    config_file = os.path.join(config_home(), "scan_directory")
+    scan_directory = read_file(config_file)
+
+    if scan_directory:
+        return scan_directory
+
     if not System.getProperty("os.name").lower().startswith("windows"):
         return os.path.join(
             os.environ.get("XDG_DATA_HOME", os.path.join(os.path.expanduser("~"), ".local", "share")), "pnvision"
@@ -46,6 +52,15 @@ def data_home():
     return os.path.join(
         os.environ.get("LOCALAPPDATA", os.path.join(os.path.expanduser("~"), "AppData", "Local")), "pnvision"
     )
+
+
+def read_file(path):
+    """Reads a file if exists."""
+
+    if not os.path.exists(path):
+        return None
+    with open(path, "r") as f:
+        return f.read().strip()
 
 
 def is_board_enabled(board_location):

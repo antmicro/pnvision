@@ -26,7 +26,7 @@ scripts_dir = os.path.os.path.join(str(scripting.getScriptsDirectory()), "second
 if scripts_dir not in sys.path:
     sys.path.insert(0, scripts_dir)
 
-from utils import config_home, state_home, is_board_enabled
+from utils import config_home, state_home, is_board_enabled, read_file
 from capture_qr_code import capture_qr_code
 from capture_board import capture_board
 from capture_components import capture_components
@@ -66,15 +66,6 @@ def run_command(command_dir, *command):
         return None
 
 
-def read_file(path):
-    """Reads a file if exists."""
-
-    if not os.path.exists(path):
-        return None
-    with open(path, "r") as f:
-        return f.read().strip()
-
-
 def write_file(path, value):
     """Writes a file, adds parent directories."""
 
@@ -83,6 +74,30 @@ def write_file(path, value):
         os.makedirs(directory)
     with open(path, "w") as f:
         f.write("null" if value is None else value)
+
+
+def handle_scan_directory():
+    """Handles scan directory and saves to config."""
+
+    config_file = os.path.join(config_home(), "scan_directory")
+    scan_directory = read_file(config_file)
+
+    if scan_directory:
+        return scan_directory
+
+    chooser = JFileChooser()
+    chooser.setDialogTitle("Select scan directory:")
+    chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY)
+
+    result = chooser.showOpenDialog(None)
+
+    if result != JFileChooser.APPROVE_OPTION:
+        return None
+
+    scan_directory = chooser.getSelectedFile().getAbsolutePath()
+
+    write_file(config_file, scan_directory)
+    return scan_directory
 
 
 def handle_user_comment():
@@ -275,6 +290,8 @@ def get_os_name():
 
 def get_metadata(board_location, board_index):
     """Returns initial_report_data with all metadata."""
+
+    handle_scan_directory()
 
     user_comment = handle_user_comment()
 
