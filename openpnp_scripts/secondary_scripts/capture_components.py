@@ -23,7 +23,7 @@ scripts_dir = os.path.dirname(os.path.abspath(__file__))
 if scripts_dir not in sys.path:
     sys.path.insert(0, scripts_dir)
 
-from utils import make_scan_directory, sanitize
+from utils import make_scan_directory, sanitize, get_safe_board_name
 
 # ---------------- USER SETTINGS ----------------
 
@@ -49,7 +49,7 @@ def capture_components(machine, board_location, initial_report_data):
 
     camera = machine.getDefaultHead().getDefaultCamera()
 
-    safe_board_name, scan_dir = make_scan_directory(board_location, initial_report_data, "components")
+    scan_dir = make_scan_directory(board_location, initial_report_data, "components")
     print("Output: %s" % scan_dir.getAbsolutePath())
     print("Output directory generated: %s" % scan_dir.getAbsolutePath())
 
@@ -57,6 +57,8 @@ def capture_components(machine, board_location, initial_report_data):
     if not report_file.exists():
         with open(report_file.getAbsolutePath(), "w") as f:
             json.dump(initial_report_data, f, indent=4)
+
+    safe_board_name = get_safe_board_name(board_location)
 
     process_board_placements(
         camera,
@@ -182,7 +184,7 @@ def process_board_placements(camera, board_location, scan_dir, safe_board_name, 
     with open(report_file.getAbsolutePath(), "r") as f:
         report = json.load(f)
 
-    pcbdata = initial_report_data.get("pcb", {}) if "initial_report_data" in globals() else {}
+    pcbdata = initial_report_data.get("pcb", {})
     serial_number = pcbdata.get("serial_number")
 
     board = board_location.getBoard()

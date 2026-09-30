@@ -21,7 +21,7 @@ scripts_dir = os.path.dirname(os.path.abspath(__file__))
 if scripts_dir not in sys.path:
     sys.path.insert(0, scripts_dir)
 
-from utils import make_scan_directory
+from utils import make_scan_directory, get_safe_board_name
 
 # ---------------- USER SETTINGS ----------------
 
@@ -60,13 +60,15 @@ def capture_board(machine, board_location, initial_report_data):
     print("Camera FOV: %.3f x %.3f mm" % (fov_x, fov_y))
     print("Tile step: %.3f x %.3f mm" % (step_x, step_y))
 
-    safe_board_name, scan_dir = make_scan_directory(board_location, initial_report_data, "board")
+    scan_dir = make_scan_directory(board_location, initial_report_data, "board")
     print("Output: %s" % scan_dir.getAbsolutePath())
 
     report_file = File(scan_dir.getParentFile(), "report.json")
     if not report_file.exists():
         with open(report_file.getAbsolutePath(), "w") as f:
             json.dump(initial_report_data, f, indent=4)
+
+    safe_board_name = get_safe_board_name(board_location)
 
     scanned = scan_board_location(
         camera,

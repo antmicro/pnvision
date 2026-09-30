@@ -26,7 +26,7 @@ scripts_dir = os.path.os.path.join(str(scripting.getScriptsDirectory()), "second
 if scripts_dir not in sys.path:
     sys.path.insert(0, scripts_dir)
 
-from utils import config_home, state_home, is_board_enabled, read_file, sanitize
+from utils import config_home, state_home, is_board_enabled, read_file
 from capture_qr_code import capture_qr_code
 from capture_board import capture_board
 from capture_components import capture_components
@@ -291,9 +291,9 @@ def get_metadata(board_location, board_index):
 
     location = handle_location()
 
-    project_reference, sha = handle_project_name()
+    project_reference, sha = handle_project_name(board_location)
 
-    bom_file_path = handle_bom(board_location)
+    bom_file_path = handle_bom()
 
     openpnp_version = str(Main.getVersion())
 

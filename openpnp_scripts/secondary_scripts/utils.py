@@ -78,12 +78,25 @@ def sanitize(value):
     return re.sub(r'[\\/:*?"<>|\s]+', "_", str(value))
 
 
+def get_safe_board_name(board_location):
+    """Return sanitized board name without .board.xml."""
+
+    board = board_location.getBoard()
+    board_name = board.getName()
+    if board_name.endswith(".board.xml"):
+        board_name = board_name[: -len(".board.xml")]
+
+    safe_board_name = sanitize(board_name)
+
+    return safe_board_name
+
+
 def make_scan_directory(board_location, initial_report_data, directory_name):
     """Generates directory where scan is stored."""
 
     root = data_home()
-    if not root.exists():
-        root.mkdirs()
+    if not os.path.exists(root):
+        os.makedirs(root)
 
     serial_number = ""
     board_side = str(board_location.getSide()).lower()
@@ -95,7 +108,7 @@ def make_scan_directory(board_location, initial_report_data, directory_name):
         pcbdata = initial_report_data.get("pcb", {})
         serial_number = pcbdata.get("serial_number")
         location = scandata.get("location")
-        time_str = scandata.get("time")
+        time_str = scandata.get("timestamp")
     else:
         serial_number = None
         location = board_location
@@ -109,4 +122,4 @@ def make_scan_directory(board_location, initial_report_data, directory_name):
     if not scan_dir.exists():
         scan_dir.mkdirs()
 
-    return safe_board_name, scan_dir
+    return scan_dir
