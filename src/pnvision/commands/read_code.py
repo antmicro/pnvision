@@ -122,8 +122,6 @@ def read_code(image: Path) -> set[str]:
 
     if codes:
         print(next(iter(codes)))  # first element of set
-    else:
-        print(None)
 
     return codes
 

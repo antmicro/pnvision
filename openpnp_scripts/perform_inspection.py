@@ -56,8 +56,8 @@ def run_command(command_dir, *command):
         return result
 
     except IOException as e:
-        print("%s is not installed or not on PATH." % command[0])
-        print(e)
+        print("%s is not installed or not on PATH." % command[0], e)
+
         return None
 
 

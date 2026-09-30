@@ -6,4 +6,4 @@ def get_version() -> str:
 
 
 if __name__ == "__main__":
-    get_version()
+    print(get_version())

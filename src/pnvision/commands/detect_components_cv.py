@@ -87,7 +87,7 @@ def detect_components(report_file: Path, components_directory: Path, save_debug:
 
     discrepancies = 0
 
-    print("--- Starting Component Inspection ---")
+    print("Starting Component Inspection")
 
     for part in parts:
         designator = str(part.get("designator", "UNKNOWN"))
@@ -123,5 +123,5 @@ def detect_components(report_file: Path, components_directory: Path, save_debug:
     with report_file.open("w", encoding="utf-8") as file:
         json.dump(report, file, ensure_ascii=False, indent=4)
 
-    print("--- Inspection Complete ---")
+    print("Inspection Complete")
     print(f"Total discrepancies found: {discrepancies}")

@@ -10,7 +10,7 @@ import numpy as np
 
 DEFAULT_PIXELS_PER_UNIT_X = 77
 DEFAULT_PIXELS_PER_UNIT_Y = 76
-DEAFULT_OUTPUT_FILENAME = "full_board.png"
+DEFAULT_OUTPUT_FILENAME = "full_board.png"
 
 
 def create_feather_mask(shape: tuple[int, ...]) -> np.ndarray:
@@ -136,10 +136,10 @@ def stitch_board(
         pixels_per_unit_y = DEFAULT_PIXELS_PER_UNIT_Y
 
     if output is None:
-        output = image_directory / DEAFULT_OUTPUT_FILENAME
+        output = image_directory / DEFAULT_OUTPUT_FILENAME
     else:
         if output.exists() and output.is_dir():
-            output = output / DEAFULT_OUTPUT_FILENAME
+            output = output / DEFAULT_OUTPUT_FILENAME
 
         if output.suffix == "":
             output = output.with_suffix(".png")
