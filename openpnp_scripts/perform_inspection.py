@@ -33,6 +33,8 @@ from capture_components import capture_components
 
 
 def run_command(command_dir, *command):
+    """Runs a command and returns its standard output."""
+
     try:
         pb = ProcessBuilder(list(command))
         if command_dir:
@@ -62,6 +64,8 @@ def run_command(command_dir, *command):
 
 
 def read_file(path):
+    """Reads a file if exists."""
+
     if not os.path.exists(path):
         return None
     with open(path, "r") as f:
@@ -69,6 +73,8 @@ def read_file(path):
 
 
 def write_file(path, value):
+    """Writes a file, adds parent directories."""
+
     directory = os.path.dirname(path)
     if not os.path.exists(directory):
         os.makedirs(directory)
@@ -77,6 +83,8 @@ def write_file(path, value):
 
 
 def handle_user_comment():
+    """Handles user input at the beginning of scan."""
+
     user_comment = JOptionPane.showInputDialog(
         None,
         "Enter comment:",
@@ -88,6 +96,8 @@ def handle_user_comment():
 
 
 def handle_serial_number(board_location, prompt="Enter serial number:", title="Input"):
+    """Handles reading serial number from QR code or user input."""
+
     state_dir = state_home()
     state_file = os.path.join(state_dir, "serial_number")
     qr_image = os.path.join(state_dir, "qr_code.png")
@@ -128,6 +138,8 @@ def handle_serial_number(board_location, prompt="Enter serial number:", title="I
 
 
 def handle_location():
+    """Handles reading location from config or user input."""
+
     config_file = os.path.join(config_home(), "location")
     location = read_file(config_file)
 
@@ -152,6 +164,8 @@ def handle_location():
 
 
 def get_bom_from_user():
+    """Handles reading BOM from user input."""
+
     state_dir = str(state_home())
     if not os.path.isdir(state_dir):
         os.makedirs(state_dir)
@@ -189,6 +203,8 @@ def get_bom_from_user():
 
 
 def parse_bom_filename(filename):
+    """Handles parsing bom filename."""
+
     BOM_FILENAME_RE = re.compile(
         r"^(?P<project_reference>.+)-(?P<sha>[0-9a-fA-F]{7,40})" r"-BOM-ALL-ReferenceNotGrouped(?:\.csv)?$"
     )
@@ -202,6 +218,8 @@ def parse_bom_filename(filename):
 
 
 def save_bom_to_state(bom_path):
+    """Saves bom to state home location."""
+
     state_dir = str(state_home())
     filename = os.path.basename(str(bom_path))
 
@@ -219,6 +237,8 @@ def save_bom_to_state(bom_path):
 
 
 def handle_bom():
+    """Handles reading BOM from user input."""
+
     bom_path = get_bom_from_user()
     if bom_path is None:
         return None, None, None
@@ -239,6 +259,8 @@ def handle_bom():
 
 
 def get_os_name():
+    """Reads os name from os-release."""
+
     if not os.path.exists("/etc/os-release"):
         return ""
 
@@ -252,6 +274,7 @@ def get_os_name():
 
 
 def get_metadata(board_location, board_index):
+    """Returns initial_report_data with all metadata."""
 
     user_comment = handle_user_comment()
 
@@ -308,6 +331,8 @@ def get_metadata(board_location, board_index):
 
 
 def get_current_job():
+    """Returns job object."""
+
     if globals().get("job"):
         return job
 
@@ -321,6 +346,8 @@ def get_current_job():
 
 
 def calibrate_pnp(board_location):
+    """Calibrates pnp based on fiducials."""
+
     locator = machine.getFiducialLocator()
 
     try:
@@ -331,6 +358,8 @@ def calibrate_pnp(board_location):
 
 
 def finish_job():
+    """Parks head and plays sound."""
+
     head = machine.getDefaultHead()
     park = head.getParkLocation()
 
@@ -351,6 +380,8 @@ def finish_job():
 
 
 def perform_inspection():
+    """Runs an inspection procedure for an OpenPnP machine."""
+
     job_obj = get_current_job()
     board_locations = job_obj.getBoardLocations()
 
@@ -378,6 +409,8 @@ def perform_inspection():
 
 
 def main():
+    """Submits perform_inspection as asynchronous task to the machine."""
+
     submitUiMachineTask(perform_inspection)
 
 

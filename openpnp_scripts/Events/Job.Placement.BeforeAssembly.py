@@ -1,3 +1,5 @@
+"""Saves current job feeder state to feeder_state.json."""
+
 from java.io import File
 import json
 import os
@@ -11,6 +13,8 @@ from utils import state_home
 
 
 def get_feeder_state_file():
+    """Returns feeder state file."""
+
     directory = File(state_home())
 
     if not directory.exists():
@@ -20,6 +24,8 @@ def get_feeder_state_file():
 
 
 def load_state():
+    """Loads feeder state json file."""
+
     state_file = get_feeder_state_file()
 
     if not state_file.exists():

@@ -1,3 +1,5 @@
+"""Removes feeder_state.json file."""
+
 from java.io import File
 import os
 import sys

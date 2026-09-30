@@ -50,6 +50,7 @@ SERPENTINE = False
 
 
 def capture_board(machine, board_location, initial_report_data):
+    """Generates board directory and captures board images."""
 
     camera = machine.defaultHead.defaultCamera
     fov_x, fov_y = get_camera_fov_mm(camera)
@@ -96,6 +97,7 @@ def scan_board_location(
     scan_dir,
     initial_report_data,
 ):
+    """Moves camera and captures board images."""
 
     board = board_location.getBoard()
 
@@ -187,6 +189,8 @@ def scan_board_location(
 
 
 def get_camera_fov_mm(camera):
+    """Returns camera fov."""
+
     fov_x = CAMERA_FOV_X_MM
     fov_y = CAMERA_FOV_Y_MM
 
@@ -206,6 +210,8 @@ def get_camera_fov_mm(camera):
 
 
 def make_axis_centers(size, fov, step, margin):
+    """Generates camera center positions along one axis."""
+
     pts = []
 
     if size <= 0:
@@ -233,6 +239,8 @@ def make_axis_centers(size, fov, step, margin):
 
 
 def pad(value, width):
+    """Pads value with zeros."""
+
     s = str(value)
     while len(s) < width:
         s = "0" + s
@@ -240,4 +248,6 @@ def pad(value, width):
 
 
 def fmt(value):
+    """Formats a value as a string with three decimal places."""
+
     return "%.3f" % float(value)

@@ -10,6 +10,8 @@ from java.io import File
 
 
 def config_home():
+    """Returns config home file."""
+
     if not System.getProperty("os.name").lower().startswith("windows"):
         return os.path.join(
             os.environ.get("XDG_CONFIG_HOME", os.path.join(os.path.expanduser("~"), ".config")), "pnvision"
@@ -21,6 +23,8 @@ def config_home():
 
 
 def state_home():
+    """Returns state home file."""
+
     if not System.getProperty("os.name").lower().startswith("windows"):
         return os.path.join(
             os.environ.get("XDG_STATE_HOME", os.path.join(os.path.expanduser("~"), ".local", "state")), "pnvision"
@@ -32,6 +36,8 @@ def state_home():
 
 
 def data_home():
+    """Returns data home file, scans are stored by default here."""
+
     if not System.getProperty("os.name").lower().startswith("windows"):
         return os.path.join(
             os.environ.get("XDG_DATA_HOME", os.path.join(os.path.expanduser("~"), ".local", "share")), "pnvision"
@@ -43,6 +49,8 @@ def data_home():
 
 
 def is_board_enabled(board_location):
+    """Returns enabled state of board."""
+
     if board_location.isEnabled():
         return True
 
@@ -50,10 +58,14 @@ def is_board_enabled(board_location):
 
 
 def sanitize(value):
+    """Replaces slashes, special characters, and whitespace with underscores."""
+
     return re.sub(r'[\\/:*?"<>|\s]+', "_", str(value))
 
 
 def make_scan_directory(board_location, initial_report_data, directory_name):
+    """Generates directory where scan is stored."""
+
     board = board_location.getBoard()
     board_name = board.getName()
     if board_name.endswith(".board.xml"):

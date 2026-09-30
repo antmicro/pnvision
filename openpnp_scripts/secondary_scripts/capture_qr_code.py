@@ -7,6 +7,8 @@ from javax.imageio import ImageIO
 
 
 def capture_qr_code(machine, board_location, qr_image):
+    """Captures QR image, returns True if exists."""
+
     board = board_location.getBoard()
     board_side = board_location.getSide()
     camera = machine.getDefaultHead().getDefaultCamera()

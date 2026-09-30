@@ -45,6 +45,7 @@ CROP_MARGIN_SCALE = 1.1
 
 
 def capture_components(machine, board_location, initial_report_data):
+    """Generates components directory and captures component images."""
 
     camera = machine.getDefaultHead().getDefaultCamera()
 
@@ -71,6 +72,7 @@ def capture_components(machine, board_location, initial_report_data):
 
 
 def optimize_placements(placements):
+    """Optimizes the order of placements to minimize travel distance."""
 
     if placements.size() <= 1:
         return placements
@@ -128,6 +130,8 @@ def optimize_placements(placements):
 
 
 def get_time_left(active_placements, photographed_placements, camera):
+    """Estimates scan time left."""
+
     if USE_CAPTURE_RAW:
         additional_settle_time = 0
     else:
@@ -146,6 +150,8 @@ def get_time_left(active_placements, photographed_placements, camera):
 
 
 def load_bom_data(bom_file):
+    """Reads BOM data from stored csv file."""
+
     if bom_file is None:
         return None
 
@@ -169,6 +175,8 @@ def load_bom_data(bom_file):
 
 
 def process_board_placements(camera, board_location, scan_dir, safe_board_name, report_file, initial_report_data):
+    """Moves camera and captures component images."""
+
     print("Scanning board: %s" % safe_board_name)
 
     with open(report_file.getAbsolutePath(), "r") as f:
@@ -275,6 +283,8 @@ def process_board_placements(camera, board_location, scan_dir, safe_board_name, 
 
 
 def filter_placements(placements, board_side):
+    """Filters placement list before capturing images."""
+
     filtered_placements = ArrayList()
 
     for placement in placements:
@@ -304,6 +314,8 @@ def filter_placements(placements, board_side):
 
 
 def crop_small_passives(image, safe_part_name, rotation_deg):
+    """Crops components based on part name."""
+
     if "0201" in safe_part_name:
         scale = 0.11 * CROP_MARGIN_SCALE
     elif "0402" in safe_part_name:
@@ -321,6 +333,7 @@ def crop_small_passives(image, safe_part_name, rotation_deg):
     r = rotation_deg % 360
 
     def near(angle):
+        """Returns True if the angle of placement is close to angle."""
         return abs((r - angle + 180) % 360 - 180) <= ANGLE_DEVIATION
 
     w = image.getWidth()
@@ -366,6 +379,8 @@ def log_placement(
     report_file,
     bom_indexed,
 ):
+    """Logs scanned placement image to report."""
+
     if "parts" not in report:
         report["parts"] = []
 
