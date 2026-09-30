@@ -81,13 +81,7 @@ def sanitize(value):
 def make_scan_directory(board_location, initial_report_data, directory_name):
     """Generates directory where scan is stored."""
 
-    board = board_location.getBoard()
-    board_name = board.getName()
-    if board_name.endswith(".board.xml"):
-        board_name = board_name[: -len(".board.xml")]
-    safe_board_name = sanitize(board_name)
-
-    root = File(data_home(), safe_board_name)
+    root = data_home()
     if not root.exists():
         root.mkdirs()
 
