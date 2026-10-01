@@ -9,6 +9,7 @@ import math
 import os
 import csv
 import sys
+import re
 
 from java.io import File
 from java.lang import Thread
@@ -368,6 +369,31 @@ def crop_small_passives(image, safe_part_name, rotation_deg):
 
     return image.getSubimage(x, y, target_w, target_h)
 
+def parse_comment(comment):
+    """Parses placement comment if it matches the format."""
+
+    if comment is None:
+        return None, None, None
+
+    # MFN: abcdef; MPN: EF12345G; DNP
+    # MFN: abcdef; MPN: EF12345G;
+    # MFN: ; MPN: ;
+    pattern = re.compile(
+        r'^\s*MFN\s*:\s*(.*?)\s*;\s*'
+        r'MPN\s*:\s*(.*?)\s*;\s*'
+        r'(DNP)?\s*$',
+        re.IGNORECASE
+    )
+
+    match = pattern.match(comment)
+    if not match:
+        return None, None, None
+
+    manufacturer_original = match.group(1).strip()
+    mpn_original = match.group(2).strip()
+    dnp_status = "DNP" if match.group(3) is not None else ""
+
+    return manufacturer_original, mpn_original, dnp_status
 
 def log_placement(
     report,
@@ -386,16 +412,15 @@ def log_placement(
     if "parts" not in report:
         report["parts"] = []
 
-    mpn_original = ""
-    manufacturer_original = ""
-    dnp_status = ""
+    manufacturer_original, mpn_original, dnp_status = parse_comment(comments)
 
+    # BOM fallback if selected by user
     if bom_indexed is not None:
         bom_entry = bom_indexed.get(safe_placement_designator)
 
         if bom_entry is not None:
-            mpn_original = bom_entry.get("mpn", "")
             manufacturer_original = bom_entry.get("manufacturer", "")
+            mpn_original = bom_entry.get("mpn", "")
             dnp_status = bom_entry.get("DNP", "")
 
     report["parts"].append(
