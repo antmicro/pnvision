@@ -26,7 +26,7 @@ scripts_dir = os.path.os.path.join(str(scripting.getScriptsDirectory()), "second
 if scripts_dir not in sys.path:
     sys.path.insert(0, scripts_dir)
 
-from utils import config_home, state_home, is_board_enabled, read_file
+from utils import config_home, state_home, read_file
 from capture_qr_code import capture_qr_code
 from capture_board import capture_board
 from capture_components import capture_components
@@ -396,7 +396,7 @@ def perform_inspection():
 
         board_location = board_locations.get(board_index)
 
-        if not is_board_enabled(board_location):
+        if not board_location.isEnabled():
             print("Skipping disabled board with index %d" % board_index)
             continue
 

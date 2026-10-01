@@ -63,15 +63,6 @@ def read_file(path):
         return f.read().strip()
 
 
-def is_board_enabled(board_location):
-    """Returns enabled state of board."""
-
-    if board_location.isEnabled():
-        return True
-
-    return False
-
-
 def sanitize(value):
     """Replaces slashes, special characters, and whitespace with underscores."""
 
@@ -103,16 +94,11 @@ def make_scan_directory(board_location, initial_report_data, directory_name):
     location = ""
     time_str = SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(Date())
 
-    if initial_report_data:
-        scandata = initial_report_data.get("scan", {})
-        pcbdata = initial_report_data.get("pcb", {})
-        serial_number = pcbdata.get("serial_number")
-        location = scandata.get("location")
-        time_str = scandata.get("timestamp")
-    else:
-        serial_number = None
-        location = board_location
-        time_str = None
+    scandata = initial_report_data.get("scan", {})
+    pcbdata = initial_report_data.get("pcb", {})
+    serial_number = pcbdata.get("serial_number", "")
+    location = scandata.get("location", "")
+    time_str = scandata.get("timestamp", "")
 
     parts = [serial_number, board_side, time_str, location]
 
