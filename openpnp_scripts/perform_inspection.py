@@ -220,7 +220,7 @@ def get_bom_from_user():
             return File(bom_file_path)
 
     chooser = JFileChooser()
-    chooser.setDialogTitle("Select BOM-ALL-ReferenceNotGrouped CSV File")
+    chooser.setDialogTitle("Select BOM-ALL-ReferenceNotGrouped CSV If you want to override comment data")
 
     result = chooser.showOpenDialog(None)
 
