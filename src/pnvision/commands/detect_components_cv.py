@@ -95,9 +95,12 @@ def detect_components(report_file: Path, components_directory: Path, save_debug:
         dnp_status = str(part.get("dnp_status", "")).strip().upper()
 
         is_dnp = dnp_status == "DNP"
-        image_path = components_directory / image_file
 
-        if not image_path.exists():
+        if not image_file:
+            continue
+
+        image_path = components_directory / image_file
+        if not image_path.is_file():
             print(f"Warning: Image file not found for {designator} ({image_file})")
             continue
 
