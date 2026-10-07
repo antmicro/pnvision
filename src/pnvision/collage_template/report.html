@@ -319,7 +319,7 @@
             line-height: 1;
         }
 
-        #save-report-button {
+        #export-report-button, #import-report-button {
             display: inline-flex;
             align-items: center;
             justify-content: center;
@@ -336,7 +336,7 @@
             border-radius: 3px;
         }
 
-        #save-report-button:hover {
+        #export-report-button:hover, #import-report-button:hover {
             border-color: #d6d9dc;
             color: #ffffff;
             box-shadow: 0 0 5px hsla(0, 0%, 80%, 0.2);
@@ -360,8 +360,11 @@
             <span>Failed only</span>
         </label>
 
-        <button type="button" id="save-report-button">
+        <button type="button" id="export-report-button">
             Save
+        </button>
+        <button type="button" id="import-report-button">
+            Import
         </button>
     </div>
 </div>
@@ -408,7 +411,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const paginations = document.querySelectorAll(".pagination");
     const searchInput = document.getElementById("table-search-input");
     const failedOnlyToggle = document.getElementById("failed-only-toggle");
-    const saveReportButton = document.getElementById("save-report-button");
+    const exportReportButton = document.getElementById("export-report-button");
+    const importReportButton = document.getElementById("import-report-button");
 
     let currentPage = 1;
     let currentSearch = "";
@@ -499,7 +503,6 @@ document.addEventListener("DOMContentLoaded", () => {
             const checkbox = document.createElement("input");
             checkbox.type = "checkbox";
             checkbox.className = "failed-checkbox";
-
             checkbox.checked = row.failed === true;
 
             checkbox.addEventListener("change", () => {
@@ -629,10 +632,8 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        const matchIndex = 0;
-
         currentPage = 1;
-        renderPage(currentPage, matchIndex);
+        renderPage(currentPage, 0);
     }
 
     searchInput.addEventListener("input", () => {
@@ -655,22 +656,26 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    saveReportButton.addEventListener("click", () => {
-        const reportData = document.getElementById("report-data");
+    exportReportButton.addEventListener("click", () => {
+        const reportState = rows
+            .filter(row => row.failed === true)
+            .map(row => ({
+                designator: String(row.designator),
+                failed: true
+            }));
 
-        reportData.textContent = JSON.stringify(rows);
+        const json = JSON.stringify(reportState, null, 2);
 
-        const html = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
-
-        const blob = new Blob([html], {
-            type: "text/html;charset=utf-8"
+        const blob = new Blob([json], {
+            type: "application/json;charset=utf-8"
         });
 
         const url = URL.createObjectURL(blob);
 
         const link = document.createElement("a");
         link.href = url;
-        link.download = "report.html";
+        link.download = "report-state.json";
+
         document.body.appendChild(link);
         link.click();
         link.remove();
@@ -678,6 +683,60 @@ document.addEventListener("DOMContentLoaded", () => {
         URL.revokeObjectURL(url);
     });
 
+    importReportButton.addEventListener("click", () => {
+        const fileInput = document.createElement("input");
+
+        fileInput.type = "file";
+        fileInput.accept = ".json,application/json";
+
+        fileInput.addEventListener("change", event => {
+            const file = event.target.files[0];
+
+            if (!file) {
+                return;
+            }
+
+            const reader = new FileReader();
+
+            reader.onload = event => {
+                try {
+                    const importedData = JSON.parse(event.target.result);
+
+                    if (!Array.isArray(importedData)) {
+                        throw new Error("Invalid report JSON format.");
+                    }
+
+                    const failedDesignators = new Set(
+                        importedData
+                            .filter(item => item && item.failed === true)
+                            .map(item => String(item.designator))
+                    );
+
+                    rows.forEach(row => {
+                        row.failed = failedDesignators.has(
+                            String(row.designator)
+                        );
+                    });
+
+                    currentPage = 1;
+                    renderPage(1);
+
+                    alert("Report state imported successfully.");
+                } catch (error) {
+                    console.error("Failed to import report:", error);
+
+                    alert(
+                        "Failed to import report JSON.\n\n" +
+                        error.message
+                    );
+                }
+            };
+
+            reader.readAsText(file);
+        });
+
+        fileInput.click();
+    });
 
     renderPage(1);
 });
