@@ -386,6 +386,9 @@
                 <th scope="col" style="text-align: center;">
                     FAILED?
                 </th>
+                <th scope="col" style="text-align: center;">
+                    DNP status
+                </th>
             </tr>
         </thead>
 
@@ -511,6 +514,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
             failedCell.appendChild(checkbox);
             tr.appendChild(failedCell);
+
+            // DNP
+            const dnpCell = document.createElement("td");
+            dnpCell.style.textAlign = "center";
+            dnpCell.textContent = row.dnp || "";
+
+            tr.appendChild(dnpCell);
 
             tableBody.appendChild(tr);
         });

@@ -87,6 +87,7 @@ def generate_html_report(
 
             if designator:
                 designators.add(designator)
+                components_by_designator.setdefault(designator, {})["dnp_status"] = part.get("dnp_status", "")
 
     table_rows = []
 
@@ -99,6 +100,7 @@ def generate_html_report(
         table_rows.append(
             {
                 "designator": designator,
+                "dnp": components_by_designator.get(designator, {}).get("dnp_status"),
                 "images": images,
             }
         )
