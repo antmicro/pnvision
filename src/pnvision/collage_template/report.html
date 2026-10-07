@@ -240,53 +240,10 @@
             opacity: 0.4;
             cursor: default;
         }
-        .failed-checkbox {
-            appearance: none;
-            width: 24px;
-            height: 24px;
-            border: 2px solid #94999e;
-            background-color: transparent;
-            cursor: pointer;
-            vertical-align: middle;
-            position: relative;
-            border-radius: 3px;
-        }
 
-        .failed-checkbox:hover {
-            border-color: #d6d9dc;
-            box-shadow: 0 0 5px hsla(0, 0%, 80%, 0.35);
-        }
-
-        .failed-checkbox:checked {
-            background-color: hsla(210, 6%, 25%, 1);
-            border-color: #d6d9dc;
-            box-shadow: 0 0 6px hsla(0, 0%, 80%, 0.3);
-        }
-
-        .failed-checkbox:checked::after {
-            content: "✕";
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -52%);
-            color: #ffffff;
-            font-size: 18px;
-            font-weight: bold;
-            line-height: 1;
-        }
-
-        .failed-filter {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            height: 38px;
-            color: #d6d9dc;
-            cursor: pointer;
-            user-select: none;
-            font-weight: 500;
-        }
-
-        .failed-filter input {
+        .failed-checkbox,
+        .failed-filter input,
+        .dnp-filter input {
             appearance: none;
             width: 22px;
             height: 22px;
@@ -297,26 +254,44 @@
             border-radius: 3px;
         }
 
-        .failed-filter input:hover {
+        .failed-checkbox:hover,
+        .failed-filter input:hover,
+        .dnp-filter input:hover {
             border-color: #d6d9dc;
             box-shadow: 0 0 5px hsla(0, 0%, 80%, 0.35);
         }
 
-        .failed-filter input:checked {
+        .failed-checkbox:checked,
+        .failed-filter input:checked,
+        .dnp-filter input:checked {
             background-color: hsla(210, 6%, 25%, 1);
             border-color: #d6d9dc;
         }
 
-        .failed-filter input:checked::after {
+        .failed-checkbox:checked::after,
+        .failed-filter input:checked::after,
+        .dnp-filter input:checked::after {
             content: "✕";
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -52%);
-            color: #ffffff;
+            color: #fff;
             font-size: 16px;
             font-weight: bold;
             line-height: 1;
+        }
+
+        .failed-filter,
+        .dnp-filter {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            height: 38px;
+            color: #d6d9dc;
+            cursor: pointer;
+            user-select: none;
+            font-weight: 500;
         }
 
         #export-report-button, #import-report-button {
@@ -354,6 +329,11 @@
             autocomplete="off"
             spellcheck="false"
         >
+
+        <label class="dnp-filter">
+            <input type="checkbox" id="dnp-only-toggle">
+            <span>DNP only</span>
+        </label>
 
         <label class="failed-filter">
             <input type="checkbox" id="failed-only-toggle">
@@ -413,6 +393,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const tableBody = document.getElementById("report-body");
     const paginations = document.querySelectorAll(".pagination");
     const searchInput = document.getElementById("table-search-input");
+    const dnpOnlyToggle = document.getElementById("dnp-only-toggle");
     const failedOnlyToggle = document.getElementById("failed-only-toggle");
     const exportReportButton = document.getElementById("export-report-button");
     const importReportButton = document.getElementById("import-report-button");
@@ -432,7 +413,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 !failedOnlyToggle.checked ||
                 row.failed === true;
 
-            return matchesSearch && matchesFailed;
+            const matchesDnp =
+                !dnpOnlyToggle.checked ||
+                row.dnp === "DNP";
+
+            return matchesSearch && matchesFailed && matchesDnp;
         });
     }
 
@@ -455,7 +440,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const tr = document.createElement("tr");
             const td = document.createElement("td");
 
-            td.colSpan = serialNumbers.length + 2;
+            td.colSpan = serialNumbers.length + 3;
             td.textContent = "No matching components found.";
             td.className = "search-no-match";
 
@@ -623,14 +608,15 @@ document.addEventListener("DOMContentLoaded", () => {
             td.colSpan = serialNumbers.length + 2;
 
             if (currentSearch && failedOnlyToggle.checked) {
-                td.textContent =
-                    "No matching failed component found.";
+                td.textContent = "No matching failed component found.";
+            } else if (currentSearch && dnpOnlyToggle.checked) {
+                td.textContent = "No matching DNP component found.";
             } else if (currentSearch) {
-                td.textContent =
-                    "No matching designator found.";
-            } else {
-                td.textContent =
-                    "No failed components.";
+                td.textContent = "No matching designator found.";
+            } else if (failedOnlyToggle.checked) {
+                td.textContent = "No failed components.";
+            } else if (dnpOnlyToggle.checked) {
+                td.textContent = "No DNP components.";
             }
 
             td.className = "search-no-match";
@@ -651,6 +637,11 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     failedOnlyToggle.addEventListener("change", () => {
+        currentPage = 1;
+        renderPage(1);
+    });
+
+    dnpOnlyToggle.addEventListener("change", () => {
         currentPage = 1;
         renderPage(1);
     });
