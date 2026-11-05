@@ -18,6 +18,19 @@ dependencies = [
     "typer",
 ]
 
+[dependency-groups]
+dev = [
+    "black",
+    "mypy",
+    "ruff",
+]
+docs = [
+    "sphinx~=7.2.0",
+    "antmicro-sphinx-utils @ https://github.com/antmicro/antmicro-sphinx-utils/archive/main.zip",
+    "sphinx-inline-tabs",
+    "sphinx-argparse==0.5.2",
+]
+
 [project.optional-dependencies]
 dev = [
     "black",
