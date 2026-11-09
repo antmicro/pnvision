@@ -1,4 +1,4 @@
-# antmicro-pcb-visual-inspection-framework - Scripts for automatic PCB inspection
+# PnVision - Scripts for automatic PCB inspection
 
 Copyright (c) 2026 [Antmicro](https://www.antmicro.com)
 
@@ -9,7 +9,7 @@ This tool was designed to capture images of individual PCB components and comple
 1. [Installation](#installation)
 2. [Repository structure](#repository-structure)
 3. [Usage](#usage)
-4. [Licensing](#licensing)
+4. [License](#license)
 
 ## Installation
 
@@ -171,3 +171,5 @@ kmake pnp -to --dnp
 
 15. It is recommended to scan one side of every board first.
 
+## License
+This project is published under the [Apache-2.0](LICENSE) license.
