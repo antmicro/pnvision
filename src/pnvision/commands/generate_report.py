@@ -10,7 +10,8 @@ import shutil
 import pandas as pd
 
 from .stitch_board import stitch_board
-from .detect_components_cv import detect_components
+
+# from .detect_components_cv import detect_components
 
 
 def generate_html_report(
@@ -76,7 +77,7 @@ def copydirs(input_dir: Path, output_dir: Path, report_location: Path, template_
         print(f"No components directory found in {input_dir}.")
     else:
         shutil.copytree(components_dir, output_dir / "components", dirs_exist_ok=True)
-        detect_components(report_location, components_dir)
+        # detect_components(report_location, components_dir)
 
     for asset in ("logo.svg", "favicon.ico"):
         shutil.copy2(template_dir / asset, output_dir / asset)

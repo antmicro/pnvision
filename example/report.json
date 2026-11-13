@@ -1,0 +1,5259 @@
+{
+    "scan": {
+        "side": "top",
+        "board_index": 1,
+        "location": "WRO",
+        "user": "pnp",
+        "user_comment": "example comment",
+        "timestamp": "2026-11-13_14-41-41",
+        "statistics": {
+            "populated_components": "",
+            "dnp_components": ""
+        }
+    },
+    "tools": {
+        "scripts_version": "0.5.0",
+        "openpnp_version": "2.7_2026-07-31_11-05-47.040766f",
+        "host_pc": {
+            "kernel_version": "7.0.0-34-generic",
+            "os_name": "Ubuntu 24.04.4 LTS"
+        },
+        "python_version": "2.7.1"
+    },
+    "pcb": {
+        "project_reference": "dc-scm-breakout-board-rev.2.2.0",
+        "serial_number": "DC-SCM",
+        "sha": "e4c4f863"
+    },
+    "sourcing": {
+        "sourcing_file": "",
+        "bom_file": null
+    },
+    "parts": [
+        {
+            "comments": "MFN: Murata; MPN: GRM155R61H104KE14D;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 0.0,
+            "designator": "C1",
+            "mpn_original": "GRM155R61H104KE14D",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "C_100n_0402",
+            "manufacturer_original": "Murata",
+            "image_file": "C1_DC-SCM_C_100n_0402.png",
+            "position": {
+                "x": 11.074999,
+                "y": 18.6
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Murata; MPN: GRM155R61H104KE14D;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 0.0,
+            "designator": "C3",
+            "mpn_original": "GRM155R61H104KE14D",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "C_100n_0402",
+            "manufacturer_original": "Murata",
+            "image_file": "C3_DC-SCM_C_100n_0402.png",
+            "position": {
+                "x": 11.074999,
+                "y": 19.611
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: CR0402-FX-4701GLF;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 90.0,
+            "designator": "R37",
+            "mpn_original": "CR0402-FX-4701GLF",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_4k7_0402",
+            "manufacturer_original": "Bourns",
+            "image_file": "R37_DC-SCM_R_4k7_0402.png",
+            "position": {
+                "x": 13.9,
+                "y": 23.225
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: CR0402-FX-1002GLF; DNP",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": -90.0,
+            "designator": "R36",
+            "mpn_original": "CR0402-FX-1002GLF",
+            "dnp_status": "DNP",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_10k_0402",
+            "manufacturer_original": "Bourns",
+            "image_file": "R36_DC-SCM_R_10k_0402.png",
+            "position": {
+                "x": 16.100002,
+                "y": 23.225
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Panasonic; MPN: ERJ2GE0R00X;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 90.0,
+            "designator": "R3",
+            "mpn_original": "ERJ2GE0R00X",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_0R_0402",
+            "manufacturer_original": "Panasonic",
+            "image_file": "R3_DC-SCM_R_0R_0402.png",
+            "position": {
+                "x": 15.000001,
+                "y": 23.225
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: CR0402-FX-1003GLF;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 0.0,
+            "designator": "R101",
+            "mpn_original": "CR0402-FX-1003GLF",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_100k_0402",
+            "manufacturer_original": "Bourns",
+            "image_file": "R101_DC-SCM_R_100k_0402.png",
+            "position": {
+                "x": 16.4,
+                "y": 20.05
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: CR0402-FX-1003GLF;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 0.0,
+            "designator": "R100",
+            "mpn_original": "CR0402-FX-1003GLF",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_100k_0402",
+            "manufacturer_original": "Bourns",
+            "image_file": "R100_DC-SCM_R_100k_0402.png",
+            "position": {
+                "x": 18.375,
+                "y": 20.05
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: CR0402-FX-1002GLF;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 0.0,
+            "designator": "R81",
+            "mpn_original": "CR0402-FX-1002GLF",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_10k_0402",
+            "manufacturer_original": "Bourns",
+            "image_file": "R81_DC-SCM_R_10k_0402.png",
+            "position": {
+                "x": 18.375,
+                "y": 21.075
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: TDK; MPN: C1005X6S1A105K050BC;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 0.0,
+            "designator": "C31",
+            "mpn_original": "C1005X6S1A105K050BC",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "C_1u_0402",
+            "manufacturer_original": "TDK",
+            "image_file": "C31_DC-SCM_C_1u_0402.png",
+            "position": {
+                "x": 18.375,
+                "y": 22.1
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: CR0402-FX-1003GLF;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 0.0,
+            "designator": "R87",
+            "mpn_original": "CR0402-FX-1003GLF",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_100k_0402",
+            "manufacturer_original": "Bourns",
+            "image_file": "R87_DC-SCM_R_100k_0402.png",
+            "position": {
+                "x": 18.375,
+                "y": 23.125
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: CR0402-FX-1003GLF;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 180.0,
+            "designator": "R91",
+            "mpn_original": "CR0402-FX-1003GLF",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_100k_0402",
+            "manufacturer_original": "Bourns",
+            "image_file": "R91_DC-SCM_R_100k_0402.png",
+            "position": {
+                "x": 18.375,
+                "y": 24.15
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: ; MPN: ;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 0.0,
+            "designator": "R92",
+            "mpn_original": "",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_100k_0402",
+            "manufacturer_original": "",
+            "image_file": "R92_DC-SCM_R_100k_0402.png",
+            "position": {
+                "x": 18.375,
+                "y": 25.175
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: SRP3212A-1R5M;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 90.0,
+            "designator": "L1",
+            "mpn_original": "SRP3212A-1R5M",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "L_1u5_4.4A_Bourns-SRP3212A",
+            "manufacturer_original": "Bourns",
+            "image_file": "L1_DC-SCM_L_1u5_4.4A_Bourns-SRP3212A.png",
+            "position": {
+                "x": 17.388965,
+                "y": 28.613014
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Murata; MPN: GRM155R61H104KE14D;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 0.0,
+            "designator": "C4",
+            "mpn_original": "GRM155R61H104KE14D",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "C_100n_0402",
+            "manufacturer_original": "Murata",
+            "image_file": "C4_DC-SCM_C_100n_0402.png",
+            "position": {
+                "x": 15.300001,
+                "y": 25.825
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Diodes Incorporated; MPN: AP62301WU-7;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": -90.0,
+            "designator": "U4",
+            "mpn_original": "AP62301WU-7",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "AP62301_TSOT",
+            "manufacturer_original": "Diodes Incorporated",
+            "image_file": "U4_DC-SCM_AP62301_TSOT.png",
+            "position": {
+                "x": 13.9,
+                "y": 28.6
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: CR0402-FX-1002GLF;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": -90.0,
+            "designator": "R20",
+            "mpn_original": "CR0402-FX-1002GLF",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_10k_0402",
+            "manufacturer_original": "Bourns",
+            "image_file": "R20_DC-SCM_R_10k_0402.png",
+            "position": {
+                "x": 11.55,
+                "y": 27.8
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: CR0402-FX-3162GLF;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": -90.0,
+            "designator": "R16",
+            "mpn_original": "CR0402-FX-3162GLF",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_31k6_0402",
+            "manufacturer_original": "Bourns",
+            "image_file": "R16_DC-SCM_R_31k6_0402.png",
+            "position": {
+                "x": 12.800001,
+                "y": 25.475
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: E-Switch; MPN: EG1218;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 90.0,
+            "designator": "SW1",
+            "mpn_original": "EG1218",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "SW_EG1218",
+            "manufacturer_original": "E-Switch",
+            "image_file": "SW1_DC-SCM_SW_EG1218.png",
+            "position": {
+                "x": 5.3995,
+                "y": 26.777
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: CR0402-FX-1002GLF;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 0.0,
+            "designator": "R1",
+            "mpn_original": "CR0402-FX-1002GLF",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_10k_0402",
+            "manufacturer_original": "Bourns",
+            "image_file": "R1_DC-SCM_R_10k_0402.png",
+            "position": {
+                "x": 9.4,
+                "y": 29.35
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: AOSMD; MPN: AO3401A;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 90.0,
+            "designator": "Q1",
+            "mpn_original": "AO3401A",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "AO3401A",
+            "manufacturer_original": "AOSMD",
+            "image_file": "Q1_DC-SCM_AO3401A.png",
+            "position": {
+                "x": 9.9,
+                "y": 32.6
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: CR0402-FX-2200GLF;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 0.0,
+            "designator": "R14",
+            "mpn_original": "CR0402-FX-2200GLF",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_220R_0402",
+            "manufacturer_original": "Bourns",
+            "image_file": "R14_DC-SCM_R_220R_0402.png",
+            "position": {
+                "x": 5.255,
+                "y": 37.05
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: CR0402-FX-2200GLF;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 0.0,
+            "designator": "R60",
+            "mpn_original": "CR0402-FX-2200GLF",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_220R_0402",
+            "manufacturer_original": "Bourns",
+            "image_file": "R60_DC-SCM_R_220R_0402.png",
+            "position": {
+                "x": 5.25,
+                "y": 36.05
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Vishay; MPN: VLMTG1500-GS08;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 0.0,
+            "designator": "D19",
+            "mpn_original": "VLMTG1500-GS08",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "LED_G_0402_VLMTG1500-GS08",
+            "manufacturer_original": "Vishay",
+            "image_file": "D19_DC-SCM_LED_G_0402_VLMTG1500-GS08.png",
+            "position": {
+                "x": 3.25,
+                "y": 36.05
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Vishay; MPN: VLMTG1500-GS08;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 0.0,
+            "designator": "D1",
+            "mpn_original": "VLMTG1500-GS08",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "LED_G_0402_VLMTG1500-GS08",
+            "manufacturer_original": "Vishay",
+            "image_file": "D1_DC-SCM_LED_G_0402_VLMTG1500-GS08.png",
+            "position": {
+                "x": 3.25,
+                "y": 37.05
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Vishay; MPN: VLMTG1500-GS08;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 0.0,
+            "designator": "D15",
+            "mpn_original": "VLMTG1500-GS08",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "LED_G_0402_VLMTG1500-GS08",
+            "manufacturer_original": "Vishay",
+            "image_file": "D15_DC-SCM_LED_G_0402_VLMTG1500-GS08.png",
+            "position": {
+                "x": 3.2425,
+                "y": 38.05
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Vishay; MPN: VLMTG1500-GS08;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 0.0,
+            "designator": "D16",
+            "mpn_original": "VLMTG1500-GS08",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "LED_G_0402_VLMTG1500-GS08",
+            "manufacturer_original": "Vishay",
+            "image_file": "D16_DC-SCM_LED_G_0402_VLMTG1500-GS08.png",
+            "position": {
+                "x": 3.235,
+                "y": 39.075
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: CR0402-FX-4701GLF;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 0.0,
+            "designator": "R8",
+            "mpn_original": "CR0402-FX-4701GLF",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_4k7_0402",
+            "manufacturer_original": "Bourns",
+            "image_file": "R8_DC-SCM_R_4k7_0402.png",
+            "position": {
+                "x": 5.27,
+                "y": 39.075
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: CR0402-FX-2200GLF;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 0.0,
+            "designator": "R7",
+            "mpn_original": "CR0402-FX-2200GLF",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_220R_0402",
+            "manufacturer_original": "Bourns",
+            "image_file": "R7_DC-SCM_R_220R_0402.png",
+            "position": {
+                "x": 5.2625,
+                "y": 38.05
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Samtec; MPN: SHF-105-01-L-D-SM;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": -90.0,
+            "designator": "J9",
+            "mpn_original": "SHF-105-01-L-D-SM",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "PinHeader_2x5_P1.27mm_SMD_Shrouded",
+            "manufacturer_original": "Samtec",
+            "image_file": "J9_DC-SCM_PinHeader_2x5_P1.27mm_SMD_Shrouded.png",
+            "position": {
+                "x": 5.155,
+                "y": 46.26
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Diodes Incorporated; MPN: DMG1012T-7;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 90.0,
+            "designator": "Q7",
+            "mpn_original": "DMG1012T-7",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "DMG1012T-7",
+            "manufacturer_original": "Diodes Incorporated",
+            "image_file": "Q7_DC-SCM_DMG1012T-7.png",
+            "position": {
+                "x": 15.15,
+                "y": 44.1
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Texas Instruments; MPN: TLV73318PDBVT;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 90.0,
+            "designator": "U12",
+            "mpn_original": "TLV73318PDBVT",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "TLV73318PDBVT",
+            "manufacturer_original": "Texas Instruments",
+            "image_file": "U12_DC-SCM_TLV73318PDBVT.png",
+            "position": {
+                "x": 16.301,
+                "y": 39.051
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: TDK; MPN: C1005X6S1A105K050BC;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 180.0,
+            "designator": "C19",
+            "mpn_original": "C1005X6S1A105K050BC",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "C_1u_0402",
+            "manufacturer_original": "TDK",
+            "image_file": "C19_DC-SCM_C_1u_0402.png",
+            "position": {
+                "x": 16.3,
+                "y": 36.476
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Murata; MPN: GRM188C81C106MA73D;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 180.0,
+            "designator": "C11",
+            "mpn_original": "GRM188C81C106MA73D",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "C_10u_16V_0603",
+            "manufacturer_original": "Murata",
+            "image_file": "C11_DC-SCM_C_10u_16V_0603.png",
+            "position": {
+                "x": 13.400001,
+                "y": 31.625
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Samsung Electro-Mechanics; MPN: CL10A226MO7JZNC;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 0.0,
+            "designator": "C13",
+            "mpn_original": "CL10A226MO7JZNC",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "C_22u_16V_0603",
+            "manufacturer_original": "Samsung Electro-Mechanics",
+            "image_file": "C13_DC-SCM_C_22u_16V_0603.png",
+            "position": {
+                "x": 16.000002,
+                "y": 31.625
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Samsung Electro-Mechanics; MPN: CL10A226MO7JZNC;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 0.0,
+            "designator": "C12",
+            "mpn_original": "CL10A226MO7JZNC",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "C_22u_16V_0603",
+            "manufacturer_original": "Samsung Electro-Mechanics",
+            "image_file": "C12_DC-SCM_C_22u_16V_0603.png",
+            "position": {
+                "x": 16.0,
+                "y": 33.025
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: ROHM Semiconductor; MPN: PMR03EZPJ000;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 0.0,
+            "designator": "R15",
+            "mpn_original": "PMR03EZPJ000",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_0R_22.4A_0603",
+            "manufacturer_original": "ROHM Semiconductor",
+            "image_file": "R15_DC-SCM_R_0R_22.4A_0603.png",
+            "position": {
+                "x": 19.3,
+                "y": 33.025
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: TDK; MPN: C1005X6S1A105K050BC;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 180.0,
+            "designator": "C20",
+            "mpn_original": "C1005X6S1A105K050BC",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "C_1u_0402",
+            "manufacturer_original": "TDK",
+            "image_file": "C20_DC-SCM_C_1u_0402.png",
+            "position": {
+                "x": 16.3,
+                "y": 41.6
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: CR0402-FX-1003GLF;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": -90.0,
+            "designator": "R68",
+            "mpn_original": "CR0402-FX-1003GLF",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_100k_0402",
+            "manufacturer_original": "Bourns",
+            "image_file": "R68_DC-SCM_R_100k_0402.png",
+            "position": {
+                "x": 16.85,
+                "y": 44.0
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Multicomp Pro; MPN: MC-HVT1-S02-G;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": -90.0,
+            "designator": "J8",
+            "mpn_original": "MC-HVT1-S02-G",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "PinHeader_1x2_P1.27mm_Drill0.7mm",
+            "manufacturer_original": "Multicomp Pro",
+            "image_file": "J8_DC-SCM_PinHeader_1x2_P1.27mm_Drill0.7mm.png",
+            "position": {
+                "x": 11.3,
+                "y": 58.15
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: ; MPN: ;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 90.0,
+            "designator": "N2",
+            "mpn_original": "",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "oshw_logo",
+            "manufacturer_original": "",
+            "image_file": "N2_DC-SCM_oshw_logo.png",
+            "position": {
+                "x": 15.55,
+                "y": 51.55
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Samtec; MPN: FTSH-105-01-F-DV; DNP",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": -90.0,
+            "designator": "J15",
+            "mpn_original": "FTSH-105-01-F-DV",
+            "dnp_status": "DNP",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "PinHeader_2x5_P1.27mm_SMD",
+            "manufacturer_original": "Samtec",
+            "image_file": "J15_DC-SCM_PinHeader_2x5_P1.27mm_SMD.png",
+            "position": {
+                "x": 29.0,
+                "y": 49.352
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Samtec; MPN: FTSH-105-01-F-DV; DNP",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": -90.0,
+            "designator": "J20",
+            "mpn_original": "FTSH-105-01-F-DV",
+            "dnp_status": "DNP",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "PinHeader_2x5_P1.27mm_SMD",
+            "manufacturer_original": "Samtec",
+            "image_file": "J20_DC-SCM_PinHeader_2x5_P1.27mm_SMD.png",
+            "position": {
+                "x": 29.0,
+                "y": 55.704
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Samtec; MPN: FTSH-105-01-F-DV; DNP",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": -90.0,
+            "designator": "J12",
+            "mpn_original": "FTSH-105-01-F-DV",
+            "dnp_status": "DNP",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "PinHeader_2x5_P1.27mm_SMD",
+            "manufacturer_original": "Samtec",
+            "image_file": "J12_DC-SCM_PinHeader_2x5_P1.27mm_SMD.png",
+            "position": {
+                "x": 29.0,
+                "y": 43.0
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Amphenol; MPN: 20021121-00008C4LF; DNP",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 0.0,
+            "designator": "J17",
+            "mpn_original": "20021121-00008C4LF",
+            "dnp_status": "DNP",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "PinHeader_2x4_P1.27mm_SMD",
+            "manufacturer_original": "Amphenol",
+            "image_file": "J17_DC-SCM_PinHeader_2x4_P1.27mm_SMD.png",
+            "position": {
+                "x": 29.0,
+                "y": 37.324
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Murata; MPN: GRM155R61H104KE14D;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 180.0,
+            "designator": "C38",
+            "mpn_original": "GRM155R61H104KE14D",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "C_100n_0402",
+            "manufacturer_original": "Murata",
+            "image_file": "C38_DC-SCM_C_100n_0402.png",
+            "position": {
+                "x": 30.89,
+                "y": 33.71
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: FTDI Chip; MPN: FT232RNL-TUBE;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": -90.0,
+            "designator": "U3",
+            "mpn_original": "FT232RNL-TUBE",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "FT232RNL",
+            "manufacturer_original": "FTDI Chip",
+            "image_file": "U3_DC-SCM_FT232RNL.png",
+            "position": {
+                "x": 29.6,
+                "y": 28.5
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Vishay; MPN: VLMTG1500-GS08;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 180.0,
+            "designator": "D17",
+            "mpn_original": "VLMTG1500-GS08",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "LED_G_0402_VLMTG1500-GS08",
+            "manufacturer_original": "Vishay",
+            "image_file": "D17_DC-SCM_LED_G_0402_VLMTG1500-GS08.png",
+            "position": {
+                "x": 22.85,
+                "y": 29.05
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Vishay; MPN: VLMTG1500-GS08;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 180.0,
+            "designator": "D18",
+            "mpn_original": "VLMTG1500-GS08",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "LED_G_0402_VLMTG1500-GS08",
+            "manufacturer_original": "Vishay",
+            "image_file": "D18_DC-SCM_LED_G_0402_VLMTG1500-GS08.png",
+            "position": {
+                "x": 22.85,
+                "y": 30.45
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: CR0402-FX-1002GLF;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 180.0,
+            "designator": "R73",
+            "mpn_original": "CR0402-FX-1002GLF",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_10k_0402",
+            "manufacturer_original": "Bourns",
+            "image_file": "R73_DC-SCM_R_10k_0402.png",
+            "position": {
+                "x": 22.49,
+                "y": 24.85
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: CR0402-FX-1002GLF;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 180.0,
+            "designator": "R72",
+            "mpn_original": "CR0402-FX-1002GLF",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_10k_0402",
+            "manufacturer_original": "Bourns",
+            "image_file": "R72_DC-SCM_R_10k_0402.png",
+            "position": {
+                "x": 22.49,
+                "y": 23.85
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: TDK; MPN: C1005X6S1A105K050BC;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 180.0,
+            "designator": "C36",
+            "mpn_original": "C1005X6S1A105K050BC",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "C_1u_0402",
+            "manufacturer_original": "TDK",
+            "image_file": "C36_DC-SCM_C_1u_0402.png",
+            "position": {
+                "x": 22.483,
+                "y": 21.84
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: TDK; MPN: C1005X6S1A105K050BC;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 180.0,
+            "designator": "C73",
+            "mpn_original": "C1005X6S1A105K050BC",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "C_1u_0402",
+            "manufacturer_original": "TDK",
+            "image_file": "C73_DC-SCM_C_1u_0402.png",
+            "position": {
+                "x": 22.49,
+                "y": 22.85
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Microchip Technology; MPN: USB2422-I/MJ;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 180.0,
+            "designator": "U5",
+            "mpn_original": "USB2422-I/MJ",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "USB2422-I_MJ",
+            "manufacturer_original": "Microchip Technology",
+            "image_file": "U5_DC-SCM_USB2422-I_MJ.png",
+            "position": {
+                "x": 22.25,
+                "y": 18.6
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Murata; MPN: GRM155R61H104KE14D;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 180.0,
+            "designator": "C35",
+            "mpn_original": "GRM155R61H104KE14D",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "C_100n_0402",
+            "manufacturer_original": "Murata",
+            "image_file": "C35_DC-SCM_C_100n_0402.png",
+            "position": {
+                "x": 25.795,
+                "y": 17.05
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Panasonic; MPN: ERJ2GE0R00X;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 0.0,
+            "designator": "R50",
+            "mpn_original": "ERJ2GE0R00X",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_0R_0402",
+            "manufacturer_original": "Panasonic",
+            "image_file": "R50_DC-SCM_R_0R_0402.png",
+            "position": {
+                "x": 29.45,
+                "y": 18.15
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: ; MPN: ;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 0.0,
+            "designator": "R84",
+            "mpn_original": "",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_10k_0402",
+            "manufacturer_original": "",
+            "image_file": "R84_DC-SCM_R_10k_0402.png",
+            "position": {
+                "x": 29.45,
+                "y": 19.2
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: CR0402-FX-1002GLF;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 0.0,
+            "designator": "R83",
+            "mpn_original": "CR0402-FX-1002GLF",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_10k_0402",
+            "manufacturer_original": "Bourns",
+            "image_file": "R83_DC-SCM_R_10k_0402.png",
+            "position": {
+                "x": 29.45,
+                "y": 20.23
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: ; MPN: ;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 0.0,
+            "designator": "R49",
+            "mpn_original": "",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_0R_0402",
+            "manufacturer_original": "",
+            "image_file": "R49_DC-SCM_R_0R_0402.png",
+            "position": {
+                "x": 29.45,
+                "y": 21.25
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Murata; MPN: GRM155R61A475MEAAD;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 180.0,
+            "designator": "C63",
+            "mpn_original": "GRM155R61A475MEAAD",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "C_4u7_0402",
+            "manufacturer_original": "Murata",
+            "image_file": "C63_DC-SCM_C_4u7_0402.png",
+            "position": {
+                "x": 29.45,
+                "y": 22.3
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Murata; MPN: GRM155R61H104KE14D;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 0.0,
+            "designator": "C37",
+            "mpn_original": "GRM155R61H104KE14D",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "C_100n_0402",
+            "manufacturer_original": "Murata",
+            "image_file": "C37_DC-SCM_C_100n_0402.png",
+            "position": {
+                "x": 27.5,
+                "y": 23.3
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Murata; MPN: GRM155R61H104KE14D;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 0.0,
+            "designator": "C64",
+            "mpn_original": "GRM155R61H104KE14D",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "C_100n_0402",
+            "manufacturer_original": "Murata",
+            "image_file": "C64_DC-SCM_C_100n_0402.png",
+            "position": {
+                "x": 29.45,
+                "y": 23.3
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Murata; MPN: GRM155R61A475MEAAD;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": -90.0,
+            "designator": "C65",
+            "mpn_original": "GRM155R61A475MEAAD",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "C_4u7_0402",
+            "manufacturer_original": "Murata",
+            "image_file": "C65_DC-SCM_C_4u7_0402.png",
+            "position": {
+                "x": 33.95,
+                "y": 21.35
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Murata; MPN: GRM155R61H104KE14D;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 90.0,
+            "designator": "C66",
+            "mpn_original": "GRM155R61H104KE14D",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "C_100n_0402",
+            "manufacturer_original": "Murata",
+            "image_file": "C66_DC-SCM_C_100n_0402.png",
+            "position": {
+                "x": 35.0,
+                "y": 21.35
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Walsin; MPN: 0402F474Z160CT;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 0.0,
+            "designator": "C15",
+            "mpn_original": "0402F474Z160CT",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "C_470n_16V_0402",
+            "manufacturer_original": "Walsin",
+            "image_file": "C15_DC-SCM_C_470n_16V_0402.png",
+            "position": {
+                "x": 34.45,
+                "y": 23.45
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: CR0402-FX-1002GLF;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": -90.0,
+            "designator": "R32",
+            "mpn_original": "CR0402-FX-1002GLF",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_10k_0402",
+            "manufacturer_original": "Bourns",
+            "image_file": "R32_DC-SCM_R_10k_0402.png",
+            "position": {
+                "x": 36.6,
+                "y": 27.25
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: CR0402-FX-4702GLF;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": -90.0,
+            "designator": "R33",
+            "mpn_original": "CR0402-FX-4702GLF",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_47k_0402",
+            "manufacturer_original": "Bourns",
+            "image_file": "R33_DC-SCM_R_47k_0402.png",
+            "position": {
+                "x": 35.55,
+                "y": 27.25
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: FTDI Chip; MPN: FT4222HQ-D-R;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 0.0,
+            "designator": "U7",
+            "mpn_original": "FT4222HQ-D-R",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "FT4222HQ-D-R",
+            "manufacturer_original": "FTDI Chip",
+            "image_file": "U7_DC-SCM_FT4222HQ-D-R.png",
+            "position": {
+                "x": 39.17,
+                "y": 22.548
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: CR0402-FX-4701GLF;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 0.0,
+            "designator": "R74",
+            "mpn_original": "CR0402-FX-4701GLF",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_4k7_0402",
+            "manufacturer_original": "Bourns",
+            "image_file": "R74_DC-SCM_R_4k7_0402.png",
+            "position": {
+                "x": 43.1,
+                "y": 17.3
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Vishay; MPN: VLMTG1500-GS08;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": -90.0,
+            "designator": "D20",
+            "mpn_original": "VLMTG1500-GS08",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "LED_G_0402_VLMTG1500-GS08",
+            "manufacturer_original": "Vishay",
+            "image_file": "D20_DC-SCM_LED_G_0402_VLMTG1500-GS08.png",
+            "position": {
+                "x": 43.5,
+                "y": 19.4
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: CR0402-FX-1202GLF;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 90.0,
+            "designator": "R34",
+            "mpn_original": "CR0402-FX-1202GLF",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_12k_0402",
+            "manufacturer_original": "Bourns",
+            "image_file": "R34_DC-SCM_R_12k_0402.png",
+            "position": {
+                "x": 45.235,
+                "y": 22.3
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Panasonic; MPN: ERJ2GE0R00X;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 0.0,
+            "designator": "R38",
+            "mpn_original": "ERJ2GE0R00X",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_0R_0402",
+            "manufacturer_original": "Panasonic",
+            "image_file": "R38_DC-SCM_R_0R_0402.png",
+            "position": {
+                "x": 46.799,
+                "y": 24.351
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: CR0402-FX-1004GLF; DNP",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 180.0,
+            "designator": "R61",
+            "mpn_original": "CR0402-FX-1004GLF",
+            "dnp_status": "DNP",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_1M_0402",
+            "manufacturer_original": "Bourns",
+            "image_file": "R61_DC-SCM_R_1M_0402.png",
+            "position": {
+                "x": 46.799,
+                "y": 23.301
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Abracon; MPN: ABM8G-12.000MHZ-18-D2Y-T;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 0.0,
+            "designator": "Y4",
+            "mpn_original": "ABM8G-12.000MHZ-18-D2Y-T",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "Resonator_12MHz_ABM8G",
+            "manufacturer_original": "Abracon",
+            "image_file": "Y4_DC-SCM_Resonator_12MHz_ABM8G.png",
+            "position": {
+                "x": 46.1,
+                "y": 26.75
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Walsin; MPN: 0402N270J500CT;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": -90.0,
+            "designator": "C17",
+            "mpn_original": "0402N270J500CT",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "C_27p_0402",
+            "manufacturer_original": "Walsin",
+            "image_file": "C17_DC-SCM_C_27p_0402.png",
+            "position": {
+                "x": 43.549,
+                "y": 26.75
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Murata; MPN: GRM155R61A475MEAAD;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 180.0,
+            "designator": "C67",
+            "mpn_original": "GRM155R61A475MEAAD",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "C_4u7_0402",
+            "manufacturer_original": "Murata",
+            "image_file": "C67_DC-SCM_C_4u7_0402.png",
+            "position": {
+                "x": 42.0,
+                "y": 27.25
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Murata; MPN: GRM155R61H104KE14D;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 0.0,
+            "designator": "C39",
+            "mpn_original": "GRM155R61H104KE14D",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "C_100n_0402",
+            "manufacturer_original": "Murata",
+            "image_file": "C39_DC-SCM_C_100n_0402.png",
+            "position": {
+                "x": 42.0,
+                "y": 26.1
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Murata; MPN: GRM155R61H104KE14D;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 180.0,
+            "designator": "C69",
+            "mpn_original": "GRM155R61H104KE14D",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "C_100n_0402",
+            "manufacturer_original": "Murata",
+            "image_file": "C69_DC-SCM_C_100n_0402.png",
+            "position": {
+                "x": 39.92,
+                "y": 26.1
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Murata; MPN: GRM155R61A475MEAAD;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 0.0,
+            "designator": "C68",
+            "mpn_original": "GRM155R61A475MEAAD",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "C_4u7_0402",
+            "manufacturer_original": "Murata",
+            "image_file": "C68_DC-SCM_C_4u7_0402.png",
+            "position": {
+                "x": 39.92,
+                "y": 27.25
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Panasonic; MPN: ERJ2GE0R00X;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": -90.0,
+            "designator": "R26",
+            "mpn_original": "ERJ2GE0R00X",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_0R_0402",
+            "manufacturer_original": "Panasonic",
+            "image_file": "R26_DC-SCM_R_0R_0402.png",
+            "position": {
+                "x": 39.75,
+                "y": 28.85
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: CR0402-FX-1002GLF;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": -90.0,
+            "designator": "R40",
+            "mpn_original": "CR0402-FX-1002GLF",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_10k_0402",
+            "manufacturer_original": "Bourns",
+            "image_file": "R40_DC-SCM_R_10k_0402.png",
+            "position": {
+                "x": 38.7,
+                "y": 28.85
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: CR0402-FX-1002GLF;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": -90.0,
+            "designator": "R45",
+            "mpn_original": "CR0402-FX-1002GLF",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_10k_0402",
+            "manufacturer_original": "Bourns",
+            "image_file": "R45_DC-SCM_R_10k_0402.png",
+            "position": {
+                "x": 37.65,
+                "y": 28.85
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Panasonic; MPN: ERJ2GE0R00X;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 90.0,
+            "designator": "R62",
+            "mpn_original": "ERJ2GE0R00X",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_0R_0402",
+            "manufacturer_original": "Panasonic",
+            "image_file": "R62_DC-SCM_R_0R_0402.png",
+            "position": {
+                "x": 35.55,
+                "y": 31.2
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Panasonic; MPN: ERJ2GE0R00X;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": -90.0,
+            "designator": "R51",
+            "mpn_original": "ERJ2GE0R00X",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_0R_0402",
+            "manufacturer_original": "Panasonic",
+            "image_file": "R51_DC-SCM_R_0R_0402.png",
+            "position": {
+                "x": 36.63,
+                "y": 31.205
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Vishay; MPN: VLMTG1500-GS08;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 180.0,
+            "designator": "D7",
+            "mpn_original": "VLMTG1500-GS08",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "LED_G_0402_VLMTG1500-GS08",
+            "manufacturer_original": "Vishay",
+            "image_file": "D7_DC-SCM_LED_G_0402_VLMTG1500-GS08.png",
+            "position": {
+                "x": 40.725,
+                "y": 32.275
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: CR0402-FX-2200GLF;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 0.0,
+            "designator": "R21",
+            "mpn_original": "CR0402-FX-2200GLF",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_220R_0402",
+            "manufacturer_original": "Bourns",
+            "image_file": "R21_DC-SCM_R_220R_0402.png",
+            "position": {
+                "x": 40.725,
+                "y": 33.3
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Panasonic; MPN: ERJ2GE0R00X;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 0.0,
+            "designator": "R22",
+            "mpn_original": "ERJ2GE0R00X",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_0R_0402",
+            "manufacturer_original": "Panasonic",
+            "image_file": "R22_DC-SCM_R_0R_0402.png",
+            "position": {
+                "x": 40.725,
+                "y": 34.325
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Murata; MPN: GRM155R61H104KE14D;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 180.0,
+            "designator": "C6",
+            "mpn_original": "GRM155R61H104KE14D",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "C_100n_0402",
+            "manufacturer_original": "Murata",
+            "image_file": "C6_DC-SCM_C_100n_0402.png",
+            "position": {
+                "x": 40.725,
+                "y": 35.575
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: CR0402-FX-4701GLF;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 180.0,
+            "designator": "R11",
+            "mpn_original": "CR0402-FX-4701GLF",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_4k7_0402",
+            "manufacturer_original": "Bourns",
+            "image_file": "R11_DC-SCM_R_4k7_0402.png",
+            "position": {
+                "x": 40.725,
+                "y": 37.625
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: CR0402-FX-4701GLF;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 180.0,
+            "designator": "R6",
+            "mpn_original": "CR0402-FX-4701GLF",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_4k7_0402",
+            "manufacturer_original": "Bourns",
+            "image_file": "R6_DC-SCM_R_4k7_0402.png",
+            "position": {
+                "x": 40.725,
+                "y": 36.6
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Microchip Technology; MPN: AT24C04C-SSHM-T;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 180.0,
+            "designator": "U2",
+            "mpn_original": "AT24C04C-SSHM-T",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "AT24C04C_SOIC8",
+            "manufacturer_original": "Microchip Technology",
+            "image_file": "U2_DC-SCM_AT24C04C_SOIC8.png",
+            "position": {
+                "x": 45.8,
+                "y": 35.3
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Walsin; MPN: 0402N270J500CT;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 0.0,
+            "designator": "C18",
+            "mpn_original": "0402N270J500CT",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "C_27p_0402",
+            "manufacturer_original": "Walsin",
+            "image_file": "C18_DC-SCM_C_27p_0402.png",
+            "position": {
+                "x": 46.099,
+                "y": 29.0
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: ; MPN: ;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 90.0,
+            "designator": "N1",
+            "mpn_original": "",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "antmicro_logo",
+            "manufacturer_original": "",
+            "image_file": "N1_DC-SCM_antmicro_logo.png",
+            "position": {
+                "x": 57.505,
+                "y": 30.38
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Samtec; MPN: FTSH-105-01-F-DV; DNP",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": -90.0,
+            "designator": "J16",
+            "mpn_original": "FTSH-105-01-F-DV",
+            "dnp_status": "DNP",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "PinHeader_2x5_P1.27mm_SMD",
+            "manufacturer_original": "Samtec",
+            "image_file": "J16_DC-SCM_PinHeader_2x5_P1.27mm_SMD.png",
+            "position": {
+                "x": 61.0,
+                "y": 43.0
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Samtec; MPN: FTSH-105-01-F-DV; DNP",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": -90.0,
+            "designator": "J13",
+            "mpn_original": "FTSH-105-01-F-DV",
+            "dnp_status": "DNP",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "PinHeader_2x5_P1.27mm_SMD",
+            "manufacturer_original": "Samtec",
+            "image_file": "J13_DC-SCM_PinHeader_2x5_P1.27mm_SMD.png",
+            "position": {
+                "x": 61.0,
+                "y": 49.352
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Panasonic; MPN: ERJ2GE0R00X;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": -90.0,
+            "designator": "R132",
+            "mpn_original": "ERJ2GE0R00X",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_0R_0402",
+            "manufacturer_original": "Panasonic",
+            "image_file": "R132_DC-SCM_R_0R_0402.png",
+            "position": {
+                "x": 52.17,
+                "y": 59.59
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Panasonic; MPN: ERJ2GE0R00X;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": -90.0,
+            "designator": "R123",
+            "mpn_original": "ERJ2GE0R00X",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_0R_0402",
+            "manufacturer_original": "Panasonic",
+            "image_file": "R123_DC-SCM_R_0R_0402.png",
+            "position": {
+                "x": 51.43,
+                "y": 61.62
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Panasonic; MPN: ERJ2GE0R00X;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": -90.0,
+            "designator": "R122",
+            "mpn_original": "ERJ2GE0R00X",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_0R_0402",
+            "manufacturer_original": "Panasonic",
+            "image_file": "R122_DC-SCM_R_0R_0402.png",
+            "position": {
+                "x": 50.37,
+                "y": 61.62
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Amphenol; MPN: ME1016813401101;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 0.0,
+            "designator": "J1",
+            "mpn_original": "ME1016813401101",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "Socket_DC-SCM-2.1_2x84_Rev-1-1_CUSTOM",
+            "manufacturer_original": "Amphenol",
+            "image_file": "J1_DC-SCM_Socket_DC-SCM-2.1_2x84_Rev-1-1_CUSTOM.png",
+            "position": {
+                "x": 48.0,
+                "y": 67.49
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Panasonic; MPN: ERJ2GE0R00X;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": -90.0,
+            "designator": "R133",
+            "mpn_original": "ERJ2GE0R00X",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_0R_0402",
+            "manufacturer_original": "Panasonic",
+            "image_file": "R133_DC-SCM_R_0R_0402.png",
+            "position": {
+                "x": 53.23,
+                "y": 59.59
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Samtec; MPN: FTSH-105-01-F-DV; DNP",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 90.0,
+            "designator": "J14",
+            "mpn_original": "FTSH-105-01-F-DV",
+            "dnp_status": "DNP",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "PinHeader_2x5_P1.27mm_SMD",
+            "manufacturer_original": "Samtec",
+            "image_file": "J14_DC-SCM_PinHeader_2x5_P1.27mm_SMD.png",
+            "position": {
+                "x": 61.0,
+                "y": 55.786
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Texas Instruments; MPN: TPD2E2U06DCKR;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 180.0,
+            "designator": "D3",
+            "mpn_original": "TPD2E2U06DCKR",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "TPD2E2U06_SC70",
+            "manufacturer_original": "Texas Instruments",
+            "image_file": "D3_DC-SCM_TPD2E2U06_SC70.png",
+            "position": {
+                "x": 76.725,
+                "y": 49.075
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: CR0402-FX-4701GLF;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 90.0,
+            "designator": "R19",
+            "mpn_original": "CR0402-FX-4701GLF",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_4k7_0402",
+            "manufacturer_original": "Bourns",
+            "image_file": "R19_DC-SCM_R_4k7_0402.png",
+            "position": {
+                "x": 80.275,
+                "y": 50.05
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: CR0402-FX-4701GLF;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": -90.0,
+            "designator": "R18",
+            "mpn_original": "CR0402-FX-4701GLF",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_4k7_0402",
+            "manufacturer_original": "Bourns",
+            "image_file": "R18_DC-SCM_R_4k7_0402.png",
+            "position": {
+                "x": 80.275,
+                "y": 48.1
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: JST Automotive Connectors; MPN: BM04B-SRSS-TB(LF)(SN) ;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 0.0,
+            "designator": "J7",
+            "mpn_original": "BM04B-SRSS-TB(LF)(SN)",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "JST_SH_1x4_BM04B-SRSS-TB-LF-SN",
+            "manufacturer_original": "JST Automotive Connectors",
+            "image_file": "J7_DC-SCM_JST_SH_1x4_BM04B-SRSS-TB-LF-SN.png",
+            "position": {
+                "x": 85.45,
+                "y": 50.08
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Murata; MPN: GRM155R61H104KE14D;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 0.0,
+            "designator": "C51",
+            "mpn_original": "GRM155R61H104KE14D",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "C_100n_0402",
+            "manufacturer_original": "Murata",
+            "image_file": "C51_DC-SCM_C_100n_0402.png",
+            "position": {
+                "x": 92.575,
+                "y": 46.9225
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Murata; MPN: GRM155R61H104KE14D;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 0.0,
+            "designator": "C50",
+            "mpn_original": "GRM155R61H104KE14D",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "C_100n_0402",
+            "manufacturer_original": "Murata",
+            "image_file": "C50_DC-SCM_C_100n_0402.png",
+            "position": {
+                "x": 92.6,
+                "y": 48.0725
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Texas Instruments; MPN: LMKDB1202REYR;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 90.0,
+            "designator": "U10",
+            "mpn_original": "LMKDB1202REYR",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "LMKDB1202",
+            "manufacturer_original": "Texas Instruments",
+            "image_file": "U10_DC-SCM_LMKDB1202.png",
+            "position": {
+                "x": 95.42,
+                "y": 48.18
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Murata; MPN: GRM155R61H104KE14D;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 0.0,
+            "designator": "C52",
+            "mpn_original": "GRM155R61H104KE14D",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "C_100n_0402",
+            "manufacturer_original": "Murata",
+            "image_file": "C52_DC-SCM_C_100n_0402.png",
+            "position": {
+                "x": 95.149,
+                "y": 52.202
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: CR0402-FX-2R20GLF;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 0.0,
+            "designator": "R113",
+            "mpn_original": "CR0402-FX-2R20GLF",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_2R2_0402",
+            "manufacturer_original": "Bourns",
+            "image_file": "R113_DC-SCM_R_2R2_0402.png",
+            "position": {
+                "x": 95.149,
+                "y": 53.332
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: CR0402-FX-2200GLF;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 180.0,
+            "designator": "R17",
+            "mpn_original": "CR0402-FX-2200GLF",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_220R_0402",
+            "manufacturer_original": "Bourns",
+            "image_file": "R17_DC-SCM_R_220R_0402.png",
+            "position": {
+                "x": 91.78,
+                "y": 57.3
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Vishay; MPN: VLMTG1500-GS08;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 180.0,
+            "designator": "D4",
+            "mpn_original": "VLMTG1500-GS08",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "LED_G_0402_VLMTG1500-GS08",
+            "manufacturer_original": "Vishay",
+            "image_file": "D4_DC-SCM_LED_G_0402_VLMTG1500-GS08.png",
+            "position": {
+                "x": 93.88,
+                "y": 57.3
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Vishay; MPN: VLMTG1500-GS08;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 180.0,
+            "designator": "D11",
+            "mpn_original": "VLMTG1500-GS08",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "LED_G_0402_VLMTG1500-GS08",
+            "manufacturer_original": "Vishay",
+            "image_file": "D11_DC-SCM_LED_G_0402_VLMTG1500-GS08.png",
+            "position": {
+                "x": 93.8,
+                "y": 59.7
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: CR0402-FX-2200GLF;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 180.0,
+            "designator": "R13",
+            "mpn_original": "CR0402-FX-2200GLF",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_220R_0402",
+            "manufacturer_original": "Bourns",
+            "image_file": "R13_DC-SCM_R_220R_0402.png",
+            "position": {
+                "x": 91.72,
+                "y": 59.7
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Vishay; MPN: VLMTG1500-GS08;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 180.0,
+            "designator": "D10",
+            "mpn_original": "VLMTG1500-GS08",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "LED_G_0402_VLMTG1500-GS08",
+            "manufacturer_original": "Vishay",
+            "image_file": "D10_DC-SCM_LED_G_0402_VLMTG1500-GS08.png",
+            "position": {
+                "x": 93.825,
+                "y": 62.6
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: CR0402-FX-2200GLF;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 180.0,
+            "designator": "R12",
+            "mpn_original": "CR0402-FX-2200GLF",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_220R_0402",
+            "manufacturer_original": "Bourns",
+            "image_file": "R12_DC-SCM_R_220R_0402.png",
+            "position": {
+                "x": 91.725,
+                "y": 62.6
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: CR0402-FX-1003GLF;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 90.0,
+            "designator": "R56",
+            "mpn_original": "CR0402-FX-1003GLF",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_100k_0402",
+            "manufacturer_original": "Bourns",
+            "image_file": "R56_DC-SCM_R_100k_0402.png",
+            "position": {
+                "x": 93.0,
+                "y": 66.482
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Diodes Incorporated; MPN: DMG1012T-7;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 180.0,
+            "designator": "Q3",
+            "mpn_original": "DMG1012T-7",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "DMG1012T-7",
+            "manufacturer_original": "Diodes Incorporated",
+            "image_file": "Q3_DC-SCM_DMG1012T-7.png",
+            "position": {
+                "x": 91.15,
+                "y": 66.252
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Diodes Incorporated; MPN: DMG1012T-7;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 180.0,
+            "designator": "Q4",
+            "mpn_original": "DMG1012T-7",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "DMG1012T-7",
+            "manufacturer_original": "Diodes Incorporated",
+            "image_file": "Q4_DC-SCM_DMG1012T-7.png",
+            "position": {
+                "x": 94.85,
+                "y": 66.25
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: CR0402-FX-1003GLF;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 90.0,
+            "designator": "R57",
+            "mpn_original": "CR0402-FX-1003GLF",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_100k_0402",
+            "manufacturer_original": "Bourns",
+            "image_file": "R57_DC-SCM_R_100k_0402.png",
+            "position": {
+                "x": 96.6,
+                "y": 66.5
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Nidec Components; MPN: CVS-02B;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 0.0,
+            "designator": "SW2",
+            "mpn_original": "CVS-02B",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "SW_CVS-02B",
+            "manufacturer_original": "Nidec Components",
+            "image_file": "SW2_DC-SCM_SW_CVS-02B.png",
+            "position": {
+                "x": 102.05,
+                "y": 65.45
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: CR0402-FX-1002GLF;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 90.0,
+            "designator": "R120",
+            "mpn_original": "CR0402-FX-1002GLF",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_10k_0402",
+            "manufacturer_original": "Bourns",
+            "image_file": "R120_DC-SCM_R_10k_0402.png",
+            "position": {
+                "x": 98.775,
+                "y": 52.625
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Diodes Incorporated; MPN: DMG1012T-7;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 0.0,
+            "designator": "Q9",
+            "mpn_original": "DMG1012T-7",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "DMG1012T-7",
+            "manufacturer_original": "Diodes Incorporated",
+            "image_file": "Q9_DC-SCM_DMG1012T-7.png",
+            "position": {
+                "x": 100.575,
+                "y": 52.825
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Vishay; MPN: VLMTG1500-GS08;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 180.0,
+            "designator": "D29",
+            "mpn_original": "VLMTG1500-GS08",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "LED_G_0402_VLMTG1500-GS08",
+            "manufacturer_original": "Vishay",
+            "image_file": "D29_DC-SCM_LED_G_0402_VLMTG1500-GS08.png",
+            "position": {
+                "x": 103.72,
+                "y": 51.125
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: CR0402-FX-2200GLF;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 180.0,
+            "designator": "R121",
+            "mpn_original": "CR0402-FX-2200GLF",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_220R_0402",
+            "manufacturer_original": "Bourns",
+            "image_file": "R121_DC-SCM_R_220R_0402.png",
+            "position": {
+                "x": 103.725,
+                "y": 50.0
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: YAGEO; MPN: CC0402MRX5R5BB106;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 90.0,
+            "designator": "C43",
+            "mpn_original": "CC0402MRX5R5BB106",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "C_10u_0402",
+            "manufacturer_original": "YAGEO",
+            "image_file": "C43_DC-SCM_C_10u_0402.png",
+            "position": {
+                "x": 104.192,
+                "y": 46.6
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Panasonic; MPN: ERJ2GE0R00X;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 180.0,
+            "designator": "R117",
+            "mpn_original": "ERJ2GE0R00X",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_0R_0402",
+            "manufacturer_original": "Panasonic",
+            "image_file": "R117_DC-SCM_R_0R_0402.png",
+            "position": {
+                "x": 102.57,
+                "y": 47.05
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: CR0402-FX-1002GLF;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": -90.0,
+            "designator": "R115",
+            "mpn_original": "CR0402-FX-1002GLF",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_10k_0402",
+            "manufacturer_original": "Bourns",
+            "image_file": "R115_DC-SCM_R_10k_0402.png",
+            "position": {
+                "x": 100.95,
+                "y": 49.525
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Murata; MPN: GRM155R61H104KE14D;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 180.0,
+            "designator": "C49",
+            "mpn_original": "GRM155R61H104KE14D",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "C_100n_0402",
+            "manufacturer_original": "Murata",
+            "image_file": "C49_DC-SCM_C_100n_0402.png",
+            "position": {
+                "x": 99.35,
+                "y": 49.975
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Murata; MPN: GRM155R61H104KE14D;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 180.0,
+            "designator": "C45",
+            "mpn_original": "GRM155R61H104KE14D",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "C_100n_0402",
+            "manufacturer_original": "Murata",
+            "image_file": "C45_DC-SCM_C_100n_0402.png",
+            "position": {
+                "x": 99.3,
+                "y": 48.125
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: CR0402-FX-2R20GLF;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 180.0,
+            "designator": "R112",
+            "mpn_original": "CR0402-FX-2R20GLF",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_2R2_0402",
+            "manufacturer_original": "Bourns",
+            "image_file": "R112_DC-SCM_R_2R2_0402.png",
+            "position": {
+                "x": 99.3,
+                "y": 47.05
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Murata; MPN: GRM155R61H104KE14D;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 90.0,
+            "designator": "C44",
+            "mpn_original": "GRM155R61H104KE14D",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "C_100n_0402",
+            "manufacturer_original": "Murata",
+            "image_file": "C44_DC-SCM_C_100n_0402.png",
+            "position": {
+                "x": 96.219,
+                "y": 44.7
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: CR0402-FX-2R20GLF;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 90.0,
+            "designator": "R111",
+            "mpn_original": "CR0402-FX-2R20GLF",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_2R2_0402",
+            "manufacturer_original": "Bourns",
+            "image_file": "R111_DC-SCM_R_2R2_0402.png",
+            "position": {
+                "x": 96.219,
+                "y": 42.652
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: KOA Speer; MPN: RN73R1ETTP50R0F50;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 0.0,
+            "designator": "R106",
+            "mpn_original": "RN73R1ETTP50R0F50",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_50R_0402",
+            "manufacturer_original": "KOA Speer",
+            "image_file": "R106_DC-SCM_R_50R_0402.png",
+            "position": {
+                "x": 98.24,
+                "y": 40.98
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: KOA Speer; MPN: RN73R1ETTP50R0F50;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 180.0,
+            "designator": "R107",
+            "mpn_original": "RN73R1ETTP50R0F50",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_50R_0402",
+            "manufacturer_original": "KOA Speer",
+            "image_file": "R107_DC-SCM_R_50R_0402.png",
+            "position": {
+                "x": 100.19,
+                "y": 40.98
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: CR0402-FX-33R0GLF;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 90.0,
+            "designator": "R86",
+            "mpn_original": "CR0402-FX-33R0GLF",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_33R_0402",
+            "manufacturer_original": "Bourns",
+            "image_file": "R86_DC-SCM_R_33R_0402.png",
+            "position": {
+                "x": 99.74,
+                "y": 39.43
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: CR0402-FX-33R0GLF;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 90.0,
+            "designator": "R85",
+            "mpn_original": "CR0402-FX-33R0GLF",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_33R_0402",
+            "manufacturer_original": "Bourns",
+            "image_file": "R85_DC-SCM_R_33R_0402.png",
+            "position": {
+                "x": 98.69,
+                "y": 39.43
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Diodes Incorporated; MPN: NX3241E0100.000000;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 180.0,
+            "designator": "Y1",
+            "mpn_original": "NX3241E0100.000000",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "Oscillator_100MHz_NX324",
+            "manufacturer_original": "Diodes Incorporated",
+            "image_file": "Y1_DC-SCM_Oscillator_100MHz_NX324.png",
+            "position": {
+                "x": 99.374,
+                "y": 36.445
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: CR0402-FX-1003GLF;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 0.0,
+            "designator": "R82",
+            "mpn_original": "CR0402-FX-1003GLF",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_100k_0402",
+            "manufacturer_original": "Bourns",
+            "image_file": "R82_DC-SCM_R_100k_0402.png",
+            "position": {
+                "x": 99.374,
+                "y": 33.945
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Murata; MPN: GRM155R61H104KE14D;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": -90.0,
+            "designator": "C16",
+            "mpn_original": "GRM155R61H104KE14D",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "C_100n_0402",
+            "manufacturer_original": "Murata",
+            "image_file": "C16_DC-SCM_C_100n_0402.png",
+            "position": {
+                "x": 96.175,
+                "y": 35.475
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Murata; MPN: GRM155R71H103KA88D;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": -90.0,
+            "designator": "C57",
+            "mpn_original": "GRM155R71H103KA88D",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "C_10n_0402",
+            "manufacturer_original": "Murata",
+            "image_file": "C57_DC-SCM_C_10n_0402.png",
+            "position": {
+                "x": 97.2,
+                "y": 35.475
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: CR0402-FX-2R20GLF;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 0.0,
+            "designator": "R110",
+            "mpn_original": "CR0402-FX-2R20GLF",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_2R2_0402",
+            "manufacturer_original": "Bourns",
+            "image_file": "R110_DC-SCM_R_2R2_0402.png",
+            "position": {
+                "x": 95.625,
+                "y": 32.225
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Murata; MPN: GRM155R61H104KE14D;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 0.0,
+            "designator": "C42",
+            "mpn_original": "GRM155R61H104KE14D",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "C_100n_0402",
+            "manufacturer_original": "Murata",
+            "image_file": "C42_DC-SCM_C_100n_0402.png",
+            "position": {
+                "x": 95.625,
+                "y": 31.1
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Murata; MPN: GRM155R61H104KE14D;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 0.0,
+            "designator": "C48",
+            "mpn_original": "GRM155R61H104KE14D",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "C_100n_0402",
+            "manufacturer_original": "Murata",
+            "image_file": "C48_DC-SCM_C_100n_0402.png",
+            "position": {
+                "x": 93.425,
+                "y": 28.125
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Murata; MPN: GRM155R61H104KE14D;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 0.0,
+            "designator": "C47",
+            "mpn_original": "GRM155R61H104KE14D",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "C_100n_0402",
+            "manufacturer_original": "Murata",
+            "image_file": "C47_DC-SCM_C_100n_0402.png",
+            "position": {
+                "x": 93.425,
+                "y": 27.0
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Texas Instruments; MPN: LMKDB1202REYR;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 90.0,
+            "designator": "U8",
+            "mpn_original": "LMKDB1202REYR",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "LMKDB1202",
+            "manufacturer_original": "Texas Instruments",
+            "image_file": "U8_DC-SCM_LMKDB1202.png",
+            "position": {
+                "x": 95.845,
+                "y": 27.055
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Murata; MPN: GRM155R61H104KE14D;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 180.0,
+            "designator": "C46",
+            "mpn_original": "GRM155R61H104KE14D",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "C_100n_0402",
+            "manufacturer_original": "Murata",
+            "image_file": "C46_DC-SCM_C_100n_0402.png",
+            "position": {
+                "x": 99.775,
+                "y": 28.85
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: CR0402-FX-1002GLF;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 90.0,
+            "designator": "R118",
+            "mpn_original": "CR0402-FX-1002GLF",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_10k_0402",
+            "manufacturer_original": "Bourns",
+            "image_file": "R118_DC-SCM_R_10k_0402.png",
+            "position": {
+                "x": 99.3,
+                "y": 31.55
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Diodes Incorporated; MPN: DMG1012T-7;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 0.0,
+            "designator": "Q8",
+            "mpn_original": "DMG1012T-7",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "DMG1012T-7",
+            "manufacturer_original": "Diodes Incorporated",
+            "image_file": "Q8_DC-SCM_DMG1012T-7.png",
+            "position": {
+                "x": 101.05,
+                "y": 31.75
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Vishay; MPN: VLMTG1500-GS08;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 180.0,
+            "designator": "D28",
+            "mpn_original": "VLMTG1500-GS08",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "LED_G_0402_VLMTG1500-GS08",
+            "manufacturer_original": "Vishay",
+            "image_file": "D28_DC-SCM_LED_G_0402_VLMTG1500-GS08.png",
+            "position": {
+                "x": 103.7,
+                "y": 29.95
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: CR0402-FX-2200GLF;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 180.0,
+            "designator": "R119",
+            "mpn_original": "CR0402-FX-2200GLF",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_220R_0402",
+            "manufacturer_original": "Bourns",
+            "image_file": "R119_DC-SCM_R_220R_0402.png",
+            "position": {
+                "x": 103.7,
+                "y": 28.825
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Panasonic; MPN: ERJ2GE0R00X;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 180.0,
+            "designator": "R116",
+            "mpn_original": "ERJ2GE0R00X",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_0R_0402",
+            "manufacturer_original": "Panasonic",
+            "image_file": "R116_DC-SCM_R_0R_0402.png",
+            "position": {
+                "x": 102.675,
+                "y": 25.825
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: YAGEO; MPN: CC0402MRX5R5BB106;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 90.0,
+            "designator": "C25",
+            "mpn_original": "CC0402MRX5R5BB106",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "C_10u_0402",
+            "manufacturer_original": "YAGEO",
+            "image_file": "C25_DC-SCM_C_10u_0402.png",
+            "position": {
+                "x": 104.265,
+                "y": 25.355
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: CR0402-FX-1002GLF;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": -90.0,
+            "designator": "R114",
+            "mpn_original": "CR0402-FX-1002GLF",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_10k_0402",
+            "manufacturer_original": "Bourns",
+            "image_file": "R114_DC-SCM_R_10k_0402.png",
+            "position": {
+                "x": 101.4,
+                "y": 28.4
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Murata; MPN: GRM155R61H104KE14D;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 180.0,
+            "designator": "C41",
+            "mpn_original": "GRM155R61H104KE14D",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "C_100n_0402",
+            "manufacturer_original": "Murata",
+            "image_file": "C41_DC-SCM_C_100n_0402.png",
+            "position": {
+                "x": 99.7,
+                "y": 27.0
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: CR0402-FX-2R20GLF;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 180.0,
+            "designator": "R109",
+            "mpn_original": "CR0402-FX-2R20GLF",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_2R2_0402",
+            "manufacturer_original": "Bourns",
+            "image_file": "R109_DC-SCM_R_2R2_0402.png",
+            "position": {
+                "x": 99.7,
+                "y": 25.9
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: CR0402-FX-2R20GLF;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 90.0,
+            "designator": "R108",
+            "mpn_original": "CR0402-FX-2R20GLF",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_2R2_0402",
+            "manufacturer_original": "Bourns",
+            "image_file": "R108_DC-SCM_R_2R2_0402.png",
+            "position": {
+                "x": 96.62,
+                "y": 22.23
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Murata; MPN: GRM155R61H104KE14D;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 90.0,
+            "designator": "C26",
+            "mpn_original": "GRM155R61H104KE14D",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "C_100n_0402",
+            "manufacturer_original": "Murata",
+            "image_file": "C26_DC-SCM_C_100n_0402.png",
+            "position": {
+                "x": 96.62,
+                "y": 24.28
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Panasonic; MPN: ERJ2GE0R00X;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": -90.0,
+            "designator": "R126",
+            "mpn_original": "ERJ2GE0R00X",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_0R_0402",
+            "manufacturer_original": "Panasonic",
+            "image_file": "R126_DC-SCM_R_0R_0402.png",
+            "position": {
+                "x": 89.13,
+                "y": 23.08
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Panasonic; MPN: ERJ2GE0R00X;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": -90.0,
+            "designator": "R127",
+            "mpn_original": "ERJ2GE0R00X",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_0R_0402",
+            "manufacturer_original": "Panasonic",
+            "image_file": "R127_DC-SCM_R_0R_0402.png",
+            "position": {
+                "x": 90.19,
+                "y": 23.08
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Würth Elektronik; MPN: 62732020621;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": -90.0,
+            "designator": "J6",
+            "mpn_original": "62732020621",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "PinHeader_2x10_P1.27mm_SMD_Shrouded",
+            "manufacturer_original": "Würth Elektronik",
+            "image_file": "J6_DC-SCM_PinHeader_2x10_P1.27mm_SMD_Shrouded.png",
+            "position": {
+                "x": 83.999,
+                "y": 35.652
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Diodes Incorporated; MPN: DMG1012T-7;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 0.0,
+            "designator": "Q2",
+            "mpn_original": "DMG1012T-7",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "DMG1012T-7",
+            "manufacturer_original": "Diodes Incorporated",
+            "image_file": "Q2_DC-SCM_DMG1012T-7.png",
+            "position": {
+                "x": 78.55,
+                "y": 45.147999
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Texas Instruments; MPN: TMP75AIDR;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 0.0,
+            "designator": "U1",
+            "mpn_original": "TMP75AIDR",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "TMP75AIDR",
+            "manufacturer_original": "Texas Instruments",
+            "image_file": "U1_DC-SCM_TMP75AIDR.png",
+            "position": {
+                "x": 70.031,
+                "y": 35.357
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Murata; MPN: GRM155R61H104KE14D;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 90.0,
+            "designator": "C5",
+            "mpn_original": "GRM155R61H104KE14D",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "C_100n_0402",
+            "manufacturer_original": "Murata",
+            "image_file": "C5_DC-SCM_C_100n_0402.png",
+            "position": {
+                "x": 74.392,
+                "y": 36.65
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: CR0402-FX-4701GLF;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 90.0,
+            "designator": "R4",
+            "mpn_original": "CR0402-FX-4701GLF",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_4k7_0402",
+            "manufacturer_original": "Bourns",
+            "image_file": "R4_DC-SCM_R_4k7_0402.png",
+            "position": {
+                "x": 65.731,
+                "y": 37.272
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: CR0402-FX-4701GLF;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": -90.0,
+            "designator": "R2",
+            "mpn_original": "CR0402-FX-4701GLF",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_4k7_0402",
+            "manufacturer_original": "Bourns",
+            "image_file": "R2_DC-SCM_R_4k7_0402.png",
+            "position": {
+                "x": 65.731,
+                "y": 35.325
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: CR0402-FX-4701GLF;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": -90.0,
+            "designator": "R5",
+            "mpn_original": "CR0402-FX-4701GLF",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_4k7_0402",
+            "manufacturer_original": "Bourns",
+            "image_file": "R5_DC-SCM_R_4k7_0402.png",
+            "position": {
+                "x": 65.731,
+                "y": 33.377001
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: CR0402-FX-1002GLF;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 0.0,
+            "designator": "R67",
+            "mpn_original": "CR0402-FX-1002GLF",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_10k_0402",
+            "manufacturer_original": "Bourns",
+            "image_file": "R67_DC-SCM_R_10k_0402.png",
+            "position": {
+                "x": 67.92,
+                "y": 30.4
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: CR0402-FX-5232GLF;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 180.0,
+            "designator": "R43",
+            "mpn_original": "CR0402-FX-5232GLF",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_52k3_0402",
+            "manufacturer_original": "Bourns",
+            "image_file": "R43_DC-SCM_R_52k3_0402.png",
+            "position": {
+                "x": 67.92,
+                "y": 29.4
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: CR0402-FX-4701GLF;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 0.0,
+            "designator": "R66",
+            "mpn_original": "CR0402-FX-4701GLF",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_4k7_0402",
+            "manufacturer_original": "Bourns",
+            "image_file": "R66_DC-SCM_R_4k7_0402.png",
+            "position": {
+                "x": 67.92,
+                "y": 28.4
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: CR0402-FX-1002GLF; DNP",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 180.0,
+            "designator": "R65",
+            "mpn_original": "CR0402-FX-1002GLF",
+            "dnp_status": "DNP",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_10k_0402",
+            "manufacturer_original": "Bourns",
+            "image_file": "R65_DC-SCM_R_10k_0402.png",
+            "position": {
+                "x": 67.92,
+                "y": 27.4
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Murata; MPN: GRM155R61H104KE14D;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": -90.0,
+            "designator": "C22",
+            "mpn_original": "GRM155R61H104KE14D",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "C_100n_0402",
+            "manufacturer_original": "Murata",
+            "image_file": "C22_DC-SCM_C_100n_0402.png",
+            "position": {
+                "x": 68.22,
+                "y": 25.9
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Panasonic; MPN: ERJ2GE0R00X;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 90.0,
+            "designator": "R64",
+            "mpn_original": "ERJ2GE0R00X",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_0R_0402",
+            "manufacturer_original": "Panasonic",
+            "image_file": "R64_DC-SCM_R_0R_0402.png",
+            "position": {
+                "x": 67.12,
+                "y": 25.9
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Samsung Electro-Mechanics; MPN: CL10A226MO7JZNC;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 0.0,
+            "designator": "C23",
+            "mpn_original": "CL10A226MO7JZNC",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "C_22u_16V_0603",
+            "manufacturer_original": "Samsung Electro-Mechanics",
+            "image_file": "C23_DC-SCM_C_22u_16V_0603.png",
+            "position": {
+                "x": 67.5,
+                "y": 24.1
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Samsung Electro-Mechanics; MPN: CL10A226MO7JZNC;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 0.0,
+            "designator": "C24",
+            "mpn_original": "CL10A226MO7JZNC",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "C_22u_16V_0603",
+            "manufacturer_original": "Samsung Electro-Mechanics",
+            "image_file": "C24_DC-SCM_C_22u_16V_0603.png",
+            "position": {
+                "x": 67.5,
+                "y": 22.7
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: ROHM Semiconductor; MPN: PMR03EZPJ000;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 180.0,
+            "designator": "R69",
+            "mpn_original": "PMR03EZPJ000",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_0R_22.4A_0603",
+            "manufacturer_original": "ROHM Semiconductor",
+            "image_file": "R69_DC-SCM_R_0R_22.4A_0603.png",
+            "position": {
+                "x": 67.5,
+                "y": 21.3
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Diodes Incorporated; MPN: AP62301WU-7;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 180.0,
+            "designator": "U9",
+            "mpn_original": "AP62301WU-7",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "AP62301_TSOT",
+            "manufacturer_original": "Diodes Incorporated",
+            "image_file": "U9_DC-SCM_AP62301_TSOT.png",
+            "position": {
+                "x": 71.265,
+                "y": 27.875
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Murata; MPN: GRM188C81C106MA73D;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 90.0,
+            "designator": "C21",
+            "mpn_original": "GRM188C81C106MA73D",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "C_10u_16V_0603",
+            "manufacturer_original": "Murata",
+            "image_file": "C21_DC-SCM_C_10u_16V_0603.png",
+            "position": {
+                "x": 74.02,
+                "y": 27.9
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Coilcraft; MPN: XEL4030-332MEC;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": -90.0,
+            "designator": "L2",
+            "mpn_original": "XEL4030-332MEC",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "L_3u3_6.6A_XEL4030",
+            "manufacturer_original": "Coilcraft",
+            "image_file": "L2_DC-SCM_L_3u3_6.6A_XEL4030.png",
+            "position": {
+                "x": 71.22,
+                "y": 23.7
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: CR0402-FX-1002GLF;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 180.0,
+            "designator": "R103",
+            "mpn_original": "CR0402-FX-1002GLF",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_10k_0402",
+            "manufacturer_original": "Bourns",
+            "image_file": "R103_DC-SCM_R_10k_0402.png",
+            "position": {
+                "x": 72.1,
+                "y": 18.5
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Samsung Electro-Mechanics; MPN: CL21A226MAYNNNE;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 90.0,
+            "designator": "C79",
+            "mpn_original": "CL21A226MAYNNNE",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "C_22u_25V_0805",
+            "manufacturer_original": "Samsung Electro-Mechanics",
+            "image_file": "C79_DC-SCM_C_22u_25V_0805.png",
+            "position": {
+                "x": 74.0,
+                "y": 16.4
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Murata; MPN: GRM155R61H104KE14D;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 90.0,
+            "designator": "C80",
+            "mpn_original": "GRM155R61H104KE14D",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "C_100n_0402",
+            "manufacturer_original": "Murata",
+            "image_file": "C80_DC-SCM_C_100n_0402.png",
+            "position": {
+                "x": 75.4,
+                "y": 15.3
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: STMicroelectronics; MPN: ESDA25P35-1U1M;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 90.0,
+            "designator": "D25",
+            "mpn_original": "ESDA25P35-1U1M",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "ESDA25P35-1U1M",
+            "manufacturer_original": "STMicroelectronics",
+            "image_file": "D25_DC-SCM_ESDA25P35-1U1M.png",
+            "position": {
+                "x": 76.9,
+                "y": 14.7
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Texas Instruments; MPN: TPD2E2U06DCKR;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 90.0,
+            "designator": "D5",
+            "mpn_original": "TPD2E2U06DCKR",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "TPD2E2U06_SC70",
+            "manufacturer_original": "Texas Instruments",
+            "image_file": "D5_DC-SCM_TPD2E2U06_SC70.png",
+            "position": {
+                "x": 80.38,
+                "y": 15.275
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Texas Instruments; MPN: ESD204DQAR;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 90.0,
+            "designator": "D22",
+            "mpn_original": "ESD204DQAR",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "ESD204DQAR",
+            "manufacturer_original": "Texas Instruments",
+            "image_file": "D22_DC-SCM_ESD204DQAR.png",
+            "position": {
+                "x": 95.2525,
+                "y": 10.912
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Panasonic; MPN: ERJ2GE0R00X;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": -90.0,
+            "designator": "R79",
+            "mpn_original": "ERJ2GE0R00X",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_0R_0402",
+            "manufacturer_original": "Panasonic",
+            "image_file": "R79_DC-SCM_R_0R_0402.png",
+            "position": {
+                "x": 99.76,
+                "y": 11.1
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Murata; MPN: GRM155R61H104KE14D;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": -90.0,
+            "designator": "C33",
+            "mpn_original": "GRM155R61H104KE14D",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "C_100n_0402",
+            "manufacturer_original": "Murata",
+            "image_file": "C33_DC-SCM_C_100n_0402.png",
+            "position": {
+                "x": 100.883333,
+                "y": 11.1
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: CR0402-FX-1002GLF; DNP",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": -90.0,
+            "designator": "R77",
+            "mpn_original": "CR0402-FX-1002GLF",
+            "dnp_status": "DNP",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_10k_0402",
+            "manufacturer_original": "Bourns",
+            "image_file": "R77_DC-SCM_R_10k_0402.png",
+            "position": {
+                "x": 102.006667,
+                "y": 11.1
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Panasonic; MPN: ERJ2GE0R00X;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": -90.0,
+            "designator": "R78",
+            "mpn_original": "ERJ2GE0R00X",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_0R_0402",
+            "manufacturer_original": "Panasonic",
+            "image_file": "R78_DC-SCM_R_0R_0402.png",
+            "position": {
+                "x": 103.13,
+                "y": 11.1
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: CR0402-FX-1002GLF;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 90.0,
+            "designator": "R76",
+            "mpn_original": "CR0402-FX-1002GLF",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_10k_0402",
+            "manufacturer_original": "Bourns",
+            "image_file": "R76_DC-SCM_R_10k_0402.png",
+            "position": {
+                "x": 104.253333,
+                "y": 11.1
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Murata; MPN: GRM155R61H104KE14D;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": -90.0,
+            "designator": "C40",
+            "mpn_original": "GRM155R61H104KE14D",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "C_100n_0402",
+            "manufacturer_original": "Murata",
+            "image_file": "C40_DC-SCM_C_100n_0402.png",
+            "position": {
+                "x": 105.376667,
+                "y": 11.1
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Panasonic; MPN: ERJ2GE0R00X;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": -90.0,
+            "designator": "R80",
+            "mpn_original": "ERJ2GE0R00X",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_0R_0402",
+            "manufacturer_original": "Panasonic",
+            "image_file": "R80_DC-SCM_R_0R_0402.png",
+            "position": {
+                "x": 106.5,
+                "y": 11.1
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Amphenol; MPN: G14A421211112HR;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 0.0,
+            "designator": "J18",
+            "mpn_original": "G14A421211112HR",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "OCuLink_x4_Amphenol_G14A421211112HR_CUSTOM_device_side",
+            "manufacturer_original": "Amphenol",
+            "image_file": "J18_DC-SCM_OCuLink_x4_Amphenol_G14A421211112HR_CUSTOM_device_side.png",
+            "position": {
+                "x": 98.5,
+                "y": 3.54
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Amphenol; MPN: UE27AC54100;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 0.0,
+            "designator": "J19",
+            "mpn_original": "UE27AC54100",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "USB-A_Amphenol_UE27AC54100",
+            "manufacturer_original": "Amphenol",
+            "image_file": "J19_DC-SCM_USB-A_Amphenol_UE27AC54100.png",
+            "position": {
+                "x": 76.88,
+                "y": 12.01
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Diodes Incorporated; MPN: AP22615AWU-7;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 180.0,
+            "designator": "U41",
+            "mpn_original": "AP22615AWU-7",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "AP22615A_TSOT26",
+            "manufacturer_original": "Diodes Incorporated",
+            "image_file": "U41_DC-SCM_AP22615A_TSOT26.png",
+            "position": {
+                "x": 71.1,
+                "y": 16.2
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: CR0402-FX-1002GLF;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 180.0,
+            "designator": "R102",
+            "mpn_original": "CR0402-FX-1002GLF",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_10k_0402",
+            "manufacturer_original": "Bourns",
+            "image_file": "R102_DC-SCM_R_10k_0402.png",
+            "position": {
+                "x": 67.98,
+                "y": 17.6
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: ; MPN: ;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 0.0,
+            "designator": "R104",
+            "mpn_original": "",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_10k_0402",
+            "manufacturer_original": "",
+            "image_file": "R104_DC-SCM_R_10k_0402.png",
+            "position": {
+                "x": 67.98,
+                "y": 16.6
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: CR0402-FX-2201GLF;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 0.0,
+            "designator": "R105",
+            "mpn_original": "CR0402-FX-2201GLF",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_2k2_0402",
+            "manufacturer_original": "Bourns",
+            "image_file": "R105_DC-SCM_R_2k2_0402.png",
+            "position": {
+                "x": 67.98,
+                "y": 15.6
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Murata; MPN: GRM155R61H104KE14D;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 180.0,
+            "designator": "C78",
+            "mpn_original": "GRM155R61H104KE14D",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "C_100n_0402",
+            "manufacturer_original": "Murata",
+            "image_file": "C78_DC-SCM_C_100n_0402.png",
+            "position": {
+                "x": 67.98,
+                "y": 14.6
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Vishay; MPN: VLMTG1500-GS08;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 180.0,
+            "designator": "D21",
+            "mpn_original": "VLMTG1500-GS08",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "LED_G_0402_VLMTG1500-GS08",
+            "manufacturer_original": "Vishay",
+            "image_file": "D21_DC-SCM_LED_G_0402_VLMTG1500-GS08.png",
+            "position": {
+                "x": 68.6,
+                "y": 12.1
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Texas Instruments; MPN: TPD2E2U06DCKR;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 0.0,
+            "designator": "D6",
+            "mpn_original": "TPD2E2U06DCKR",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "TPD2E2U06_SC70",
+            "manufacturer_original": "Texas Instruments",
+            "image_file": "D6_DC-SCM_TPD2E2U06_SC70.png",
+            "position": {
+                "x": 68.7815,
+                "y": 9.875
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: CR0402-FX-2202GLF;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 180.0,
+            "designator": "R31",
+            "mpn_original": "CR0402-FX-2202GLF",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_22k_0402",
+            "manufacturer_original": "Bourns",
+            "image_file": "R31_DC-SCM_R_22k_0402.png",
+            "position": {
+                "x": 67.4315,
+                "y": 8.0
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Vishay; MPN: VLMTG1500-GS08;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 90.0,
+            "designator": "D26",
+            "mpn_original": "VLMTG1500-GS08",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "LED_G_0402_VLMTG1500-GS08",
+            "manufacturer_original": "Vishay",
+            "image_file": "D26_DC-SCM_LED_G_0402_VLMTG1500-GS08.png",
+            "position": {
+                "x": 71.1,
+                "y": 2.65
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: CR0402-FX-1001GLF;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 90.0,
+            "designator": "R71",
+            "mpn_original": "CR0402-FX-1001GLF",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_1k_0402",
+            "manufacturer_original": "Bourns",
+            "image_file": "R71_DC-SCM_R_1k_0402.png",
+            "position": {
+                "x": 71.1,
+                "y": 4.95
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: GCT; MPN: USB4105-GF-A;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 0.0,
+            "designator": "J2",
+            "mpn_original": "USB4105-GF-A",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "USB-C_GCT_USB4105-GF-A",
+            "manufacturer_original": "GCT",
+            "image_file": "J2_DC-SCM_USB-C_GCT_USB4105-GF-A.png",
+            "position": {
+                "x": 63.805,
+                "y": 2.43
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Vishay; MPN: VLMTG1500-GS08;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 90.0,
+            "designator": "D24",
+            "mpn_original": "VLMTG1500-GS08",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "LED_G_0402_VLMTG1500-GS08",
+            "manufacturer_original": "Vishay",
+            "image_file": "D24_DC-SCM_LED_G_0402_VLMTG1500-GS08.png",
+            "position": {
+                "x": 56.6,
+                "y": 2.65
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: CR0402-FX-1001GLF;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 90.0,
+            "designator": "R63",
+            "mpn_original": "CR0402-FX-1001GLF",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_1k_0402",
+            "manufacturer_original": "Bourns",
+            "image_file": "R63_DC-SCM_R_1k_0402.png",
+            "position": {
+                "x": 56.6,
+                "y": 4.95
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: STMicroelectronics; MPN: ESDA25P35-1U1M;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 180.0,
+            "designator": "D23",
+            "mpn_original": "ESDA25P35-1U1M",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "ESDA25P35-1U1M",
+            "manufacturer_original": "STMicroelectronics",
+            "image_file": "D23_DC-SCM_ESDA25P35-1U1M.png",
+            "position": {
+                "x": 60.98,
+                "y": 7.75
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: CR0402-FX-2202GLF;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": -90.0,
+            "designator": "R30",
+            "mpn_original": "CR0402-FX-2202GLF",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_22k_0402",
+            "manufacturer_original": "Bourns",
+            "image_file": "R30_DC-SCM_R_22k_0402.png",
+            "position": {
+                "x": 62.9,
+                "y": 8.0
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Murata; MPN: GRM155R61H104KE14D;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 90.0,
+            "designator": "C77",
+            "mpn_original": "GRM155R61H104KE14D",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "C_100n_0402",
+            "manufacturer_original": "Murata",
+            "image_file": "C77_DC-SCM_C_100n_0402.png",
+            "position": {
+                "x": 64.502484,
+                "y": 10.727303
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Samsung Electro-Mechanics; MPN: CL21A226MAYNNNE;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 90.0,
+            "designator": "C76",
+            "mpn_original": "CL21A226MAYNNNE",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "C_22u_25V_0805",
+            "manufacturer_original": "Samsung Electro-Mechanics",
+            "image_file": "C76_DC-SCM_C_22u_25V_0805.png",
+            "position": {
+                "x": 63.102484,
+                "y": 11.727303
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: CR0402-FX-1001GLF;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 180.0,
+            "designator": "R75",
+            "mpn_original": "CR0402-FX-1001GLF",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_1k_0402",
+            "manufacturer_original": "Bourns",
+            "image_file": "R75_DC-SCM_R_1k_0402.png",
+            "position": {
+                "x": 66.26,
+                "y": 12.1
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Diodes Incorporated; MPN: AP22615AWU-7;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 180.0,
+            "designator": "U40",
+            "mpn_original": "AP22615AWU-7",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "AP22615A_TSOT26",
+            "manufacturer_original": "Diodes Incorporated",
+            "image_file": "U40_DC-SCM_AP22615A_TSOT26.png",
+            "position": {
+                "x": 60.1,
+                "y": 11.5
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: CR0402-FX-1002GLF;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 180.0,
+            "designator": "R97",
+            "mpn_original": "CR0402-FX-1002GLF",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_10k_0402",
+            "manufacturer_original": "Bourns",
+            "image_file": "R97_DC-SCM_R_10k_0402.png",
+            "position": {
+                "x": 59.8,
+                "y": 13.727303
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: CR0402-FX-1002GLF;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 180.0,
+            "designator": "R96",
+            "mpn_original": "CR0402-FX-1002GLF",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_10k_0402",
+            "manufacturer_original": "Bourns",
+            "image_file": "R96_DC-SCM_R_10k_0402.png",
+            "position": {
+                "x": 56.98,
+                "y": 12.9
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: ; MPN: ;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 0.0,
+            "designator": "R98",
+            "mpn_original": "",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_10k_0402",
+            "manufacturer_original": "",
+            "image_file": "R98_DC-SCM_R_10k_0402.png",
+            "position": {
+                "x": 56.98,
+                "y": 11.9
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: CR0402-FX-2201GLF;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 0.0,
+            "designator": "R99",
+            "mpn_original": "CR0402-FX-2201GLF",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_2k2_0402",
+            "manufacturer_original": "Bourns",
+            "image_file": "R99_DC-SCM_R_2k2_0402.png",
+            "position": {
+                "x": 56.98,
+                "y": 10.9
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Murata; MPN: GRM155R61H104KE14D;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 180.0,
+            "designator": "C75",
+            "mpn_original": "GRM155R61H104KE14D",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "C_100n_0402",
+            "manufacturer_original": "Murata",
+            "image_file": "C75_DC-SCM_C_100n_0402.png",
+            "position": {
+                "x": 56.98,
+                "y": 9.9
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Murata; MPN: GRM155R61H104KE14D;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 90.0,
+            "designator": "C30",
+            "mpn_original": "GRM155R61H104KE14D",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "C_100n_0402",
+            "manufacturer_original": "Murata",
+            "image_file": "C30_DC-SCM_C_100n_0402.png",
+            "position": {
+                "x": 51.5,
+                "y": 10.12
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Panasonic; MPN: ERJ2GE0R00X;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 180.0,
+            "designator": "R42",
+            "mpn_original": "ERJ2GE0R00X",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_0R_0402",
+            "manufacturer_original": "Panasonic",
+            "image_file": "R42_DC-SCM_R_0R_0402.png",
+            "position": {
+                "x": 50.390001,
+                "y": 11.830002
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Panasonic; MPN: ERJ2GE0R00X;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 180.0,
+            "designator": "R41",
+            "mpn_original": "ERJ2GE0R00X",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_0R_0402",
+            "manufacturer_original": "Panasonic",
+            "image_file": "R41_DC-SCM_R_0R_0402.png",
+            "position": {
+                "x": 50.39,
+                "y": 12.83
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Murata; MPN: GRM155R61H104KE14D;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 90.0,
+            "designator": "C29",
+            "mpn_original": "GRM155R61H104KE14D",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "C_100n_0402",
+            "manufacturer_original": "Murata",
+            "image_file": "C29_DC-SCM_C_100n_0402.png",
+            "position": {
+                "x": 50.4,
+                "y": 10.12
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Amphenol; MPN: G14A421211112HR;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 0.0,
+            "designator": "J11",
+            "mpn_original": "G14A421211112HR",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "OCuLink_x4_Amphenol_G14A421211112HR",
+            "manufacturer_original": "Amphenol",
+            "image_file": "J11_DC-SCM_OCuLink_x4_Amphenol_G14A421211112HR.png",
+            "position": {
+                "x": 47.56,
+                "y": 3.54
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Texas Instruments; MPN: ESD204DQAR;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 90.0,
+            "designator": "D12",
+            "mpn_original": "ESD204DQAR",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "ESD204DQAR",
+            "manufacturer_original": "Texas Instruments",
+            "image_file": "D12_DC-SCM_ESD204DQAR.png",
+            "position": {
+                "x": 44.31,
+                "y": 10.0
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: CR0402-FX-1002GLF;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 90.0,
+            "designator": "R39",
+            "mpn_original": "CR0402-FX-1002GLF",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_10k_0402",
+            "manufacturer_original": "Bourns",
+            "image_file": "R39_DC-SCM_R_10k_0402.png",
+            "position": {
+                "x": 41.1,
+                "y": 16.7
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: ; MPN: ;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": -90.0,
+            "designator": "R46",
+            "mpn_original": "",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_0R_0402",
+            "manufacturer_original": "",
+            "image_file": "R46_DC-SCM_R_0R_0402.png",
+            "position": {
+                "x": 40.1,
+                "y": 16.7
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Panasonic; MPN: ERJ2GE0R00X;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": -90.0,
+            "designator": "R47",
+            "mpn_original": "ERJ2GE0R00X",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_0R_0402",
+            "manufacturer_original": "Panasonic",
+            "image_file": "R47_DC-SCM_R_0R_0402.png",
+            "position": {
+                "x": 39.1,
+                "y": 16.7
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: CR0402-FX-1002GLF;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 90.0,
+            "designator": "R58",
+            "mpn_original": "CR0402-FX-1002GLF",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_10k_0402",
+            "manufacturer_original": "Bourns",
+            "image_file": "R58_DC-SCM_R_10k_0402.png",
+            "position": {
+                "x": 38.1,
+                "y": 16.7
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Panasonic; MPN: ERJ2GE0R00X;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": -90.0,
+            "designator": "R48",
+            "mpn_original": "ERJ2GE0R00X",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_0R_0402",
+            "manufacturer_original": "Panasonic",
+            "image_file": "R48_DC-SCM_R_0R_0402.png",
+            "position": {
+                "x": 37.1,
+                "y": 16.7
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: CR0402-FX-1002GLF;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 90.0,
+            "designator": "R59",
+            "mpn_original": "CR0402-FX-1002GLF",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_10k_0402",
+            "manufacturer_original": "Bourns",
+            "image_file": "R59_DC-SCM_R_10k_0402.png",
+            "position": {
+                "x": 36.1,
+                "y": 16.7
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: CR0402-FX-1002GLF; DNP",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 90.0,
+            "designator": "R55",
+            "mpn_original": "CR0402-FX-1002GLF",
+            "dnp_status": "DNP",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_10k_0402",
+            "manufacturer_original": "Bourns",
+            "image_file": "R55_DC-SCM_R_10k_0402.png",
+            "position": {
+                "x": 35.1,
+                "y": 16.7
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Murata; MPN: GRM155R61H104KE14D;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": -90.0,
+            "designator": "C28",
+            "mpn_original": "GRM155R61H104KE14D",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "C_100n_0402",
+            "manufacturer_original": "Murata",
+            "image_file": "C28_DC-SCM_C_100n_0402.png",
+            "position": {
+                "x": 35.9,
+                "y": 11.1
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Panasonic; MPN: ERJ2GE0R00X;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": -90.0,
+            "designator": "R24",
+            "mpn_original": "ERJ2GE0R00X",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_0R_0402",
+            "manufacturer_original": "Panasonic",
+            "image_file": "R24_DC-SCM_R_0R_0402.png",
+            "position": {
+                "x": 37.0,
+                "y": 11.1
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: CR0402-FX-1002GLF;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 90.0,
+            "designator": "R27",
+            "mpn_original": "CR0402-FX-1002GLF",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_10k_0402",
+            "manufacturer_original": "Bourns",
+            "image_file": "R27_DC-SCM_R_10k_0402.png",
+            "position": {
+                "x": 34.8,
+                "y": 11.1
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Panasonic; MPN: ERJ2GE0R00X;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": -90.0,
+            "designator": "R35",
+            "mpn_original": "ERJ2GE0R00X",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_0R_0402",
+            "manufacturer_original": "Panasonic",
+            "image_file": "R35_DC-SCM_R_0R_0402.png",
+            "position": {
+                "x": 33.72,
+                "y": 11.1
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: CR0402-FX-1002GLF; DNP",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": -90.0,
+            "designator": "R25",
+            "mpn_original": "CR0402-FX-1002GLF",
+            "dnp_status": "DNP",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_10k_0402",
+            "manufacturer_original": "Bourns",
+            "image_file": "R25_DC-SCM_R_10k_0402.png",
+            "position": {
+                "x": 32.62,
+                "y": 11.1
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Amphenol; MPN: G14A421211112HR;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 0.0,
+            "designator": "J10",
+            "mpn_original": "G14A421211112HR",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "OCuLink_x4_Amphenol_G14A421211112HR_CUSTOM_device_side",
+            "manufacturer_original": "Amphenol",
+            "image_file": "J10_DC-SCM_OCuLink_x4_Amphenol_G14A421211112HR_CUSTOM_device_side.png",
+            "position": {
+                "x": 30.12,
+                "y": 3.54
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Murata; MPN: GRM155R61H104KE14D;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": -90.0,
+            "designator": "C27",
+            "mpn_original": "GRM155R61H104KE14D",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "C_100n_0402",
+            "manufacturer_original": "Murata",
+            "image_file": "C27_DC-SCM_C_100n_0402.png",
+            "position": {
+                "x": 31.52,
+                "y": 11.1
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Panasonic; MPN: ERJ2GE0R00X;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": -90.0,
+            "designator": "R23",
+            "mpn_original": "ERJ2GE0R00X",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_0R_0402",
+            "manufacturer_original": "Panasonic",
+            "image_file": "R23_DC-SCM_R_0R_0402.png",
+            "position": {
+                "x": 30.42,
+                "y": 11.1
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: CR0402-FX-1002GLF; DNP",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 90.0,
+            "designator": "R54",
+            "mpn_original": "CR0402-FX-1002GLF",
+            "dnp_status": "DNP",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_10k_0402",
+            "manufacturer_original": "Bourns",
+            "image_file": "R54_DC-SCM_R_10k_0402.png",
+            "position": {
+                "x": 34.1,
+                "y": 16.7
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: CR0402-FX-1002GLF; DNP",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 90.0,
+            "designator": "R52",
+            "mpn_original": "CR0402-FX-1002GLF",
+            "dnp_status": "DNP",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_10k_0402",
+            "manufacturer_original": "Bourns",
+            "image_file": "R52_DC-SCM_R_10k_0402.png",
+            "position": {
+                "x": 33.1,
+                "y": 16.7
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: CR0402-FX-1002GLF; DNP",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 90.0,
+            "designator": "R53",
+            "mpn_original": "CR0402-FX-1002GLF",
+            "dnp_status": "DNP",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_10k_0402",
+            "manufacturer_original": "Bourns",
+            "image_file": "R53_DC-SCM_R_10k_0402.png",
+            "position": {
+                "x": 32.1,
+                "y": 16.7
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: CR0402-FX-1002GLF; DNP",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 90.0,
+            "designator": "R44",
+            "mpn_original": "CR0402-FX-1002GLF",
+            "dnp_status": "DNP",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_10k_0402",
+            "manufacturer_original": "Bourns",
+            "image_file": "R44_DC-SCM_R_10k_0402.png",
+            "position": {
+                "x": 31.1,
+                "y": 16.7
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: CR0402-FX-1002GLF;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 90.0,
+            "designator": "R70",
+            "mpn_original": "CR0402-FX-1002GLF",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_10k_0402",
+            "manufacturer_original": "Bourns",
+            "image_file": "R70_DC-SCM_R_10k_0402.png",
+            "position": {
+                "x": 30.1,
+                "y": 16.7
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: CR0402-FX-1202GLF;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 180.0,
+            "designator": "R90",
+            "mpn_original": "CR0402-FX-1202GLF",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_12k_0402",
+            "manufacturer_original": "Bourns",
+            "image_file": "R90_DC-SCM_R_12k_0402.png",
+            "position": {
+                "x": 25.8,
+                "y": 16.025
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Murata; MPN: GRM155R61H104KE14D;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 180.0,
+            "designator": "C72",
+            "mpn_original": "GRM155R61H104KE14D",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "C_100n_0402",
+            "manufacturer_original": "Murata",
+            "image_file": "C72_DC-SCM_C_100n_0402.png",
+            "position": {
+                "x": 25.8,
+                "y": 15.0
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Texas Instruments; MPN: ESD204DQAR;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 90.0,
+            "designator": "D8",
+            "mpn_original": "ESD204DQAR",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "ESD204DQAR",
+            "manufacturer_original": "Texas Instruments",
+            "image_file": "D8_DC-SCM_ESD204DQAR.png",
+            "position": {
+                "x": 26.872,
+                "y": 10.913
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Samsung Electro-Mechanics; MPN: CL05C180JB51PNC;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": -90.0,
+            "designator": "C32",
+            "mpn_original": "CL05C180JB51PNC",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "C_18p_0402",
+            "manufacturer_original": "Samsung Electro-Mechanics",
+            "image_file": "C32_DC-SCM_C_18p_0402.png",
+            "position": {
+                "x": 23.8,
+                "y": 11.235
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Murata; MPN: XRCGB24M000F3M00R0;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 0.0,
+            "designator": "Y6",
+            "mpn_original": "XRCGB24M000F3M00R0",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "Resonator_24MHz_XRCGB",
+            "manufacturer_original": "Murata",
+            "image_file": "Y6_DC-SCM_Resonator_24MHz_XRCGB.png",
+            "position": {
+                "x": 22.1,
+                "y": 11.135
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Texas Instruments; MPN: TPD2E2U06DCKR;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 0.0,
+            "designator": "D2",
+            "mpn_original": "TPD2E2U06DCKR",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "TPD2E2U06_SC70",
+            "manufacturer_original": "Texas Instruments",
+            "image_file": "D2_DC-SCM_TPD2E2U06_SC70.png",
+            "position": {
+                "x": 19.425,
+                "y": 9.15
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: CR0402-FX-1002GLF;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 180.0,
+            "designator": "R10",
+            "mpn_original": "CR0402-FX-1002GLF",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_10k_0402",
+            "manufacturer_original": "Bourns",
+            "image_file": "R10_DC-SCM_R_10k_0402.png",
+            "position": {
+                "x": 18.968,
+                "y": 11.050001
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: CR0402-FX-1002GLF;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 180.0,
+            "designator": "R9",
+            "mpn_original": "CR0402-FX-1002GLF",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_10k_0402",
+            "manufacturer_original": "Bourns",
+            "image_file": "R9_DC-SCM_R_10k_0402.png",
+            "position": {
+                "x": 18.968,
+                "y": 12.15
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Samsung Electro-Mechanics; MPN: CL05C180JB51PNC;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 0.0,
+            "designator": "C74",
+            "mpn_original": "CL05C180JB51PNC",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "C_18p_0402",
+            "manufacturer_original": "Samsung Electro-Mechanics",
+            "image_file": "C74_DC-SCM_C_18p_0402.png",
+            "position": {
+                "x": 22.1,
+                "y": 12.935
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Panasonic; MPN: ERJ2GE0R00X;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 0.0,
+            "designator": "R94",
+            "mpn_original": "ERJ2GE0R00X",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_0R_0402",
+            "manufacturer_original": "Panasonic",
+            "image_file": "R94_DC-SCM_R_0R_0402.png",
+            "position": {
+                "x": 22.1,
+                "y": 13.935
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: ; MPN: ;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 180.0,
+            "designator": "R95",
+            "mpn_original": "",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_1M_0402",
+            "manufacturer_original": "",
+            "image_file": "R95_DC-SCM_R_1M_0402.png",
+            "position": {
+                "x": 22.1,
+                "y": 14.935
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: TDK; MPN: C1005X6S1A105K050BC;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 180.0,
+            "designator": "C9",
+            "mpn_original": "C1005X6S1A105K050BC",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "C_1u_0402",
+            "manufacturer_original": "TDK",
+            "image_file": "C9_DC-SCM_C_1u_0402.png",
+            "position": {
+                "x": 16.175,
+                "y": 14.55
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Diodes Incorporated; MPN: BCM857BS-7-F;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 0.0,
+            "designator": "Q5",
+            "mpn_original": "BCM857BS-7-F",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "BCM857BS-7-F",
+            "manufacturer_original": "Diodes Incorporated",
+            "image_file": "Q5_DC-SCM_BCM857BS-7-F.png",
+            "position": {
+                "x": 15.996,
+                "y": 12.373
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Murata; MPN: GRM155R61A475MEAAD;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 180.0,
+            "designator": "C70",
+            "mpn_original": "GRM155R61A475MEAAD",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "C_4u7_0402",
+            "manufacturer_original": "Murata",
+            "image_file": "C70_DC-SCM_C_4u7_0402.png",
+            "position": {
+                "x": 14.3,
+                "y": 9.8
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Murata; MPN: GRM155R61H104KE14D;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 0.0,
+            "designator": "C71",
+            "mpn_original": "GRM155R61H104KE14D",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "C_100n_0402",
+            "manufacturer_original": "Murata",
+            "image_file": "C71_DC-SCM_C_100n_0402.png",
+            "position": {
+                "x": 14.3,
+                "y": 8.8
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: CR0402-FX-5101GLF;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 180.0,
+            "designator": "R28",
+            "mpn_original": "CR0402-FX-5101GLF",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_5k1_0402",
+            "manufacturer_original": "Bourns",
+            "image_file": "R28_DC-SCM_R_5k1_0402.png",
+            "position": {
+                "x": 14.3,
+                "y": 7.8
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: CR0402-FX-5101GLF;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 180.0,
+            "designator": "R29",
+            "mpn_original": "CR0402-FX-5101GLF",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_5k1_0402",
+            "manufacturer_original": "Bourns",
+            "image_file": "R29_DC-SCM_R_5k1_0402.png",
+            "position": {
+                "x": 17.475,
+                "y": 7.5
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: GCT; MPN: USB4105-GF-A;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 0.0,
+            "designator": "J4",
+            "mpn_original": "USB4105-GF-A",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "USB-C_GCT_USB4105-GF-A",
+            "manufacturer_original": "GCT",
+            "image_file": "J4_DC-SCM_USB-C_GCT_USB4105-GF-A.png",
+            "position": {
+                "x": 15.45,
+                "y": 2.5
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Murata; MPN: BLM18AG601SN1D;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 180.0,
+            "designator": "FB8",
+            "mpn_original": "BLM18AG601SN1D",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "FB_600Z_0.5A_Murata-BLM18AG_0603",
+            "manufacturer_original": "Murata",
+            "image_file": "FB8_DC-SCM_FB_600Z_0.5A_Murata-BLM18AG_0603.png",
+            "position": {
+                "x": 12.0,
+                "y": 8.825
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Murata; MPN: GRM155R71H103KA88D;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 0.0,
+            "designator": "C14",
+            "mpn_original": "GRM155R71H103KA88D",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "C_10n_0402",
+            "manufacturer_original": "Murata",
+            "image_file": "C14_DC-SCM_C_10n_0402.png",
+            "position": {
+                "x": 12.2,
+                "y": 7.5
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Molex; MPN: 1053131202;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": -90.0,
+            "designator": "J5",
+            "mpn_original": "1053131202",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "Molex_Nano-Fit_1x2_1053131202",
+            "manufacturer_original": "Molex",
+            "image_file": "J5_DC-SCM_Molex_Nano-Fit_1x2_1053131202.png",
+            "position": {
+                "x": 5.7,
+                "y": 10.65
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: STMicroelectronics; MPN: ESDA25P35-1U1M;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": -90.0,
+            "designator": "D14",
+            "mpn_original": "ESDA25P35-1U1M",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "ESDA25P35-1U1M",
+            "manufacturer_original": "STMicroelectronics",
+            "image_file": "D14_DC-SCM_ESDA25P35-1U1M.png",
+            "position": {
+                "x": 9.8,
+                "y": 9.1
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Toshiba; MPN: SSM3J332R,LF;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 180.0,
+            "designator": "Q6",
+            "mpn_original": "SSM3J332R,LF",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "SSM3J332R",
+            "manufacturer_original": "Toshiba",
+            "image_file": "Q6_DC-SCM_SSM3J332R.png",
+            "position": {
+                "x": 11.4,
+                "y": 12.05
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: KEMET; MPN: C0402C102J4RACTU;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 0.0,
+            "designator": "C8",
+            "mpn_original": "C0402C102J4RACTU",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "C_1n_16V_X7R_0402",
+            "manufacturer_original": "KEMET",
+            "image_file": "C8_DC-SCM_C_1n_16V_X7R_0402.png",
+            "position": {
+                "x": 11.075,
+                "y": 15.2
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: KEMET; MPN: C0402C102J4RACTU;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 0.0,
+            "designator": "C7",
+            "mpn_original": "C0402C102J4RACTU",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "C_1n_16V_X7R_0402",
+            "manufacturer_original": "KEMET",
+            "image_file": "C7_DC-SCM_C_1n_16V_X7R_0402.png",
+            "position": {
+                "x": 11.074999,
+                "y": 16.199999
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Microchip Technology; MPN: MCP1700T-3302E/TT;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": -90.0,
+            "designator": "U6",
+            "mpn_original": "MCP1700T-3302E/TT",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "MCP1700T-3302E_TT",
+            "manufacturer_original": "Microchip Technology",
+            "image_file": "U6_DC-SCM_MCP1700T-3302E_TT.png",
+            "position": {
+                "x": 14.2,
+                "y": 16.35
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Murata; MPN: GRM155R61H104KE14D;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 0.0,
+            "designator": "C34",
+            "mpn_original": "GRM155R61H104KE14D",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "C_100n_0402",
+            "manufacturer_original": "Murata",
+            "image_file": "C34_DC-SCM_C_100n_0402.png",
+            "position": {
+                "x": 18.37,
+                "y": 15.975
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: ; MPN: ;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 180.0,
+            "designator": "R88",
+            "mpn_original": "",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_100k_0402",
+            "manufacturer_original": "",
+            "image_file": "R88_DC-SCM_R_100k_0402.png",
+            "position": {
+                "x": 18.38,
+                "y": 17.0
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: CR0402-FX-1003GLF;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 0.0,
+            "designator": "R89",
+            "mpn_original": "CR0402-FX-1003GLF",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_100k_0402",
+            "manufacturer_original": "Bourns",
+            "image_file": "R89_DC-SCM_R_100k_0402.png",
+            "position": {
+                "x": 18.375,
+                "y": 18.0
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Bourns; MPN: CR0402-FX-1003GLF;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 180.0,
+            "designator": "R93",
+            "mpn_original": "CR0402-FX-1003GLF",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "R_100k_0402",
+            "manufacturer_original": "Bourns",
+            "image_file": "R93_DC-SCM_R_100k_0402.png",
+            "position": {
+                "x": 18.375,
+                "y": 19.025
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: TDK; MPN: C1005X6S1A105K050BC;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 180.0,
+            "designator": "C10",
+            "mpn_original": "C1005X6S1A105K050BC",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "C_1u_0402",
+            "manufacturer_original": "TDK",
+            "image_file": "C10_DC-SCM_C_1u_0402.png",
+            "position": {
+                "x": 14.2,
+                "y": 18.95
+            },
+            "analyzed_placement_status": ""
+        },
+        {
+            "comments": "MFN: Murata; MPN: GRM188C81C106MA73D;",
+            "manufacturer_placed": "",
+            "feeder": "",
+            "rotation": 0.0,
+            "designator": "C2",
+            "mpn_original": "GRM188C81C106MA73D",
+            "dnp_status": "",
+            "footprint": "",
+            "mpn_placed": "",
+            "name": "C_10u_16V_0603",
+            "manufacturer_original": "Murata",
+            "image_file": "C2_DC-SCM_C_10u_16V_0603.png",
+            "position": {
+                "x": 10.875,
+                "y": 17.4
+            },
+            "analyzed_placement_status": ""
+        }
+    ]
+}
