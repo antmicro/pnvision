@@ -1,35 +1,34 @@
-# PnVision - Scripts for automatic PCB inspection
+# PnVision - Scripts for Automatic PCB Inspection
 
 Copyright (c) 2026 [Antmicro](https://www.antmicro.com)
 
-This tool was designed to capture images of individual PCB components and complete assembled boards using [OpenPnP](https://openpnp.github.io/) for documentation and reference purposes.
+This tool is designed to capture images of individual PCB components and complete assembled boards using [OpenPnP](https://openpnp.github.io/) for documentation and reference purposes.
 
 ## Table of Contents
 
 1. [Installation](#installation)
-3. [Usage](#usage)
-4. [License](#license)
+2. [Usage](#usage)
+3. [License](#license)
 
 ## Installation
 
-### PnVision scripts:
+### PnVision scripts
+
 > [!IMPORTANT]
-> All versions tagged have been tested on OpenPnP 2.6 and 2.7 press-play-walk-away fork.
+> All tagged versions have been tested with OpenPnP 2.6 and 2.7 press-play-walk-away fork.
 
 Requirements:
 
-* Python ≥ 3.10
-* libzbar0
+- Python ≥ 3.10
+- libzbar0
+- pipx
+- [kicad-make](https://github.com/antmicro/kicad-make) (optional; can be used to generate position files)
 
-Optional:
-* [kicad-make](https://github.com/antmicro/kicad-make) - can be used for position files generation
-
-To install script, run following command (we suggest using `pipx`):
+To install the script, run the following command in the project repository:
 
 ```bash
 pipx install .
 ```
-in the project repository.
 
 You can now use:
 
@@ -37,17 +36,20 @@ You can now use:
 pnvision --help
 ```
 
-### OpenPnP scripts:
-1. In OpenPnP presss `Scripts` then `Open Scripts Directory` and copy all the files and folders from `openpnp_scripts`.
+### OpenPnP scripts
+
+1. In OpenPnP, press `Scripts`, then `Open Scripts Directory`, and copy all files and folders from `openpnp_scripts`.
 
 ![How to open scripts directory](img/scripts_directory.png)
 
 ## Usage
 
-### OpenPnP scripts:
+### OpenPnP scripts
+
 From the top toolbar, select `Scripts`, then click `perform_inspection.py` and follow the instructions displayed in the pop-up windows.
 
-### PnVision scripts:
+### PnVision scripts
+
 Available commands:
 
 | Command | Description |
@@ -62,17 +64,21 @@ Available commands:
 | `deploy` | Deploy CI-generated data to OpenPnP |
 
 ### Examples
+
 ```bash
 pnvision report [--template-dir TEMPLATE_DIR] INPUT_JSON
 ```
-* TEMPLATE_DIR - Template directory with report.html, favicon.ico and logo.svg
-* INPUT_JSON - Input report JSON file
+
+- `TEMPLATE_DIR` - Template directory with `report.html`, `favicon.ico`, and `logo.svg`
+- `INPUT_JSON` - Input report JSON file
 
 ```bash
 pnvision code IMAGE_PATH
 ```
-* IMAGE_PATH - The image file with QR or barcode
 
+- `IMAGE_PATH` - The image file with QR or barcode
 
 ## License
+
 This project is published under the [Apache-2.0](LICENSE) license.
+
