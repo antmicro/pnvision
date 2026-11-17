@@ -2,3 +2,4 @@ https://github.com/antmicro/antmicro-sphinx-utils/archive/main.zip
 sphinx_tabs
 sphinx-tippy
 sphinx-inline-tabs
+sphinx-argparse
