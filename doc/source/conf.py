@@ -64,8 +64,8 @@ html_last_updated_fmt = today_fmt
 
 html_show_sphinx = False
 
-(html_logo, html_theme_options, html_context) = antmicro_html()
+html_logo, html_theme_options, html_context = antmicro_html()
 
 html_title = project
 
-(latex_elements, latex_documents, latex_logo, latex_additional_files) = antmicro_latex(basic_filename, authors, project)
+latex_elements, latex_documents, latex_logo, latex_additional_files = antmicro_latex(basic_filename, authors, project)
