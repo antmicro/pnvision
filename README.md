@@ -4,12 +4,6 @@ Copyright (c) 2026 [Antmicro](https://www.antmicro.com)
 
 This tool is designed to capture images of individual PCB components and complete assembled boards using [OpenPnP](https://openpnp.github.io/) for documentation and reference purposes.
 
-## Table of Contents
-
-1. [Installation](#installation)
-2. [Usage](#usage)
-3. [License](#license)
-
 ## Installation
 
 ### PnVision scripts
@@ -38,7 +32,7 @@ pnvision --help
 
 ### OpenPnP scripts
 
-1. In OpenPnP, press `Scripts`, then `Open Scripts Directory`, and copy all files and folders from `openpnp_scripts`.
+In OpenPnP, select `Scripts`, then `Open Scripts Directory`, and copy all files and folders from `openpnp_scripts`.
 
 ![How to open scripts directory](img/scripts_directory.png)
 
@@ -69,8 +63,8 @@ Available commands:
 pnvision report [--template-dir TEMPLATE_DIR] INPUT_JSON
 ```
 
-- `TEMPLATE_DIR` - Template directory with `report.html`, `favicon.ico`, and `logo.svg`
-- `INPUT_JSON` - Input report JSON file
+- `TEMPLATE_DIR` - template directory with `report.html`, `favicon.ico`, and `logo.svg`
+- `INPUT_JSON` - input report JSON file
 
 ```bash
 pnvision code IMAGE_PATH
