@@ -17,7 +17,7 @@ PnVision requires: `python3` installed.
 2. Clone and install `PnVision` repository:
 
     ```bash
-    pipx install 'git+https://github.com/antmicro/PnVision.git'
+    pipx install 'git+https://github.com/antmicro/pnvision.git'
     ```
 
 
