@@ -1,12 +1,12 @@
 # Development
 
-## Repo structure
+## Repository structure
 
-`PnVision` repo structure:
+`PnVision` repository structure:
 
 ```bash
 .
-├── docs
+├── doc
 │   ├── Makefile
 │   ├── requirements.txt
 │   └── source
@@ -54,7 +54,8 @@ Keep the entry command concise and easy to follow for the user.
 
 ## New command example
 
-Add your typer entry to pnvision.py with the following format:
+Add your typer entry to `pnvision.py` using the following format:
+
 ```python
 @app.command(help="Help message.")
 def new_command(
@@ -69,9 +70,11 @@ def new_command(
 ```
 
 ## OpenPnP scripts
-Ideally the openpnp scripts should have one function only. Shared functions should be in helpers.py script.
 
-### importing the scripts:
+Ideally, OpenPnP scripts should have one function only. Shared functions should be in the `helpers.py` script.
+
+### Importing the scripts
+
 ```bash
 import sys
 

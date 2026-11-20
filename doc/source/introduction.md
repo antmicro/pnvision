@@ -1,12 +1,12 @@
 # Introduction
 
-`PnVision` is a tool used for capturing images on [OpenPnP](https://openpnp.github.io/) and generating assembly reports.
-`PnVision` works with [KiCad](https://www.kicad.org/) outputs.
-The script can be used locally and in conjunction with CI infrastructure.
-`PnVision` is developed with KiCad 9+ and CI environment in mind.
+PnVision is a tool for capturing images of individual PCB components and generating assembly reports using [OpenPnP](https://openpnp.github.io/).
+It works with [KiCad 9+](https://www.kicad.org/) outputs, and can be used both locally and within CI infrastructure.
+
+This documentation contains the following chapters:
 
 * [Installation](installation.md) describes the installation process.
 * [Quick start](quick-start.md) presents a basic usage example.
-* [Usage](usage.md) lists all commands available and presents commands syntax.
-* [Add a Board](add-board.md) explains how to add a board to an OpenPnP job.
-* [Development](development.md) describes requirements for development and the process of adding new commands.
+* [Usage](usage.md) lists all commands available and presents the command syntax.
+* [Add a board](add-board.md) explains how to add a board to an OpenPnP job.
+* [Development](development.md) describes development requirements and the process of adding new commands.

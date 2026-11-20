@@ -1,6 +1,6 @@
-# pnvision usage
+# PnVision usage
 
-`PnVision` is a command-line tool for processing OpenPnP inspection data, generating reports, analyzing component placement, and deploying generated artifacts.
+PnVision is a command-line tool for processing OpenPnP inspection data, generating reports, analyzing component placement, and deploying the generated artifacts.
 
 ## Usage
 
@@ -8,7 +8,7 @@
 pnvision [OPTIONS] COMMAND [ARGS]...
 ```
 
-## Global Options
+## Global options
 
 | Option | Description |
 |---|---|
@@ -286,7 +286,7 @@ pnvision deploy ./artifacts
 
 ---
 
-## Getting Help
+## Getting help
 
 Show general help:
 

@@ -2,13 +2,13 @@
 
 ## Help
 
-To get available commands and help how to use `PnVision`, run:
+To show available commands and information on how to use PnVision, run:
 
 ```bash
 pnvision --help
 ```
 
-To get help about specific subcommand, call:
+To get help about a specific subcommand, call:
 
 ```bash
 kmake {subcommand} --help
@@ -16,25 +16,25 @@ kmake {subcommand} --help
 
 ## Output generation
 
-To use most of the comments you have to first generate a pcb scan with [OpenPnP](https://openpnp.github.io/).
+To use most of the commands you have to first generate a PCB scan with [OpenPnP](https://openpnp.github.io/).
 
-Follow this guide to generate a sample output from the 'example/' directory.
+Follow this guide to generate a sample output from the `example/` directory.
 
 ```bash
 cd example/
 ```
 
-### report
+### Report
 
-To generate report, run:
+To generate a report, run:
 
 ```bash
 pnvision report report.json
 ```
 
-The newly created `report` directory will contain report generated from scan.
+The newly created `report` directory will contain a report generated from the scan.
 
-### stitch
+### Stitch
 
 To generate a full board image, run:
 
@@ -42,26 +42,27 @@ To generate a full board image, run:
 pnvision stitch board/
 ```
 
-You should see full_board.png in `board/` directory
+You should see a `full_board.png` file in the `board/` directory.
 
-### code
+### Code
 
-To read a qr or barcode from the image use:
+To read a QR code or a barcode from the image, use:
 
 ```bash
 pnvision code full_board.png
 ```
 
-### version
+### Version
 
-To get version that will be saved to report.json use:
+To print the PnVision version that will be saved to `report.json`, use:
 
 ```bash
 pnvision version
 ```
 
-### detect-cv
-To compare the data in report.json with the state of placements in `components/` directory using open-cv use:
+### Detect-cv
+
+To compare the data in `report.json` with the state of placements in the `components/` directory using open-cv, use:
 
 bash
 ```

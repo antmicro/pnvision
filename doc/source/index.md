@@ -7,5 +7,6 @@ introduction
 installation
 quick-start
 usage
+add-board
 development
 ```
