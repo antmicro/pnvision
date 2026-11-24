@@ -5,13 +5,12 @@
 ### 1. Automated CI-based workflow
 
 ```{note}
-If you use an automated CI-based workflow, please use the steps below, otherwise proceed with:[2.Add board manually](#add-a-board-manually)
+If you use an automated CI-based workflow, please use the steps below, otherwise proceed with: [2.Add a board manually](#add-a-board-manually).
 ```
 
 1. Open the .job.xml file in OpenPnP
-2. Enable the board  with -inspection suffix
+2. Enable the board with the -inspection suffix
 3. Disable all other boards
-
 
 ### 2. Add a board manually
 
