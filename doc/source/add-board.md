@@ -2,10 +2,16 @@
 
 ## Options do deploy an inspection job onto OpenPnP
 
-### 1. Add a board using xmake
-    1. Generate a job using xmake
-    2. Open OpenPnP and add select the `.job.xml` file
-    3. Enable the board using the `-inspection` suffix, disable all other boards
+### 1. Automated CI-based workflow
+
+```{note}
+If you use an automated CI-based workflow, please use the steps below, otherwise proceed with:[2.Add board manually](#add-a-board-manually)
+```
+
+1. Open the .job.xml file in OpenPnP
+2. Enable the board  with -inspection suffix
+3. Disable all other boards
+
 
 ### 2. Add a board manually
 
