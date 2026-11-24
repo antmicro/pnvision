@@ -57,20 +57,13 @@ Available commands:
 | `detect-cv` | Detect component placement |
 | `deploy` | Deploy CI-generated data to OpenPnP |
 
-### Examples
+### Example
+
+To generate a html raport, please run the following command in the `example` folder: 
 
 ```bash
-pnvision report [--template-dir TEMPLATE_DIR] INPUT_JSON
+pnvision report --template-dir template/ report.json
 ```
-
-- `TEMPLATE_DIR` - template directory with `report.html`, `favicon.ico`, and `logo.svg`
-- `INPUT_JSON` - input report JSON file
-
-```bash
-pnvision code IMAGE_PATH
-```
-
-- `IMAGE_PATH` - The image file with QR or barcode
 
 ## License
 
