@@ -1,3 +1,7 @@
+---
+tocdepth: 3
+---
+
 # PnVision usage
 
 PnVision is a command-line tool for processing OpenPnP inspection data, generating reports, analyzing component placement, and deploying the generated artifacts.
@@ -20,69 +24,71 @@ pnvision [OPTIONS] COMMAND [ARGS]...
 
 | Command | Description |
 |---|---|
-| `report` | Generate an HTML report from a scan. |
-| `stitch` | Stitch OpenPnP images into a single board image. |
-| `code` | Read a QR code from an image file and print the decoded contents. |
-| `bom` | Read `*-BOM-ALL-ReferenceNotGrouped` and return a list of DNP designators. |
-| `version` | Print the installed `PnVision` version. |
-| `collage` | Generate a collage of components sorted by designator. |
-| `detect-cv` | Detect if components are placed using traditional methods. |
-| `deploy` | Deploy CI-generated data to an OpenPnP machine. |
+| [`report`](#report) | Generate an HTML report from a scan. |
+| [`stitch`](#stitch)  | Stitch OpenPnP images into a single board image. |
+| [`stitch`](#stitch)  | Read a QR code from an image file and print the decoded contents. |
+| [`bom`](#bom) | Read `*-BOM-ALL-ReferenceNotGrouped` and return a list of DNP designators. |
+| [`version`](#version) | Print the installed `PnVision` version. |
+| [`version`](#version) | Generate a collage of components sorted by designator. |
+| [`detect-cv`](#detect-cv) | Detect if components are placed using traditional methods. |
+| [`deploy`](#deploy)  | Deploy CI-generated data to an OpenPnP machine. |
 
 ---
 
-## `report`
+### `report`
 
 Generate an HTML report from a scan.
 
-### Usage
+:::
+#### Usage
+:::
 
 ```bash
 pnvision report [OPTIONS] <log_file_location>
 ```
 
-### Arguments
+#### Arguments
 
 | Argument | Type | Description |
 |---|---|---|
 | `log_file_location` | path | Location of `report.json`. **Required.** |
 
-### Options
+#### Options
 
 | Option | Type | Description |
 |---|---|---|
 | `--template-dir` | path | Override the built-in template directory. |
 | `--help` | — | Show help and exit. |
 
-### Example
+#### Example
 
 ```bash
 pnvision report ./report.json
 ```
 
-### Result
+#### Result
 
 ![Example report image](img/report.png)
 
 ---
 
-## `stitch`
+### `stitch`
 
 Stitch OpenPnP images into a single board image.
 
-### Usage
+#### Usage
 
 ```bash
 pnvision stitch [OPTIONS] <image_directory>
 ```
 
-### Arguments
+#### Arguments
 
 | Argument | Type | Description |
 |---|---|---|
 | `image_directory` | path | Directory containing PNG images. **Required.** |
 
-### Options
+#### Options
 
 | Option | Short | Type | Description |
 |---|---|---|---|
@@ -92,7 +98,7 @@ pnvision stitch [OPTIONS] <image_directory>
 | `--delete-tiles` | `-d` | flag | Delete board tiles after stitching is finished. |
 | `--help` | — | — | Show help and exit. |
 
-### Example
+#### Example
 
 ```bash
 pnvision stitch ./images -o board.png
@@ -100,29 +106,29 @@ pnvision stitch ./images -o board.png
 
 ---
 
-## `code`
+### `code`
 
 Read a QR code from an image file and print the decoded contents.
 
-### Usage
+#### Usage
 
 ```bash
 pnvision code [OPTIONS] <image_path>
 ```
 
-### Arguments
+#### Arguments
 
 | Argument | Type | Description |
 |---|---|---|
 | `image_path` | path | Path to the image containing the QR code. **Required.** |
 
-### Options
+#### Options
 
 | Option | Description |
 |---|---|
 | `--help` | Show help and exit. |
 
-### Example
+#### Example
 
 ```bash
 pnvision code ./qr-code.png
@@ -130,29 +136,29 @@ pnvision code ./qr-code.png
 
 ---
 
-## `bom`
+### `bom`
 
 Read `*-BOM-ALL-ReferenceNotGrouped` and return a list of DNP designators.
 
-### Usage
+#### Usage
 
 ```bash
 pnvision bom [OPTIONS] <bom_path>
 ```
 
-### Arguments
+#### Arguments
 
 | Argument | Type | Description |
 |---|---|---|
 | `bom_path` | path | Path to the BOM. **Required.** |
 
-### Options
+#### Options
 
 | Option | Description |
 |---|---|
 | `--help` | Show help and exit. |
 
-### Example
+#### Example
 
 ```bash
 pnvision bom ./*-BOM-ALL-ReferenceNotGrouped.csv
@@ -160,23 +166,23 @@ pnvision bom ./*-BOM-ALL-ReferenceNotGrouped.csv
 
 ---
 
-## `version`
+### `version`
 
 Print the installed `PnVision` version.
 
-### Usage
+#### Usage
 
 ```bash
 pnvision version [OPTIONS]
 ```
 
-### Options
+#### Options
 
 | Option | Description |
 |---|---|
 | `--help` | Show help and exit. |
 
-### Example
+#### Example
 
 ```bash
 pnvision version
@@ -184,65 +190,65 @@ pnvision version
 
 ---
 
-## `collage`
+### `collage`
 
 Generate a collage of components sorted by designator.
 
-### Usage
+#### Usage
 
 ```bash
 pnvision collage [OPTIONS] <scans_directory>
 ```
 
-### Arguments
+#### Arguments
 
 | Argument | Type | Description |
 |---|---|---|
 | `scans_directory` | path | Directory containing all scans. **Required.** |
 
-### Options
+#### Options
 
 | Option | Short | Type | Description |
 |---|---|---|---|
 | `--output` | `-o` | path | Output collage directory. |
 | `--help` | — | — | Show help and exit. |
 
-### Example
+#### Example
 
 ```bash
 pnvision collage ./scans -o collage
 ```
 
-### Result
+#### Result
 ![Example collage image](img/collage.png)
 
 ---
 
-## `detect-cv`
+### `detect-cv`
 
 Detect if components are placed using traditional methods.
 
-### Usage
+#### Usage
 
 ```bash
 pnvision detect-cv [OPTIONS] <report_file> <components_directory>
 ```
 
-### Arguments
+#### Arguments
 
 | Argument | Type | Description |
 |---|---|---|
 | `report_file` | path | Location of `report.json`. **Required.** |
 | `components_directory` | path | Directory containing PNG images. **Required.** |
 
-### Options
+#### Options
 
 | Option | Description |
 |---|---|
 | `--debug` | Save debug images to the `debug` directory. |
 | `--help` | Show help and exit. |
 
-### Example
+#### Example
 
 ```bash
 pnvision detect-cv ./report.json ./components
@@ -256,29 +262,29 @@ pnvision detect-cv ./report.json ./components --debug
 
 ---
 
-## `deploy`
+### `deploy`
 
 Deploy CI-generated data to an OpenPnP machine.
 
-### Usage
+#### Usage
 
 ```bash
 pnvision deploy [OPTIONS] <artifacts_directory>
 ```
 
-### Arguments
+#### Arguments
 
 | Argument | Type | Description |
 |---|---|---|
 | `artifacts_directory` | path | Zip directory containing all data. **Required.** |
 
-### Options
+#### Options
 
 | Option | Description |
 |---|---|
 | `--help` | Show help and exit. |
 
-### Example
+#### Example
 
 ```bash
 pnvision deploy ./artifacts
