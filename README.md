@@ -2,6 +2,8 @@
 
 Copyright (c) 2026 [Antmicro](https://www.antmicro.com)
 
+![](./img/automated-optical-inspection-scope-animation.gif)
+
 This tool is designed to capture images of individual PCB components and complete assembled boards using [OpenPnP](https://openpnp.github.io/) for documentation and reference purposes.
 
 ## Installation
